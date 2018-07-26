@@ -1,6 +1,6 @@
 //
 //  BlockHandler.swift
-//  NanoBlocks
+//  LogosWallet
 //
 //  Created by Ben Kray on 5/10/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

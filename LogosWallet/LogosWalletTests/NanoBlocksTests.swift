@@ -1,6 +1,6 @@
 //
-//  NanoBlocksTests.swift
-//  NanoBlocks
+//  LogosWalletTests.swift
+//  LogosWallet
 //
 //  Created by Ben Kray on 3/6/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

@@ -162,7 +162,7 @@ public struct NetworkAdapter {
             if response.statusCode >= 200 && response.statusCode <= 300 {
                 successCallback(response)
             } else {
-                let error = NSError(domain: "com.planarform.nanoblocks", code: 420, userInfo: [NSLocalizedDescriptionKey: "Network Error"])
+                let error = NSError(domain: "com.prometheanlabs.logoswallet", code: 420, userInfo: [NSLocalizedDescriptionKey: "Network Error"])
                 errorCallback?(error)
             }
         case .failure(let error):

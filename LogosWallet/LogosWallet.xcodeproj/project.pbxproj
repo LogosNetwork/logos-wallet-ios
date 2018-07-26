@@ -418,7 +418,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A732982D200ACE9000B21C8D /* Nano */ = {
+		A732982D200ACE9000B21C8D /* Logos */ = {
 			isa = PBXGroup;
 			children = (
 				A74362241FE75F1E00054078 /* Wallet */,
@@ -426,7 +426,7 @@
 				A73298202009AF9800B21C8D /* Model */,
 				A732982E200ACEB000B21C8D /* PoW.swift */,
 			);
-			path = Nano;
+			path = Logos;
 			sourceTree = "<group>";
 		};
 		A73AC9E6203FDFCB00ED24E9 /* RequestAmount */ = {
@@ -470,7 +470,7 @@
 		A74361E51FE64F9100054078 /* LogosWallet */ = {
 			isa = PBXGroup;
 			children = (
-				A732982D200ACE9000B21C8D /* Nano */,
+				A732982D200ACE9000B21C8D /* Logos */,
 				A7EF84371FF0D13500C74035 /* Networking */,
 				A7EF84211FEDAD6800C74035 /* Resources */,
 				A74362211FE734E600054078 /* ThirdParty */,
