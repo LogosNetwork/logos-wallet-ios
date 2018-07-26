@@ -2,7 +2,7 @@
 //  TransparentNavigationTransition.swift
 //
 //  Created by Ben Kray on 9/11/17.
-//  Copyright © 2017 Planar Form. All rights reserved.
+//  Copyright © 2017 Promethean Labs. All rights reserved.
 //
 
 import UIKit

@@ -3,7 +3,7 @@
 //  RaiBlocksWallet
 //
 //  Created by Ben Kray on 12/24/17.
-//  Copyright © 2017 Planar Form. All rights reserved.
+//  Copyright © 2017 Promethean Labs. All rights reserved.
 //
 
 import Foundation

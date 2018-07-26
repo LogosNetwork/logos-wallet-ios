@@ -2,7 +2,7 @@
 //  Keychain.swift
 //
 //  Created by Ben Kray on 7/7/17.
-//  Copyright © 2017 Planar Form. All rights reserved.
+//  Copyright © 2017 Promethean Labs. All rights reserved.
 //
 
 import Foundation

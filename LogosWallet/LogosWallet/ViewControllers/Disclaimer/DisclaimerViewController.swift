@@ -3,7 +3,7 @@
 //  NanoBlocks
 //
 //  Created by Ben Kray on 5/18/18.
-//  Copyright © 2018 Planar Form. All rights reserved.
+//  Copyright © 2018 Promethean Labs. All rights reserved.
 //
 
 import UIKit
@@ -113,7 +113,7 @@ class DisclaimerViewController: TransparentNavViewController {
                 }
             }
         }
-        let disclaimer = "The software you are about to use, \"Nano Blocks\", is free and open source. The software does not constitute an account where Planar Form LLC serves as financial intermediaries or custodians of your Nano. While the software has undergone beta testing and continues to be improved by feedback from the community, we, Planar Form LLC, cannot guarantee that the software is bug free. You acknowledge that your use of this software is at your own risk and in compliance with all applicable laws. You are responsible for safekeeping your passwords, seeds, private keys, and any other codes (wallet related data) you use to access the software. Planar Form LLC cannot retrieve any wallet related data if you lose or forget them."
+        let disclaimer = "The software you are about to use, \"Nano Blocks\", is free and open source. The software does not constitute an account where Promethean Labs serves as financial intermediaries or custodians of your Nano. While the software has undergone beta testing and continues to be improved by feedback from the community, we, Promethean Labs, cannot guarantee that the software is bug free. You acknowledge that your use of this software is at your own risk and in compliance with all applicable laws. You are responsible for safekeeping your passwords, seeds, private keys, and any other codes (wallet related data) you use to access the software. Promethean Labs cannot retrieve any wallet related data if you lose or forget them."
         let openSourceLiability = "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\nWe reserve the right to modify this disclaimer from time to time."
         textView.text = "In order to proceed, you must read and accept the following disclaimer.\n\n\(disclaimer)\n\n\(openSourceLiability)"
         textView.isEditable = false
