@@ -1,0 +1,21 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '10.0'
+
+target 'LogosWallet' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for LogosWallet
+  pod 'Alamofire'
+  pod 'RealmSwift'
+  pod 'NotificationBannerSwift'
+  pod 'Moya', '~> 11.0'
+  pod 'lottie-ios'
+  pod 'SSZipArchive'
+  pod 'CocoaMQTT'
+end
+
+target 'LogosWalletTests' do
+  use_frameworks!
+  pod 'RealmSwift'
+end
