@@ -1,6 +1,6 @@
 //
 //  BlockInfoViewController.swift
-// NanoBlocks
+//  LogosWallet
 //
 //  Created by Ben Kray on 4/22/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

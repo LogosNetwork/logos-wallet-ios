@@ -1,6 +1,6 @@
 //
 //  RequestAmountViewController.swift
-//  RaiBlocksWallet
+//  LogosWallet
 //
 //  Created by Ben Kray on 2/22/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

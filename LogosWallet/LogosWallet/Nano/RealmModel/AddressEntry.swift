@@ -1,6 +1,6 @@
 //
 //  AddressEntry.swift
-//  RaiBlocksWallet
+//  LogosWallet
 //
 //  Created by Ben Kray on 1/23/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

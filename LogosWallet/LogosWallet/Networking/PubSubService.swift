@@ -1,6 +1,6 @@
 //
 //  PubSubService.swift
-// NanoBlocks
+//  LogosWallet
 //
 //  Created by Ben Kray on 3/29/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

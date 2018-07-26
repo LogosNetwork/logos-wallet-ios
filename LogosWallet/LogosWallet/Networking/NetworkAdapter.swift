@@ -1,6 +1,6 @@
 //
 //  NetworkAdapter.swift
-// NanoBlocks
+//  LogosWallet
 //
 //  Created by Ben Kray on 3/20/18.
 //  Copyright © 2018 Promethean Labs. All rights reserved.

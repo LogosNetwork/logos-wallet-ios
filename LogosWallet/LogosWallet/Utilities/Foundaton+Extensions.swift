@@ -1,6 +1,6 @@
 //
 //  Foundaton+Extensions.swift
-//  RaiBlocksWallet
+//  LogosWallet
 //
 //  Created by Ben Kray on 12/16/17.
 //  Copyright © 2017 Promethean Labs. All rights reserved.
