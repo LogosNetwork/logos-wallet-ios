@@ -83,7 +83,7 @@ class EnterAddressEntryViewController: TransparentNavViewController {
     
     @objc fileprivate func saveTapped() {
         guard let address = addressTextField?.text, let _ = WalletUtil.derivePublic(from: address) else {
-            Banner.show(.localize("invalid-nano-address"), style: .warning)
+            Banner.show(.localize("invalid-address"), style: .warning)
             return
         }
         if viewModel.addressOnly {

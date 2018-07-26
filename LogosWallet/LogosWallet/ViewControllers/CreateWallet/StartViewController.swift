@@ -26,7 +26,7 @@ class StartViewController: UIViewController {
         let label = UILabel()
         label.font = AppStyle.Font.title
         label.textColor = .white
-        label.text = .localize("nano-blocks")
+        label.text = .localize("logos-wallet")
         return label
     }()
 

@@ -1,13 +1,13 @@
 
 /*Localizable.strings
- NanoWallet
+ LogosWallet
  
  Created by Ben Kray on 4/6/18.
  Copyright © 2018 Promethean Labs. All rights reserved.
  
  COMMON*/
 /*Fuzzy*/
-"nano-blocks" = "Nano Blocks";
+"logos-wallet" = "Logos Wallet";
 "seed" = "Seed";
 "passphrase" = "Passphrase";
 "lowest-balance" = "Lowest Balance";
@@ -19,7 +19,7 @@
 "cancel" = "Cancel";
 
 /*LANDING PAGE*/
-"welcome-1" = "Welcome to Nano Blocks. To proceed, you may create a new wallet, or import an existing one.";
+"welcome-1" = "Welcome to Logos Wallet. To proceed, you may create a new wallet, or import an existing one.";
 "welcome-2" = "Each wallet may have multiple accounts associated with it.";
 "new-wallet" = "New wallet";
 "import-wallet" = "Import wallet";
@@ -110,9 +110,9 @@
 "send-cancelled" = "Send cancelled";
 "proof-of-work-error" = "Proof of work error";
 "send-error-arg" = "Send Error: %@";
-"invalid-nano-address" = "Invalid Nano address";
+"invalid-address" = "Invalid Logos address";
 "no-name-provided" = "No name provided";
-"address-already-exists" = "Nano address already exists";
+"address-already-exists" = "Logos address already exists";
 "no-cam-access" = "No access to camera provided";
 "arg-entry-saved" = "'%@' saved to address book";
 "enter-recipient-address" = "Please enter a recipient address";

@@ -91,7 +91,6 @@
 		A79116FB20172FB100890432 /* AddressItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116F920172FB100890432 /* AddressItemTableViewCell.xib */; };
 		A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FC2017398300890432 /* AddressBookViewModel.swift */; };
 		A79116FF20173C4400890432 /* AddressEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FE20173C4400890432 /* AddressEntry.swift */; };
-		A7975A8E20787D6100B2995D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A7975A9020787D6100B2995D /* Localizable.strings */; };
 		A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B1B24320140D0F009E5CB0 /* SendViewController.swift */; };
 		A7B1B24620140D0F009E5CB0 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B1B24420140D0F009E5CB0 /* SendViewController.xib */; };
 		A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B327F32001D4AA00E0E360 /* StartViewController.swift */; };
@@ -139,6 +138,7 @@
 		A7F88F3E2069F80900CDB7AB /* EnterAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F88F3C2069F80900CDB7AB /* EnterAddressTableViewCell.xib */; };
 		A7F88F40206A34FD00CDB7AB /* toggle.json in Resources */ = {isa = PBXBuildFile; fileRef = A7F88F3F206A34FD00CDB7AB /* toggle.json */; };
 		A7FC7DB621097F5000CE3B0E /* EnterAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7FC7DB521097F5000CE3B0E /* EnterAddressViewController.xib */; };
+		A7FC7DB72109866000CE3B0E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A7975A9020787D6100B2995D /* Localizable.strings */; };
 		EDAA4E138873847434739752 /* Pods_NanoBlocksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB71C051E62F6E99E1BB05AF /* Pods_NanoBlocksTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -187,9 +187,7 @@
 		A70E8E022094F91B00372394 /* EnterAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterAddressViewController.swift; sourceTree = "<group>"; };
 		A70E8E052097B7FF00372394 /* DataExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExporter.swift; sourceTree = "<group>"; };
 		A70E8E0720982F7700372394 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		A70E8E0820982F7800372394 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A70E8E092098301500372394 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		A70E8E0A2098301500372394 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A71CEB9C2054AE2F00FF6B54 /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockViewController.swift; sourceTree = "<group>"; };
 		A71CEB9D2054AE2F00FF6B54 /* LockViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockViewController.xib; sourceTree = "<group>"; };
 		A71CEBA22054EB0E00FF6B54 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -203,9 +201,7 @@
 		A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookCoordinator.swift; sourceTree = "<group>"; };
 		A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		A73229CF20B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		A73229D020B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A73229D120B623B400CACB3A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		A73229D220B623B400CACB3A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A7329812200756A300B21C8D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		A732981620075B7100B21C8D /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
@@ -281,8 +277,6 @@
 		A7975A8920787D0800B2995D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8A20787D0E00B2995D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8F20787D6100B2995D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A7975A9120787D6300B2995D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A7975A9220787D6400B2995D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A7B1B24320140D0F009E5CB0 /* SendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendViewController.swift; sourceTree = "<group>"; };
 		A7B1B24420140D0F009E5CB0 /* SendViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendViewController.xib; sourceTree = "<group>"; };
 		A7B327F32001D4AA00E0E360 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
@@ -951,8 +945,8 @@
 				A7B327FF2003327B00E0E360 /* ImportWalletViewController.xib in Resources */,
 				A79116F72017264000890432 /* AddressBookViewController.xib in Resources */,
 				A76AC7C320301D8500C7CEE8 /* CurrencySelectViewController.xib in Resources */,
+				A7FC7DB72109866000CE3B0E /* Localizable.strings in Resources */,
 				A7B3280F20049D4B00E0E360 /* PassphraseCollectionViewCell.xib in Resources */,
-				A7975A8E20787D6100B2995D /* Localizable.strings in Resources */,
 				A76AC7B9202AD8C200C7CEE8 /* SettingsTableViewCell.xib in Resources */,
 				A768B9A22021170400620B62 /* ConfirmTxViewController.xib in Resources */,
 				A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */,
@@ -1249,12 +1243,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A7975A8F20787D6100B2995D /* en */,
-				A7975A9120787D6300B2995D /* ja */,
-				A7975A9220787D6400B2995D /* ko */,
-				A70E8E0820982F7800372394 /* fr */,
-				A70E8E0A2098301500372394 /* de */,
-				A73229D020B6238B00CACB3A /* es */,
-				A73229D220B623B400CACB3A /* sv */,
 			);
 			name = Localizable.strings;
 			path = LogosWallet/Resources/Localization;
