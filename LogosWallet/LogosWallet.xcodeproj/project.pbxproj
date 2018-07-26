@@ -80,7 +80,7 @@
 		A76AC7C320301D8500C7CEE8 /* CurrencySelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A76AC7C120301D8500C7CEE8 /* CurrencySelectViewController.xib */; };
 		A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C52030239C00C7CEE8 /* Currency.swift */; };
 		A76AC7C82030C59D00C7CEE8 /* CurrencySelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C72030C59D00C7CEE8 /* CurrencySelectViewModel.swift */; };
-		A76D2735204E986000615B7A /* NanoBlocksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2734204E986000615B7A /* NanoBlocksTests.swift */; };
+		A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2734204E986000615B7A /* LogosWalletTests.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -112,7 +112,7 @@
 		A7B858F32033F34E00698FAE /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B858F22033F34E00698FAE /* UserSettings.swift */; };
 		A7B858F72033F7D700698FAE /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B858F52033F7D700698FAE /* SecurityViewController.swift */; };
 		A7B858FE203408E200698FAE /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B858FC203408E200698FAE /* PasscodeViewController.xib */; };
-		A7BC508720A2DD12006B2810 /* NanoBlocksSecureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BC508620A2DD12006B2810 /* NanoBlocksSecureTests.swift */; };
+		A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */; };
 		A7E216C120DCE5EA003B8FCA /* TitleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */; };
 		A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */; };
 		A7EAC9D220A2D7E600EE1F14 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */; };
@@ -139,7 +139,6 @@
 		A7F88F40206A34FD00CDB7AB /* toggle.json in Resources */ = {isa = PBXBuildFile; fileRef = A7F88F3F206A34FD00CDB7AB /* toggle.json */; };
 		A7FC7DB621097F5000CE3B0E /* EnterAddressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7FC7DB521097F5000CE3B0E /* EnterAddressViewController.xib */; };
 		A7FC7DB72109866000CE3B0E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A7975A9020787D6100B2995D /* Localizable.strings */; };
-		EDAA4E138873847434739752 /* Pods_NanoBlocksTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB71C051E62F6E99E1BB05AF /* Pods_NanoBlocksTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,7 +219,7 @@
 		A73FAAF0204F3FF90087E025 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		A73FAAF1204F3FF90087E025 /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		A73FAAF4204FC0B50087E025 /* RtChk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtChk.swift; sourceTree = "<group>"; };
-		A74361E31FE64F9100054078 /* Nano Blocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nano Blocks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A74361E31FE64F9100054078 /* Logos Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Logos Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74361E61FE64F9100054078 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A74361ED1FE64F9100054078 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A74361F01FE64F9100054078 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -262,7 +261,7 @@
 		A76AC7C52030239C00C7CEE8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		A76AC7C72030C59D00C7CEE8 /* CurrencySelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectViewModel.swift; sourceTree = "<group>"; };
 		A76D2732204E986000615B7A /* LogosWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogosWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A76D2734204E986000615B7A /* NanoBlocksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoBlocksTests.swift; sourceTree = "<group>"; };
+		A76D2734204E986000615B7A /* LogosWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletTests.swift; sourceTree = "<group>"; };
 		A76D2736204E986000615B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
@@ -299,7 +298,7 @@
 		A7B858F52033F7D700698FAE /* SecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
 		A7B858FB203408E200698FAE /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
 		A7B858FC203408E200698FAE /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
-		A7BC508620A2DD12006B2810 /* NanoBlocksSecureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoBlocksSecureTests.swift; sourceTree = "<group>"; };
+		A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletSecureTests.swift; sourceTree = "<group>"; };
 		A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewController.swift; sourceTree = "<group>"; };
 		A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secure.swift; sourceTree = "<group>"; };
 		A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
@@ -347,7 +346,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDAA4E138873847434739752 /* Pods_NanoBlocksTests.framework in Frameworks */,
 				670BC4FEDA0E86AC3AC769AF /* Pods_LogosWalletTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,7 +459,7 @@
 		A74361E41FE64F9100054078 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A74361E31FE64F9100054078 /* Nano Blocks.app */,
+				A74361E31FE64F9100054078 /* Logos Wallet.app */,
 				A76D2732204E986000615B7A /* LogosWalletTests.xctest */,
 			);
 			name = Products;
@@ -568,8 +566,8 @@
 		A76D2733204E986000615B7A /* LogosWalletTests */ = {
 			isa = PBXGroup;
 			children = (
-				A76D2734204E986000615B7A /* NanoBlocksTests.swift */,
-				A7BC508620A2DD12006B2810 /* NanoBlocksSecureTests.swift */,
+				A76D2734204E986000615B7A /* LogosWalletTests.swift */,
+				A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */,
 				A76D2736204E986000615B7A /* Info.plist */,
 			);
 			path = LogosWalletTests;
@@ -852,7 +850,7 @@
 			);
 			name = LogosWallet;
 			productName = RaiBlocksWallet;
-			productReference = A74361E31FE64F9100054078 /* Nano Blocks.app */;
+			productReference = A74361E31FE64F9100054078 /* Logos Wallet.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A76D2731204E986000615B7A /* LogosWalletTests */ = {
@@ -1209,8 +1207,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7BC508720A2DD12006B2810 /* NanoBlocksSecureTests.swift in Sources */,
-				A76D2735204E986000615B7A /* NanoBlocksTests.swift in Sources */,
+				A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */,
+				A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1388,7 +1386,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.logoswallet;
 				PRODUCT_MODULE_NAME = LogosWallet;
-				PRODUCT_NAME = "Nano Blocks";
+				PRODUCT_NAME = "Logos Wallet";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -1421,7 +1419,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.logoswallet;
 				PRODUCT_MODULE_NAME = LogosWallet;
-				PRODUCT_NAME = "Nano Blocks";
+				PRODUCT_NAME = "Logos Wallet";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1439,11 +1437,11 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.planarform.NanoWalletTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.LogosWalletTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nano Blocks.app/Nano Blocks";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Logos Wallet.app/Logos Wallet";
 			};
 			name = Debug;
 		};
@@ -1457,11 +1455,11 @@
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.planarform.NanoWalletTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.LogosWalletTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nano Blocks.app/Nano Blocks";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Logos Wallet.app/Logos Wallet";
 			};
 			name = Release;
 		};

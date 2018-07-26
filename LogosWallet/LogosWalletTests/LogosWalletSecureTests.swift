@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import NanoBlocks
+@testable import LogosWallet
 
-class NanoBlocksSecureTests: XCTestCase {
+class LogosWalletSecureTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
