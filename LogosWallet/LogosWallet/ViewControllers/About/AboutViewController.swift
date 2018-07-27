@@ -11,7 +11,7 @@ import UIKit
 class AboutViewController: TitleTableViewController {
     enum Rows: Int, CaseCountable {
         static var caseCount: Int = Rows.countCases()
-        case disclaimer, discord, twitter, blog, donate
+        case disclaimer
     }
     
     lazy var versionLabel: UILabel = {
@@ -20,7 +20,7 @@ class AboutViewController: TitleTableViewController {
         label.font = .systemFont(ofSize: 12.0, weight: .light)
         if let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
             let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
-            label.text = "Nano Blocks - v\(versionNumber) (\(buildNumber))"
+            label.text = "Logos Wallet - v\(versionNumber) (\(buildNumber))"
         }
         return label
     }()
@@ -48,23 +48,10 @@ extension AboutViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let row = Rows(rawValue: indexPath.row) else { return }
-        var urlString = ""
         switch row {
         case .disclaimer:
             navigationController?.pushViewController(DisclaimerViewController(showButtons: false), animated: true)
-        case .blog:
-            urlString = "https://medium.com/@benkray"
-        case .discord:
-            urlString = "https://discord.gg/n76DkEt"
-        case .donate:
-            UIPasteboard.general.string = "xrb_36sqki6ggsrqwy4ryw19c45dx6fa4unb49ukozyz1zs6s9o1mpoq58yotuc8"
-            Banner.show(.localize("dev-address-copied"), style: .success)
-            return
-        case .twitter:
-            urlString = "https://twitter.com/nebyark"
         }
-        guard let url = URL(string: urlString) else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 
@@ -79,15 +66,6 @@ extension AboutViewController: UITableViewDataSource {
         switch row {
         case .disclaimer:
             cell.settingsTitleLabel?.text = "Disclaimer"
-        case .blog:
-            cell.settingsTitleLabel?.text = .localize("blog")
-        case .discord:
-            cell.settingsTitleLabel?.text = "Discord"
-        case .donate:
-            cell.settingsTitleLabel?.text = .localize("dev-donation-address")
-            cell.rightImageView?.image = #imageLiteral(resourceName: "clipboard")
-        case .twitter:
-            cell.settingsTitleLabel?.text = .localize("twitter")
         }
         
         return cell
