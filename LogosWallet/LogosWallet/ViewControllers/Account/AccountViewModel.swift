@@ -68,7 +68,7 @@ class AccountViewModel {
     
     func toggleCurrency() {
         if isShowingSecondary {
-            currencyValue = "NANO"
+            currencyValue = CURRENCY_NAME
         } else {
             let secondary = Currency.secondary
             currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            

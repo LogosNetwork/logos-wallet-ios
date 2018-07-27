@@ -40,7 +40,7 @@ class AccountTableViewCell: UITableViewCell {
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
             valueString = accountValue.bNumber.toMxrb.trimTrailingZeros()
-            unitLabel?.text = "NANO"
+            unitLabel?.text = CURRENCY_NAME
         }
         balanceLabel?.text = valueString
     }

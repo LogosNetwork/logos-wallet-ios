@@ -36,7 +36,7 @@ class TransactionTableViewCell: UITableViewCell {
             let converted = secondary.convertToFiat(tx.amount.bNumber)
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
         } else {
-            stringValue = "\(value.decimalExpansion(precisionAfterComma: 6).trimTrailingZeros()) NANO"
+            stringValue = "\(value.decimalExpansion(precisionAfterComma: 6).trimTrailingZeros()) \(CURRENCY_NAME)"
         }
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name

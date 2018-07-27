@@ -100,7 +100,7 @@ class RequestAmountViewController: UIViewController {
             amountLabel?.text = rate.chopDecimal(to: secondary.precision).trimTrailingZeros()
         } else {
             let rate = value / Currency.secondaryConversionRate
-            currencyButton?.setTitle("NANO", for: .normal)
+            currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             amountLabel?.text = rate.chopDecimal(to: 6).trimTrailingZeros()
         }
     }
@@ -115,7 +115,7 @@ class RequestAmountViewController: UIViewController {
             value = value / Currency.secondaryConversionRate
         }
         var items: [Any] = []
-        let shareText: String = "Amount to send: \(value.chopDecimal(to: 6)) NANO\nAddress: \(address)"
+        let shareText: String = "Amount to send: \(value.chopDecimal(to: 6)) \(CURRENCY_NAME)\nAddress: \(address)"
         if let image = qrImageView?.image?.maskWithColor(.black) {
             items.append(image)
         }

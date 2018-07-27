@@ -90,6 +90,7 @@ class SendViewController: UIViewController {
         nameButton?.addTarget(self, action: #selector(enterAddressTapped(_:)), for: .touchUpInside)
         nameButton?.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
         [enterAmountButton, enterAddressButton].forEach {
+            $0?.backgroundColor = AppStyle.Color.superLowAlphaBlack
             $0?.setTitleColor(AppStyle.Color.lowAlphaBlack, for: .normal)
         }
         enterAmountButton?.setTitle(.localize("enter-amount"), for: .normal)

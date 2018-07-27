@@ -58,8 +58,8 @@ class ConfirmTxViewController: UIViewController {
         contentView?.layer.cornerRadius = 10.0
         contentView?.clipsToBounds = true
         confirmButton?.backgroundColor = AppStyle.Color.logosBlue
-        balanceLabel?.text = "\(txInfo.balance.trimTrailingZeros()) NANO"
-        amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) NANO"
+        balanceLabel?.text = "\(txInfo.balance.trimTrailingZeros()) \(CURRENCY_NAME)"
+        amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) \(CURRENCY_NAME)"
         let secondaryAmount = Currency.secondary.convertToFiat(amountValue, isRaw: false)
         secondaryAmountLabel?.text = "\(secondaryAmount) \(Currency.secondary.rawValue.uppercased())"
         recipientNameLabel?.text = txInfo.recipientName
@@ -108,7 +108,7 @@ class ConfirmTxViewController: UIViewController {
         block.representative = txInfo.accountInfo.representative
         guard block.build(with: keyPair) else { return }
         
-        Lincoln.log("Sending \(txInfo.amount) NANO to '\(txInfo.recipientAddress)'", inConsole: true)
+        Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
         UIView.animate(withDuration: 0.3) {
             self.contentView?.alpha = 0.0
         }

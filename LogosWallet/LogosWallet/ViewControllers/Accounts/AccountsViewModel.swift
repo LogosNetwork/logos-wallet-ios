@@ -15,13 +15,13 @@ struct AccountsViewModel {
     private(set) var isShowingSecondary: Bool = false
     
     init() {
-        currencyValue = "NANO"
+        currencyValue = CURRENCY_NAME
         balanceValue = getTotalNano()
     }
     
     mutating func toggleCurrency() {
         if isShowingSecondary {
-            currencyValue = "NANO"
+            currencyValue = CURRENCY_NAME
             balanceValue = getTotalNano()
         } else {
             let secondary = Currency.secondary

@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cur = Currency.secondary
         CurrencyAPI.getCurrencyInfo(for: cur) { rate in
             if let rate = rate {
-                Lincoln.log("Got currency info for '\(cur.rawValue)': \(cur.symbol)\(rate) per NANO")
+                Lincoln.log("Got currency info for '\(cur.rawValue)': \(cur.symbol)\(rate) per \(CURRENCY_NAME)")
                 cur.setRate(rate)
             }
         }

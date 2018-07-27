@@ -114,7 +114,7 @@ class EnterAmountViewController: UIViewController {
             amountLabel?.text = converted.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros()
             balanceLabel?.text = String.localize("available-balance-arg", arg: "\(convertedBalance.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros())").uppercased()
         } else {
-            currencyButton?.setTitle("NANO", for: .normal)
+            currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
             amountLabel?.text = amountText
             balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mxrbBalance.trimTrailingZeros())").uppercased()
