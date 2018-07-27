@@ -17,8 +17,7 @@ class StartViewController: UIViewController {
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "welcome_xrb").withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = .white
+        imageView.image = #imageLiteral(resourceName: "base_logo_blue")
         return imageView
     }()
 
@@ -154,17 +153,8 @@ class StartViewController: UIViewController {
         }
 
         guard let nav = navigationController else { return }
-        let bgImage: UIImageView = {
-            let iv = UIImageView(frame: nav.view.bounds)
-            iv.image = #imageLiteral(resourceName: "xrb_bg_2b3165").withRenderingMode(.alwaysOriginal)
-            iv.contentMode = .scaleAspectFill
-            return iv
-        }()
+        nav.view.backgroundColor = AppStyle.Color.logosBlue
         view.backgroundColor = .clear
-        let bgView = UIView(frame: nav.view.bounds)
-        bgView.backgroundColor = AppStyle.Color.deepBlue
-        nav.view.insertSubview(bgView, at: 0)
-        nav.view.insertSubview(bgImage, at: 1)
     }
     
     // MARK: - Actions

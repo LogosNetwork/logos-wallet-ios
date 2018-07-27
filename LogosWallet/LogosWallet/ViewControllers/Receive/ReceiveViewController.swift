@@ -74,10 +74,7 @@ class ReceiveViewController: UIViewController {
         shareButton?.layer.borderColor = AppStyle.lightGrey.cgColor
         requestButton?.setTitle(.localize("request-amount"), for: .normal)
         shareButton?.setTitle(.localize("share"), for: .normal)
-        let gradient = AppStyle.buttonGradient
-        gradient.frame = requestButton?.bounds ?? .zero
-        gradient.cornerRadius = 23.0
-        requestButton?.layer.insertSublayer(gradient, at: 0)
+        requestButton?.backgroundColor = AppStyle.Color.logosBlue
     }
     
     // MARK: - Setup

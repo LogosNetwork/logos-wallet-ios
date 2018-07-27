@@ -85,10 +85,7 @@ class SendViewController: UIViewController {
         scanButton?.layer.borderColor = AppStyle.lightGrey.cgColor
         scanButton?.setTitle(.localize("scan-qr"), for: .normal)
         sendButton?.setTitle(.localize("send"), for: .normal)
-        let gradient = AppStyle.buttonGradient
-        gradient.frame = sendButton?.bounds ?? .zero
-        gradient.cornerRadius = 23.0
-        sendButton?.layer.insertSublayer(gradient, at: 0)
+        sendButton?.backgroundColor = AppStyle.Color.logosBlue
         
         nameButton?.addTarget(self, action: #selector(enterAddressTapped(_:)), for: .touchUpInside)
         nameButton?.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)

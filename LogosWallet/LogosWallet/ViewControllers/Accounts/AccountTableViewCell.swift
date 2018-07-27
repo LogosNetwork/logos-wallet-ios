@@ -24,7 +24,7 @@ class AccountTableViewCell: UITableViewCell {
     }
     
     func prepare(with account: AccountInfo?, useSecondaryCurrency: Bool) {
-        backgroundColor = UIColor.white.withAlphaComponent(0.04)
+        backgroundColor = UIColor.white.withAlphaComponent(0.1)
         layer.cornerRadius = 10.0
         let img = #imageLiteral(resourceName: "forward2").withRenderingMode(.alwaysTemplate)
         forwardImageView?.tintColor = .white

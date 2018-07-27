@@ -21,7 +21,8 @@ class AppCoordinator: NSObject, RootViewCoordinator {
     override init() {
         self.navController = UINavigationController()
         super.init()
-        setupNav()
+        navController.view.backgroundColor = AppStyle.Color.logosBlue
+
     }
     
     func start() {
@@ -69,20 +70,6 @@ class AppCoordinator: NSObject, RootViewCoordinator {
                 }
             })
         }
-    }
-    
-    fileprivate func setupNav() {
-        let bgImage: UIImageView = {
-            let iv = UIImageView(frame: navController.view.bounds)
-            iv.image = #imageLiteral(resourceName: "xrb_bg_2b3165").withRenderingMode(.alwaysOriginal)
-            iv.contentMode = .scaleAspectFill
-            return iv
-        }()
-        navController.view.backgroundColor = .clear
-        let bgView = UIView(frame: navController.view.bounds)
-        bgView.backgroundColor = UIColor(rgb: 43, green: 49, blue: 101, alpha: 1.0)
-        navController.view.insertSubview(bgView, at: 0)
-        navController.view.insertSubview(bgImage, at: 1)
     }
     
     fileprivate func showDisclaimer() {

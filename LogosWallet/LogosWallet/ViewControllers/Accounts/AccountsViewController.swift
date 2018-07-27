@@ -67,18 +67,7 @@ class AccountsViewController: UIViewController {
     
     fileprivate func setupView() {
         assert(navigationController?.view != nil, "View should be presented in a nav controller")
-        guard let nav = navigationController else { return }
-        let bgImage: UIImageView = {
-            let iv = UIImageView(frame: nav.view.bounds)
-            iv.image = #imageLiteral(resourceName: "xrb_bg_2b3165").withRenderingMode(.alwaysOriginal)
-            iv.contentMode = .scaleAspectFill
-            return iv
-        }()
-        view.backgroundColor = .clear
-        let bgView = UIView(frame: nav.view.bounds)
-        bgView.backgroundColor = UIColor(rgb: 43, green: 49, blue: 101, alpha: 1.0)
-        nav.view.insertSubview(bgView, at: 0)
-        nav.view.insertSubview(bgImage, at: 1)
+        self.navigationController?.view.backgroundColor = AppStyle.Color.logosBlue
         let buttonImg = #imageLiteral(resourceName: "down").withRenderingMode(.alwaysTemplate)
         sortButton?.tintColor = .white
         sortButton?.setTitle(String.localize("accounts").uppercased(), for: .normal)

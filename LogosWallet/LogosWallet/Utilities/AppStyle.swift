@@ -38,8 +38,9 @@ struct AppStyle {
         static var offBlack = #colorLiteral(red: 0.168627451, green: 0.1764705882, blue: 0.2078431373, alpha: 1)
         // 43, 49, 101
         static var deepBlue = #colorLiteral(red: 0.168627451, green: 0.1921568627, blue: 0.3960784314, alpha: 1)
-        // 2, 170, 224
-        static var nanoBlue = #colorLiteral(red: 0.007843137255, green: 0.6666666667, blue: 0.8784313725, alpha: 1)
+
+        /// R: 91, G: 142, B: 220
+        static var logosBlue = #colorLiteral(red: 0.2899867296, green: 0.5629279017, blue: 0.8873699903, alpha: 1)
         
         static var lowAlphaBlack: UIColor {
             return UIColor.black.withAlphaComponent(0.6)

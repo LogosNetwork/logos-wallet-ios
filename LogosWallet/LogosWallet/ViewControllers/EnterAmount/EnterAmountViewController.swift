@@ -50,9 +50,7 @@ class EnterAmountViewController: UIViewController {
     
     fileprivate func setupView() {
         guard let continueButton = continueButton else { return }
-        let gradient = AppStyle.buttonGradient
-        gradient.frame = continueButton.bounds
-        continueButton.layer.insertSublayer(gradient, below: continueButton.imageView!.layer)
+        continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
         balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mxrbBalance)".trimTrailingZeros()).uppercased()

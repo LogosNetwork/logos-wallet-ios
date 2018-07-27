@@ -57,10 +57,7 @@ class ConfirmTxViewController: UIViewController {
         guard let amountValue = BDouble(txInfo.amount) else { return }
         contentView?.layer.cornerRadius = 10.0
         contentView?.clipsToBounds = true
-        let gradient = AppStyle.buttonGradient
-        gradient.masksToBounds = true
-        gradient.frame = confirmButton?.bounds ?? .zero
-        confirmButton?.layer.insertSublayer(gradient, at: 0)
+        confirmButton?.backgroundColor = AppStyle.Color.logosBlue
         balanceLabel?.text = "\(txInfo.balance.trimTrailingZeros()) NANO"
         amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) NANO"
         let secondaryAmount = Currency.secondary.convertToFiat(amountValue, isRaw: false)

@@ -64,9 +64,7 @@ class RequestAmountViewController: UIViewController {
     
     fileprivate func setupKeyboard() {
         guard let shareButton = shareButton else { return }
-        let gradient = AppStyle.buttonGradient
-        gradient.frame = shareButton.bounds
-        shareButton.layer.insertSublayer(gradient, below: shareButton.imageView!.layer)
+        shareButton.backgroundColor = AppStyle.Color.logosBlue
         shareButton.tintColor = .white
         
         let bg = UIImageView(image: #imageLiteral(resourceName: "xrb_bg_2b3165"))
