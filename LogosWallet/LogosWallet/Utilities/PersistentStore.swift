@@ -21,7 +21,7 @@ struct PersistentStore {
                             let new = new,
                             let oldBalance = old["balance"] as? Double else { return }
                         // new balance is stored as string
-                        new["balance"] = oldBalance.toMxrb.bNumber.toRaw.decimalDescription
+                        new["balance"] = oldBalance.toMlgn.bNumber.toRaw.decimalDescription
                     })
                 }
         })

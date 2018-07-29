@@ -89,7 +89,7 @@ enum Currency: String {
     }
     
     func convertToFiat(_ value: BDouble, isRaw: Bool = true) -> String {
-        let value = isRaw ? value.toMxrb : value.decimalExpansion(precisionAfterComma: 6)
+        let value = isRaw ? value.toMlgn : value.decimalExpansion(precisionAfterComma: 6)
         return ((Double(value) ?? 0.0) * Currency.secondaryConversionRate).chopDecimal(to: Currency.secondary.precision)
     }
     func setRate(_ rate: Double) {
