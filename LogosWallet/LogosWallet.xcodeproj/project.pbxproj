@@ -57,7 +57,7 @@
 		A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlock.swift */; };
 		A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD89206CD2D9001C9725 /* PubSubService.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
-		A753FBD4206104EC00E88B77 /* CanoeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* CanoeService.swift */; };
+		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
 		A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B994201F037500620B62 /* EnterAmountViewController.swift */; };
 		A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B999201F0ABB00620B62 /* NumpadCollectionViewCell.swift */; };
@@ -235,7 +235,7 @@
 		A74FCD87206CB846001C9725 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
-		A753FBD3206104EC00E88B77 /* CanoeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanoeService.swift; sourceTree = "<group>"; };
+		A753FBD3206104EC00E88B77 /* LogosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosService.swift; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
 		A768B994201F037500620B62 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		A768B995201F037500620B62 /* EnterAmountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterAmountViewController.xib; sourceTree = "<group>"; };
@@ -769,7 +769,7 @@
 				A78854DE200F12FA00C9565B /* Networking.swift */,
 				A7B858E92032CC6E00698FAE /* CurrencyAPI.swift */,
 				A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */,
-				A753FBD3206104EC00E88B77 /* CanoeService.swift */,
+				A753FBD3206104EC00E88B77 /* LogosService.swift */,
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
 				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
 			);
@@ -1180,7 +1180,7 @@
 				A73EBBB31FFF606F00F77B4D /* CreateWalletCoordinator.swift in Sources */,
 				A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */,
 				A7EB8F5720662D75004463FC /* LoadingView.swift in Sources */,
-				A753FBD4206104EC00E88B77 /* CanoeService.swift in Sources */,
+				A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */,
 				A7F88F3A2069F26200CDB7AB /* EnterAddressViewModel.swift in Sources */,
 				A7B327F82002A43500E0E360 /* LeftAlignedIconButton.swift in Sources */,
 				A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */,
