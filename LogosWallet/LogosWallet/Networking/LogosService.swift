@@ -1,5 +1,5 @@
 //
-//  CanoeService.swift
+//  LogosService.swift
 //  LogosWallet
 //
 //  Created by Ben Kray on 3/20/18.
@@ -13,7 +13,7 @@ protocol BlockAdapter {
     var json: [String: String] { get }
 }
 
-enum CanoeService {
+enum LogosService {
     case serverStatus
     case process(block: BlockAdapter)
     case generateWork(hash: String)
@@ -24,7 +24,7 @@ enum CanoeService {
     case createServerAccount(walletID: String, username: String, password: String)
 }
 
-extension CanoeService: TargetType {
+extension LogosService: TargetType {
     var baseURL: URL {
         // TODO: update url
         return URL(string: "https://")!
