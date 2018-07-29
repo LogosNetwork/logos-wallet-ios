@@ -17,7 +17,7 @@ struct URLHandler {
         var amount: String?
         var address: String?
         // Example format: xrb:xrb_3wm37qz19zhei7nzscjcopbrbnnachs4p1gnwo5oroi3qonw6inwgoeuufdp?amount=1000
-        guard urlString.prefix(4) == "xrb:" else { return nil }
+        guard urlString.prefix(4) == "lgn:" else { return nil }
         let components = URLComponents(string: urlString)
         for query in components?.queryItems ?? [] {
             if query.name == "amount" {

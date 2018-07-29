@@ -103,7 +103,7 @@ class AccountViewController: UIViewController {
         
         let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index)
         let accountAddressLabel = UILabel()
-        accountAddressLabel.text = keyPair?.xrbAccount
+        accountAddressLabel.text = keyPair?.lgnAccount
         accountAddressLabel.lineBreakMode = .byTruncatingMiddle
         accountAddressLabel.textColor = UIColor.white.withAlphaComponent(0.4)
         accountAddressLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
@@ -285,7 +285,7 @@ class AccountViewController: UIViewController {
     func initiateChangeBlock(newRep: String?) {
         guard let rep = newRep,
             let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
-            let account = keyPair.xrbAccount else { return }
+            let account = keyPair.lgnAccount else { return }
         if rep == viewModel.account.representative {
             Banner.show(.localize("no-rep-change"), style: .warning)
             return
