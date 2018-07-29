@@ -9,12 +9,34 @@
 import Foundation
 
 struct StateBlock: BlockAdapter {
+
     enum Intent: String {
         case open
         case send
         case receive
         case change
     }
+
+    enum MessageType: UInt8 {
+        case prePrepare = 0
+        case prepare
+        case postPrepare
+        case commit
+        case postCommit
+        case prePrepareReject
+        case postPrepareReject
+        case singleStateBlock
+    }
+
+    var version: UInt8?
+    var messageType: MessageType?
+    var targets: UInt8?
+    var targetAddresses: [String]?
+    var transactionAmounts: [String]?
+    var transactionFee: UInt8?
+    var additionalSignatures: UInt8?
+
+    // TODO: change to optional for consistency
     var account: String = ""
     var representative: String = ""
     var previous: String = ZERO_AMT
