@@ -98,7 +98,7 @@ class ConfirmTxViewController: UIViewController {
     fileprivate func handleSend() {
         guard let balanceValue = BDouble(txInfo.balance), let amountValue = BDouble(txInfo.amount), amountValue > 0.0 else { return }
         guard let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
-            let account = keyPair.xrbAccount else { return }
+            let account = keyPair.lgnAccount else { return }
         // Generate block
         let remainingRaw = balanceValue.toRaw.rounded()
         var block = StateBlock(.send)

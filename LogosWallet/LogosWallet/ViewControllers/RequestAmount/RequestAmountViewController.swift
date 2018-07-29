@@ -134,7 +134,7 @@ class RequestAmountViewController: UIViewController {
         } else {
             rawAmount = amountValue.toRaw
         }
-        let xrbStandard = "xrb:\(address)?amount=\(rawAmount)"
+        let xrbStandard = "lgn:\(address)?amount=\(rawAmount)"
         guard let requestData = xrbStandard.data(using: .utf8), let qrImageView = qrImageView else { return }
         qrImageView.image = UIImage
             .qrCode(data: requestData, color: .white)?

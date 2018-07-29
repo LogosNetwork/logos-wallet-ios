@@ -14,7 +14,7 @@ struct KeyPair {
 }
 
 extension KeyPair {
-    var xrbAccount: String? {
-        return try? WalletUtil.deriveXRBAccount(from: publicKey)
+    var lgnAccount: String? {
+        return try? WalletUtil.deriveLGNAccount(from: publicKey)
     }
 }

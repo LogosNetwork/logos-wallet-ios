@@ -65,7 +65,7 @@ struct StateBlock: BlockAdapter {
     /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
         guard var linkData = link.hexData,
-            let encodedAccount = signingKeys.xrbAccount,
+            let encodedAccount = signingKeys.lgnAccount,
             let repData = WalletUtil.derivePublic(from: representative)?.hexData,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
             let previousData = previous.hexData,
