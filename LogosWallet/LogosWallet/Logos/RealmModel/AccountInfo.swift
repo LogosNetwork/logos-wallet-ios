@@ -22,7 +22,7 @@ class AccountInfo: Object {
     @objc dynamic var name: String?
     let blockHistory = List<SimpleBlock>()
     
-    var mxrbBalance: String {
+    var mlgnBalance: String {
         return balance.bNumber.toMlgn
     }
     

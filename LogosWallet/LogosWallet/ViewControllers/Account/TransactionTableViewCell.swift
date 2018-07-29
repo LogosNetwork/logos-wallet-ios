@@ -31,7 +31,7 @@ class TransactionTableViewCell: UITableViewCell {
         typeLabel?.text = type == .send ? .localize("sent-filter") : .localize("received-filter")
         let secondary = Currency.secondary
         var stringValue = ""
-        let value = tx.amount.bNumber.toMxrbValue
+        let value = tx.amount.bNumber.toMlgnValue
         if useSecondaryCurrency {
             let converted = secondary.convertToFiat(tx.amount.bNumber)
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
