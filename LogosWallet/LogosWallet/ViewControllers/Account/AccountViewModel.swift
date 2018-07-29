@@ -110,11 +110,11 @@ class AccountViewModel {
                 let amount = info.first?.amount,
                 let balance = BInt(me.account.balance),
                 let amt = BInt(amount) else { return }
-            var block = shouldOpen ? StateBlock(.open) : StateBlock(.receive)
+            var block = shouldOpen ? StateBlock(intent: .open) : StateBlock(intent: .receive)
             let randomRep = WalletManager.shared.getRandomRep()?.account ?? account
             block.previous = previous
-            block.link = source
-            block.balanceValue = balance + amt
+            block.targetAddresses = [source]
+            block.transactionAmounts = [amount]
             if me.account.representative.isEmpty {
                 block.representative = randomRep
             } else {
@@ -135,7 +135,8 @@ class AccountViewModel {
                 case .success(let newHash):
                     // Balance must be updated otherwise consecutive recieves can be seen as sends due to a negative balance
                     PersistentStore.write {
-                        me.account.balance = block.balance
+                        // TODO: come back to this
+                        me.account.balance = (me.account.balance.bNumber + amount.bNumber).toMlgn
                     }
                     me.handlePending(remaining, previous: newHash, shouldOpen: false)
                     me.onNewBlockBroadcasted?()

@@ -298,11 +298,11 @@ class AccountViewController: UIViewController {
             Banner.show(.localize("rep-changed"), style: .success)
             return
         }
-        var block = StateBlock(.change)
+        
+        var block = StateBlock(intent: .change)
         block.previous = viewModel.account.frontier
-        block.link = ZERO_AMT
-        block.balanceValue = BInt(viewModel.account.balance)
-        block.representative = rep
+        block.transactionAmounts = [ZERO_AMT]
+        block.targetAddresses = [rep]
         guard block.build(with: keyPair) else { return }
         Banner.show("Waiting for work on change block...", style: .success)
         BlockHandler.handle(block, for: account) { [weak self] (result) in
