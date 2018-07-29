@@ -96,16 +96,15 @@ class ConfirmTxViewController: UIViewController {
     }
     
     fileprivate func handleSend() {
-        guard let balanceValue = BDouble(txInfo.balance), let amountValue = BDouble(txInfo.amount), amountValue > 0.0 else { return }
-        guard let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
+        guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
+            let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
             let account = keyPair.lgnAccount else { return }
+
         // Generate block
-        let remainingRaw = balanceValue.toRaw.rounded()
-        var block = StateBlock(.send)
+        var block = StateBlock(intent: .send)
         block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.link = txInfo.recipientAddress
-        block.balanceValue = remainingRaw
-        block.representative = txInfo.accountInfo.representative
+        block.transactionAmounts = [txInfo.amount]
+        block.targetAddresses = [txInfo.recipientAddress]
         guard block.build(with: keyPair) else { return }
         
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
