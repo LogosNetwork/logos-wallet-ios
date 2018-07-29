@@ -23,7 +23,7 @@ class AccountInfo: Object {
     let blockHistory = List<SimpleBlock>()
     
     var mxrbBalance: String {
-        return balance.bNumber.toMxrb
+        return balance.bNumber.toMlgn
     }
     
     static func fromJSON(_ json: [String: Any]?, account: String) -> AccountInfo? {

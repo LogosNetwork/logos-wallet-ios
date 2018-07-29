@@ -15,7 +15,7 @@ struct PaymentInfo {
     let address: String?
     // Non-RAW amount
     var nanoAmount: String? {
-        guard let amt = amount, let amtVal = Double(amt)?.toMxrb else { return nil }
+        guard let amt = amount, let amtVal = Double(amt)?.toMlgn else { return nil }
         return amtVal
     }
 }
