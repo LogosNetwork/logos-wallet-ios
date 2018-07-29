@@ -27,7 +27,7 @@ extension BDouble {
         guard let expandedValue = Double(expanded) else { return "" }
         return String(format: "%.6f", expandedValue)
     }
-    var toMxrbValue: BDouble {
+    var toMlgnValue: BDouble {
         return toMlgn.bNumber
     }
 }

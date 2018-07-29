@@ -146,7 +146,7 @@ class SendViewController: UIViewController {
             Banner.show(.localize("enter-recipient-address"), style: .warning)
             return
         }
-        let remaining = account.mxrbBalance.bNumber - amountValue
+        let remaining = account.mlgnBalance.bNumber - amountValue
         guard remaining >= 0.0 else {
             Banner.show(.localize("insufficient-funds"), style: .danger)
             return
