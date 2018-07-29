@@ -21,7 +21,7 @@ struct AccountHistory {
     // MARK: - Properties
     
     var hash: String?
-    var type: Block.BlockType?
+    var type: BlockType?
     var account: String?
     var amount: String?
     
@@ -30,7 +30,7 @@ struct AccountHistory {
     public init(json: [String: Any]) {
         hash = json["hash"] as? String
         if let raw = json["type"] as? String {
-            type = Block.BlockType(rawValue: raw)
+            type = BlockType(rawValue: raw)
         }
         account = json["account"] as? String
         amount = json["amount"] as? String

@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum BlockType: String {
+    case open, send, receive, change
+}
+
 struct StateBlock: BlockAdapter {
     enum Intent {
         case open
