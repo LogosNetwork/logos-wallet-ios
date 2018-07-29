@@ -9,7 +9,7 @@
 import Foundation
 
 struct StateBlock: BlockAdapter {
-    enum Intent {
+    enum Intent: String {
         case open
         case send
         case receive
