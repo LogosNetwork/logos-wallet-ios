@@ -26,7 +26,8 @@ enum CanoeService {
 
 extension CanoeService: TargetType {
     var baseURL: URL {
-        return URL(string: "https://getcanoe.io")!
+        // TODO: update url
+        return URL(string: "https://")!
     }
     
     var path: String {
