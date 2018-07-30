@@ -42,7 +42,7 @@ struct BlockHandler {
             completion(.failure(.unknown))
             return
         }
-        let workInput = block.intent == .open ? accountPublic : block.previous
+        let workInput = block.previous
         guard !processing.contains(workInput) else {
             completion(.failure(.alreadyInProgress))
             return
