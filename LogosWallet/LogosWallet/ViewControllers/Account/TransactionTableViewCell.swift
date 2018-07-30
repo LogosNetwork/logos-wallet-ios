@@ -42,7 +42,7 @@ class TransactionTableViewCell: UITableViewCell {
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name
         sourceDestLabel?.text = alias ?? tx.account
-        typeIndicatorLabel?.text = type == .receive ? "+" : "-"
+        typeIndicatorLabel?.text = type.rawValue == "receive" ? "+" : "-"
     }
     
 }

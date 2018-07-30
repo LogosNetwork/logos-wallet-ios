@@ -91,62 +91,62 @@ class AccountViewModel {
             guard let me = self else { return }
             me.isFetching = false
             completion?(pending.count)
-            me.handlePending(pending, previous: me.account.frontier, shouldOpen: shouldOpen)
+//            me.handlePending(pending, previous: me.account.frontier, shouldOpen: shouldOpen)
         }
     }
     
     /// Recursively handle pending
-    func handlePending(_ pending: [String], previous: String, shouldOpen: Bool) {
-        guard !pending.isEmpty,
-            let keyPair = WalletManager.shared.keyPair(at: account.index),
-            let account = keyPair.lgnAccount else { return }
-        var remaining = pending
-        // Pending block order in array is newest -> oldest
-        let source = remaining.removeLast()
-        isFetching = true
-        NetworkAdapter.blockInfo(hashes: [source]) { [weak self] (info, error) in
-            self?.isFetching = false
-            guard let me = self,
-                let amount = info.first?.amount,
-                let balance = BInt(me.account.balance),
-                let amt = BInt(amount) else { return }
-            var block = shouldOpen ? StateBlock(intent: .open) : StateBlock(intent: .receive)
-            let randomRep = WalletManager.shared.getRandomRep()?.account ?? account
-            block.previous = previous
-            block.targetAddresses = [source]
-            block.transactionAmounts = [amount]
-            if me.account.representative.isEmpty {
-                block.representative = randomRep
-            } else {
-                block.representative = me.account.representative
-            }
-            guard me.account.balance.bNumber + amount.bNumber >= me.account.balance.bNumber else {
-                Banner.show("Account balance should be greater than previous balance", style: .danger)
-                return
-            }
-            guard block.build(with: keyPair) else { return }
-            if shouldOpen {
-                Banner.show(.localize("opening-account"), style: .success)
-            }
-            me.isFetching = true
-            BlockHandler.handle(block, for: account) { (result) in
-                me.isFetching = false
-                switch result {
-                case .success(let newHash):
-                    // Balance must be updated otherwise consecutive recieves can be seen as sends due to a negative balance
-                    PersistentStore.write {
-                        // TODO: come back to this
-                        me.account.balance = (me.account.balance.bNumber + amount.bNumber).toMlgn
-                    }
-                    me.handlePending(remaining, previous: newHash, shouldOpen: false)
-                    me.onNewBlockBroadcasted?()
-                case .failure(let error):
-                    Banner.show(.localize("receive-error-arg", arg: error.description), style: .danger)
-                }
-            }
-        }
-    }
-    
+//    func handlePending(_ pending: [String], previous: String, shouldOpen: Bool) {
+//        guard !pending.isEmpty,
+//            let keyPair = WalletManager.shared.keyPair(at: account.index),
+//            let account = keyPair.lgnAccount else { return }
+//        var remaining = pending
+//        // Pending block order in array is newest -> oldest
+//        let source = remaining.removeLast()
+//        isFetching = true
+//        NetworkAdapter.blockInfo(hashes: [source]) { [weak self] (info, error) in
+//            self?.isFetching = false
+//            guard let me = self,
+//                let amount = info.first?.amount,
+//                let balance = BInt(me.account.balance),
+//                let amt = BInt(amount) else { return }
+//            var block = shouldOpen ? StateBlock(intent: .open) : StateBlock(intent: .receive)
+//            let randomRep = WalletManager.shared.getRandomRep()?.account ?? account
+//            block.previous = previous
+//            block.targetAddresses = [source]
+//            block.transactionAmounts = [amount]
+//            if me.account.representative.isEmpty {
+//                block.representative = randomRep
+//            } else {
+//                block.representative = me.account.representative
+//            }
+//            guard me.account.balance.bNumber + amount.bNumber >= me.account.balance.bNumber else {
+//                Banner.show("Account balance should be greater than previous balance", style: .danger)
+//                return
+//            }
+//            guard block.build(with: keyPair) else { return }
+//            if shouldOpen {
+//                Banner.show(.localize("opening-account"), style: .success)
+//            }
+//            me.isFetching = true
+//            BlockHandler.handle(block, for: account) { (result) in
+//                me.isFetching = false
+//                switch result {
+//                case .success(let newHash):
+//                    // Balance must be updated otherwise consecutive recieves can be seen as sends due to a negative balance
+//                    PersistentStore.write {
+//                        // TODO: come back to this
+//                        me.account.balance = (me.account.balance.bNumber + amount.bNumber).toMlgn
+//                    }
+//                    me.handlePending(remaining, previous: newHash, shouldOpen: false)
+//                    me.onNewBlockBroadcasted?()
+//                case .failure(let error):
+//                    Banner.show(.localize("receive-error-arg", arg: error.description), style: .danger)
+//                }
+//            }
+//        }
+//    }
+
     func getAccountInfo(completion: (() -> Void)? = nil) {
         guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgnAccount else { return }
         NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
@@ -189,7 +189,7 @@ class AccountViewModel {
         case .oldestFirst:
             refined = history.reversed()
         case .received:
-            refined = history.filter { $0.type == StateBlock.Intent.receive.rawValue }
+            refined = history.filter { $0.type == "receive" }
         case .sent:
             refined = history.filter { $0.type == StateBlock.Intent.send.rawValue }
         case .largestFirst:

@@ -11,9 +11,7 @@ import Foundation
 struct StateBlock: BlockAdapter {
 
     enum Intent: String {
-        case open
         case send
-        case receive
         case change
     }
 
@@ -64,6 +62,7 @@ struct StateBlock: BlockAdapter {
     mutating func build(with signingKeys: KeyPair) -> Bool {
         guard let encodedAccount = signingKeys.lgnAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
+            let targetAddress = self.targetAddresses?.first,
             let previousData = previous.hexData else {
             return false
         }
@@ -78,10 +77,6 @@ struct StateBlock: BlockAdapter {
             hexAmount = amountValue
                 .asString(radix: 16)
                 .leftPadding(toLength: 32, withPad: "0")
-        }
-
-        guard let targetAddress = self.targetAddresses?.first else {
-            return false
         }
         
         // TODO: create correct digest
