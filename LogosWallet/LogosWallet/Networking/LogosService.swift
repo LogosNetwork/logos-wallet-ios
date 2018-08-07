@@ -27,11 +27,11 @@ enum LogosService {
 extension LogosService: TargetType {
     var baseURL: URL {
         // TODO: update url
-        return URL(string: "https://")!
+        return URL(string: "")!
     }
     
     var path: String {
-        return "rpc"
+        return ""
     }
     
     var method: Moya.Method {
