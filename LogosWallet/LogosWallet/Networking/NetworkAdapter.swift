@@ -62,7 +62,21 @@ public struct NetworkAdapter {
             completion(hashes.map { BlockInfo(blocks[$0]) }, nil)
         })
     }
-    
+
+    // Temp action
+    static func createBlock(parameters: BlockCreateParameters, completion: ((APIError?) -> Void)? = nil) {
+        Lincoln.log("Creating block with parameters: \(parameters)")
+        request(target: .blockCreate(parameters: parameters), success: { (response) in
+            guard let json = try? response.mapJSON() as? [String: String] else {
+                completion?(APIError.badResponse)
+                return
+            }
+            Lincoln.log("Block Create Response: \(json ?? [:])", inConsole: true)
+            let error = APIError.parseError(json?["error"])
+            completion?(error)
+        })
+    }
+
     static func process(block: BlockAdapter, completion: ((String?, APIError?) -> Void)? = nil) {
         Lincoln.log("Broadcasting block '\(block.json)'", inConsole: true)
         request(target: .process(block: block), success: { (response) in
