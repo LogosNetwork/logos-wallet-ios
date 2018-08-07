@@ -13,6 +13,16 @@ protocol BlockAdapter {
     var json: [String: String] { get }
 }
 
+struct BlockCreateParameters {
+    var account: String
+    var amount: String
+    var destination: String
+    var previous: String
+    // this is why this is temporary
+    var privateKey: String
+    var representative: String
+}
+
 enum LogosService {
     case serverStatus
     case process(block: BlockAdapter)
@@ -22,6 +32,9 @@ enum LogosService {
     case blockInfo(hashes: [String])
     case pending(accounts: [String], count: Int)
     case createServerAccount(walletID: String, username: String, password: String)
+
+    // Temp RPC calls
+    case blockCreate(parameters: BlockCreateParameters)
 }
 
 extension LogosService: TargetType {
@@ -62,6 +75,16 @@ extension LogosService: TargetType {
             return params(for: "accounts_pending", params: ["accounts": accounts, "count": count])
         case .createServerAccount(let walletID, let username, let password):
             return params(for: "create_server_account", params: ["wallet": walletID, "token": username, "tokenPass": password])
+        case .blockCreate(let parameters):
+            return params(for: "block_create", params: [
+                "account": parameters.account,
+                "amount": parameters.amount,
+                "destination": parameters.destination,
+                "previous": parameters.previous,
+                "key": parameters.privateKey,
+                "representative": parameters.representative,
+                "type": "state",
+            ])
         }
     }
     
