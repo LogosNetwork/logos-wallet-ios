@@ -59,6 +59,7 @@
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
 		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
+		A757A252211AA15C00A9C688 /* test_accounts.json in Resources */ = {isa = PBXBuildFile; fileRef = A757A251211AA15C00A9C688 /* test_accounts.json */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
 		A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B994201F037500620B62 /* EnterAmountViewController.swift */; };
 		A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B999201F0ABB00620B62 /* NumpadCollectionViewCell.swift */; };
@@ -238,6 +239,7 @@
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		A753FBD3206104EC00E88B77 /* LogosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosService.swift; sourceTree = "<group>"; };
 		A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoResponse.swift; sourceTree = "<group>"; };
+		A757A251211AA15C00A9C688 /* test_accounts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_accounts.json; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
 		A768B994201F037500620B62 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		A768B995201F037500620B62 /* EnterAmountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterAmountViewController.xib; sourceTree = "<group>"; };
@@ -708,6 +710,7 @@
 				A7EB8F5320662C54004463FC /* Animations */,
 				A7975A8B20787D1F00B2995D /* Localization */,
 				A7EB8F5A20664B0C004463FC /* weak_pw.txt */,
+				A757A251211AA15C00A9C688 /* test_accounts.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -959,6 +962,7 @@
 				A72EBDA41FFCCF4200407E6D /* AccountsViewController.xib in Resources */,
 				A732981720075B7100B21C8D /* AccountViewController.xib in Resources */,
 				A726C2821FFCD5D400E73C18 /* AccountTableViewCell.xib in Resources */,
+				A757A252211AA15C00A9C688 /* test_accounts.json in Resources */,
 				A7EF84361FEE453700C74035 /* ReceiveViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

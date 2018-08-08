@@ -52,6 +52,14 @@ class CreateWalletCoordinator: RootViewCoordinator {
 }
 
 extension CreateWalletCoordinator: StartViewControllerDelegate {
+    // TEMP
+    func setupWalletWithTestAccount(_ account: TestAccount) {
+        WalletManager.shared.testAccount = account
+        self.navController.dismiss(animated: true) {
+            self.delegate?.walletCreated(coordinator: self)
+        }
+    }
+
     func newWalletTapped() {
         seed = NaCl.randomBytes()
         let seedView = SeedViewController(action: .showSeed, style: .blue, seed: seed)

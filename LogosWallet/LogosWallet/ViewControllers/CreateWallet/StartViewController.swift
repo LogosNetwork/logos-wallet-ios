@@ -11,6 +11,8 @@ import UIKit
 protocol StartViewControllerDelegate: class {
     func newWalletTapped()
     func importWalletTapped()
+    // temp
+    func setupWalletWithTestAccount(_ account: TestAccount)
 }
 
 class StartViewController: UIViewController {
@@ -158,14 +160,44 @@ class StartViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
-    @objc func newWalletTapped(_ sender: Any) {
-        delegate?.newWalletTapped()
+
+    // TEMP
+    func loadTestAccounts() -> [TestAccount] {
+        guard let file = Bundle.main.url(forResource: "test_accounts", withExtension: "json"),
+            let data = try? Data(contentsOf: file) else {
+            return []
+        }
+        let accounts = try? JSONDecoder().decode([TestAccount].self, from: data)
+        return accounts ?? []
     }
-    
+
+    @objc func newWalletTapped(_ sender: Any) {
+        // TEMP
+        let accounts = self.loadTestAccounts()
+        let alertController = UIAlertController(title: "Accounts", message: nil, preferredStyle: .actionSheet)
+        accounts.map {
+            let testAccount = $0
+            return UIAlertAction(title: testAccount.address, style: .default) { [weak self ] _ in
+                self?.delegate?.setupWalletWithTestAccount(testAccount)
+            }
+        }.forEach {
+            alertController.addAction($0)
+        }
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(alertController, animated: true)
+//        delegate?.newWalletTapped()
+    }
+
     @objc func importWalletTapped(_ sender: Any) {
         delegate?.importWalletTapped()
     }
+}
+
+struct TestAccount: Codable {
+    let address: String
+    let publicKey: String
+    let privateKey: String
 }
 
 extension StartViewController: UINavigationControllerDelegate {

@@ -9,7 +9,9 @@
 import Foundation
 
 final class WalletManager {
-    
+    // TEMP
+    var testAccount: TestAccount?
+
     static let shared: WalletManager = WalletManager()
     private(set) var verifiedReps: [VerifiedAccount] = []
     private(set) var accounts: [AccountInfo] = PersistentStore.getAccounts()

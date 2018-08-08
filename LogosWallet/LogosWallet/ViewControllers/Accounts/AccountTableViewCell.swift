@@ -22,14 +22,17 @@ class AccountTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         self.alpha = selected ? 0.3 : 1.0
     }
-    
-    func prepare(with account: AccountInfo?, useSecondaryCurrency: Bool) {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
         backgroundColor = UIColor.white.withAlphaComponent(0.1)
         layer.cornerRadius = 10.0
         let img = #imageLiteral(resourceName: "forward2").withRenderingMode(.alwaysTemplate)
         forwardImageView?.tintColor = .white
         forwardImageView?.image = img
-        
+    }
+
+    func prepare(with account: AccountInfo?, useSecondaryCurrency: Bool) {
         addressLabel?.text = account?.address
         accountNameLabel?.text = account?.name
         let accountValue = account?.balance ?? "0"

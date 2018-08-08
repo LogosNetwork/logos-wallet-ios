@@ -108,7 +108,8 @@ class AccountsViewController: UIViewController {
 
 extension AccountsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return WalletManager.shared.accounts.count
+        // TEMP
+        return 1 //WalletManager.shared.accounts.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,8 +118,13 @@ extension AccountsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(AccountTableViewCell.self, for: indexPath)
-        let account = WalletManager.shared.account(at: indexPath.section)
-        cell.prepare(with: account, useSecondaryCurrency: viewModel.isShowingSecondary)
+//        let account = WalletManager.shared.account(at: indexPath.section)
+//        cell.prepare(with: account, useSecondaryCurrency: viewModel.isShowingSecondary)
+        // TEMP
+        let testAccount = WalletManager.shared.testAccount
+        cell.accountNameLabel?.text = "Test Account"
+        cell.addressLabel?.text = testAccount?.address
+        
         return cell
     }
 }
