@@ -77,6 +77,19 @@ public struct NetworkAdapter {
         })
     }
 
+    static func accountInfo(for account: String, completion: ((AccountInfoResponse?, APIError?) -> Void)? = nil) {
+        request(target: .accountInfo(account: account), success: { (response) in
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            do {
+                let accountInfo = try decoder.decode(AccountInfoResponse.self, from: response.data)
+                completion?(accountInfo, nil)
+            } catch {
+                completion?(nil, .badResponse)
+            }
+        })
+    }
+
     static func process(block: BlockAdapter, completion: ((String?, APIError?) -> Void)? = nil) {
         Lincoln.log("Broadcasting block '\(block.json)'", inConsole: true)
         request(target: .process(block: block), success: { (response) in

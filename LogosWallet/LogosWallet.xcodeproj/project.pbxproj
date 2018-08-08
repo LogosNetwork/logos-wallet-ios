@@ -58,6 +58,7 @@
 		A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD89206CD2D9001C9725 /* PubSubService.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
 		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
+		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
 		A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B994201F037500620B62 /* EnterAmountViewController.swift */; };
 		A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B999201F0ABB00620B62 /* NumpadCollectionViewCell.swift */; };
@@ -236,6 +237,7 @@
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		A753FBD3206104EC00E88B77 /* LogosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosService.swift; sourceTree = "<group>"; };
+		A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoResponse.swift; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
 		A768B994201F037500620B62 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		A768B995201F037500620B62 /* EnterAmountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterAmountViewController.xib; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */,
 				A749FCEF2089980000AB7D9C /* BlockInfo.swift */,
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
+				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1126,6 +1129,7 @@
 				A7B858EA2032CC6E00698FAE /* CurrencyAPI.swift in Sources */,
 				A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */,
 				A749FD12208AF09200AB7D9C /* Swift-Big-Number-Core.swift in Sources */,
+				A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */,
 				A79116FF20173C4400890432 /* AddressEntry.swift in Sources */,
 				A76AC7B4202AD7C000C7CEE8 /* SettingsViewController.swift in Sources */,
 				A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */,
