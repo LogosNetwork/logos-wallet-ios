@@ -32,6 +32,7 @@ enum LogosService {
     case blockInfo(hashes: [String])
     case pending(accounts: [String], count: Int)
     case createServerAccount(walletID: String, username: String, password: String)
+    case accountInfo(account: String)
 
     // Temp RPC calls
     case blockCreate(parameters: BlockCreateParameters)
@@ -40,13 +41,13 @@ enum LogosService {
 extension LogosService: TargetType {
     var baseURL: URL {
         // TODO: update url
-        return URL(string: "")!
+        return URL(string: "http://34.201.126.140:55000")!
     }
     
     var path: String {
         return ""
     }
-    
+
     var method: Moya.Method {
         return .post
     }
@@ -85,6 +86,8 @@ extension LogosService: TargetType {
                 "representative": parameters.representative,
                 "type": "state",
             ])
+        case .accountInfo(let account):
+            return params(for: "account_info", params: ["account": account])
         }
     }
     
@@ -93,7 +96,8 @@ extension LogosService: TargetType {
     }
     
     fileprivate func params(for action: String, params: [String: Any] = [:]) -> Task {
-        var p: [String: Any] = ["action": action]
+        // TEMP
+        var p: [String: Any] = ["action": action, "logos": ""]
         p.merge(params) { (current, _) in current }
         return .requestParameters(parameters: p, encoding: JSONEncoding.default)
     }
