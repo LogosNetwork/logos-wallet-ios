@@ -53,7 +53,7 @@ class EnterAmountViewController: UIViewController {
         continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
-        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgnBalance)".trimTrailingZeros()).uppercased()
+        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(WalletManager.shared.testAccountInfo?.balance ?? "")".trimTrailingZeros()).uppercased()
         balanceLabel?.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(balanceTapped))
         balanceLabel?.addGestureRecognizer(gesture)
@@ -105,28 +105,33 @@ class EnterAmountViewController: UIViewController {
     }
     
     @IBAction func currencyButtonTapped(_ sender: Any) {
-        isShowingSecondary = !isShowingSecondary
-        if isShowingSecondary {
-            let secondary = Currency.secondary
-            let converted = amount * Currency.secondaryConversionRate
-            let convertedBalance = account.mlgnBalance.bNumber * Currency.secondaryConversionRate
-            currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
-            amountLabel?.text = converted.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros()
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(convertedBalance.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros())").uppercased()
-        } else {
-            currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
-            let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
-            amountLabel?.text = amountText
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgnBalance.trimTrailingZeros())").uppercased()
-        }
+        // TEMP
+//        isShowingSecondary = !isShowingSecondary
+//        if isShowingSecondary {
+//            let secondary = Currency.secondary
+//            let converted = amount * Currency.secondaryConversionRate
+//            let convertedBalance = account.mlgnBalance.bNumber * Currency.secondaryConversionRate
+//            currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
+//            amountLabel?.text = converted.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros()
+//            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(convertedBalance.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros())").uppercased()
+//        } else {
+//            currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
+//            let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
+//            amountLabel?.text = amountText
+//            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgnBalance.trimTrailingZeros())").uppercased()
+//        }
     }
     
     @IBAction func continueTapped(_ sender: Any) {
+        // TEMP
+        guard let testAccount = WalletManager.shared.testAccountInfo else {
+            return
+        }
         guard amount > 0.0 else {
             feedback.notificationOccurred(.error)
             return
         }
-        if amount > account.mlgnBalance.bNumber {
+        if amount > testAccount.balance.bNumber {
             Banner.show(.localize("insufficient-funds"), style: .danger)
             return
         }

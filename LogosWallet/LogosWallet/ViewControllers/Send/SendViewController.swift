@@ -138,7 +138,7 @@ class SendViewController: UIViewController {
     
     @IBAction func sendTapped(_ sender: Any) {
         // Validate balance, address, etc
-        guard let testAccount = WalletManager.shared.testAccount else {
+        guard let testAccount = WalletManager.shared.testAccountInfo else {
             return
         }
 
@@ -150,7 +150,7 @@ class SendViewController: UIViewController {
             Banner.show(.localize("enter-recipient-address"), style: .warning)
             return
         }
-        let remaining = account.mlgnBalance.bNumber - amountValue
+        let remaining = testAccount.balance.bNumber - amountValue
         guard remaining >= 0.0 else {
             Banner.show(.localize("insufficient-funds"), style: .danger)
             return
