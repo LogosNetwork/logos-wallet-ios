@@ -13,6 +13,7 @@ protocol AccountViewControllerDelegate: class {
     func editRepTapped(account: AccountInfo)
     func sendTapped(account: AccountInfo)
     func receiveTapped(account: AccountInfo)
+    func backTapped()
 }
 
 class AccountViewController: UIViewController {
@@ -157,7 +158,7 @@ class AccountViewController: UIViewController {
     // MARK: - Actions
     
     @objc fileprivate func backTapped() {
-        navigationController?.popViewController(animated: true)
+        self.delegate?.backTapped()
     }
     
     @IBAction func refineTapped(_ sender: Any) {
