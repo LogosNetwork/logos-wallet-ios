@@ -124,6 +124,8 @@ extension AccountsViewController: UITableViewDataSource {
         let testAccount = WalletManager.shared.testAccount
         cell.accountNameLabel?.text = "Test Account"
         cell.addressLabel?.text = testAccount?.address
+        cell.unitLabel?.text = nil
+        cell.balanceLabel?.text = nil
         
         return cell
     }
@@ -132,8 +134,10 @@ extension AccountsViewController: UITableViewDataSource {
 extension AccountsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let account = WalletManager.shared.account(at: indexPath.section) else { return }
-        delegate?.accountTapped(account)
+        // TEMP
+        delegate?.accountTapped(AccountInfo())
+//        guard let account = WalletManager.shared.account(at: indexPath.section) else { return }
+//        delegate?.accountTapped(account)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

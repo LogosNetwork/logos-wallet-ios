@@ -62,28 +62,30 @@ class AccountViewController: UIViewController {
         setupView()
         setupTableView()
         setupNavBar()
-        viewModel.updateView = {
-            self.tableView.reloadData()
-            self.sortButton?.setTitle(self.viewModel.refineType.title, for: .normal)
+        viewModel.updateView = { [weak self] in
+            self?.tableView.reloadData()
+            self?.sortButton?.setTitle(self?.viewModel.refineType.title, for: .normal)
         }
         self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
         
-        viewModel.getAccountInfo {
-            self.viewModel.getHistory {
-                self.tableView.reloadData()
-            }
-            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
-            if self.viewModel.history.count > 0 {
-                self.viewModel.getPending() { (pendingCount) in
-                    guard pendingCount > 0 else { return }
-                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-                    if pendingCount < 2 {
-                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-                    }
-                    Banner.show(pendingStatus, style: .success)
-                }
-            }
-            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
+        viewModel.getAccountInfo { [weak self] in
+            // TEMP
+            self?.totalBalanceLabel?.text = self?.viewModel.testAccountInfo?.balance
+//            self.viewModel.getHistory {
+//                self.tableView.reloadData()
+//            }
+//            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
+//            if self.viewModel.history.count > 0 {
+//                self.viewModel.getPending() { (pendingCount) in
+//                    guard pendingCount > 0 else { return }
+//                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
+//                    if pendingCount < 2 {
+//                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
+//                    }
+//                    Banner.show(pendingStatus, style: .success)
+//                }
+//            }
+//            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
         }
     }
 
@@ -232,12 +234,13 @@ class AccountViewController: UIViewController {
     
     fileprivate func getPendingAndHistory(_ getPending: Bool = true) {
         guard viewModel.account.frontier != ZERO_AMT else {
-            viewModel.getAccountInfo() {
-                guard self.viewModel.account.pending > 0 else {
-                    self.refreshControl?.endRefreshing()
-                    return
-                }
-                self.getPendingAndHistory()
+            viewModel.getAccountInfo() { [weak self] in
+                self?.totalBalanceLabel?.text = self?.viewModel.testAccountInfo?.balance
+//                guard self.viewModel.account.pending > 0 else {
+//                    self.refreshControl?.endRefreshing()
+//                    return
+//                }
+//                self.getPendingAndHistory()
             }
             return
         }

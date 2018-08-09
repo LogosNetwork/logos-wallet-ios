@@ -48,6 +48,8 @@ class AccountViewModel {
     }
     private(set) var currencyValue: String = ""
     private(set) var refineType: RefineType = .latestFirst
+    // TEMP
+    private(set) var testAccountInfo: AccountInfoResponse?
     var onNewBlockBroadcasted: (() -> Void)?
     var updateView: (() -> Void)?
     
@@ -148,18 +150,28 @@ class AccountViewModel {
 //    }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgnAccount else { return }
-        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
-            if let info = info {
-                PersistentStore.write {
-                    self?.account.copyProperties(from: info)
-                }
-            } else {
-                // Assume account is not open yet
-                self?.getPending(shouldOpen: true)
+//        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgnAccount else { return }
+        guard let account = WalletManager.shared.testAccount?.address else {
+            return
+        }
+        NetworkAdapter.accountInfo(for: account) { [weak self] (accountInfo, error) in
+            guard error == nil else {
+                return
             }
+            self?.testAccountInfo = accountInfo
             completion?()
         }
+//        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
+//            if let info = info {
+//                PersistentStore.write {
+//                    self?.account.copyProperties(from: info)
+//                }
+//            } else {
+//                // Assume account is not open yet
+//                self?.getPending(shouldOpen: true)
+//            }
+//            completion?()
+//        }
     }
     
     func getHistory(completion: @escaping () -> Void) {

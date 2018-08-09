@@ -174,7 +174,7 @@ class StartViewController: UIViewController {
     @objc func newWalletTapped(_ sender: Any) {
         // TEMP
         let accounts = self.loadTestAccounts()
-        let alertController = UIAlertController(title: "Accounts", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: "Accounts", preferredStyle: .actionSheet)
         accounts.map {
             let testAccount = $0
             return UIAlertAction(title: testAccount.address, style: .default) { [weak self ] _ in
