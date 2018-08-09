@@ -152,7 +152,7 @@ class AccountViewController: UIViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .white
         refreshControl?.addTarget(self, action: #selector(onPullDown(_:)), for: .valueChanged)
-        tableView.refreshControl = refreshControl
+//        tableView.refreshControl = refreshControl
     }
     
     fileprivate func setupView() {
@@ -178,6 +178,8 @@ class AccountViewController: UIViewController {
     }
 
     @objc fileprivate func backTapped() {
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
         self.delegate?.backTapped()
     }
     
