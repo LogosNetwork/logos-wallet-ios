@@ -138,6 +138,10 @@ class SendViewController: UIViewController {
     
     @IBAction func sendTapped(_ sender: Any) {
         // Validate balance, address, etc
+        guard let testAccount = WalletManager.shared.testAccount else {
+            return
+        }
+
         guard let amount = amountLabel?.text, let amountValue = BDouble(amount), amountValue > 0.0 else {
             Banner.show(.localize("please-enter-amount"), style: .warning)
             return

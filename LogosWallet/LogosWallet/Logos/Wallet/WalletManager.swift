@@ -11,6 +11,7 @@ import Foundation
 final class WalletManager {
     // TEMP
     var testAccount: TestAccount?
+    var testAccountInfo: AccountInfoResponse?
 
     static let shared: WalletManager = WalletManager()
     private(set) var verifiedReps: [VerifiedAccount] = []

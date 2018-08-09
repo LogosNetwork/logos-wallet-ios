@@ -70,7 +70,7 @@ class AccountViewController: UIViewController {
         
         viewModel.getAccountInfo { [weak self] in
             // TEMP
-            self?.totalBalanceLabel?.text = self?.viewModel.testAccountInfo?.balance
+            self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
 //            self.viewModel.getHistory {
 //                self.tableView.reloadData()
 //            }
@@ -237,7 +237,7 @@ class AccountViewController: UIViewController {
     fileprivate func getPendingAndHistory(_ getPending: Bool = true) {
         guard viewModel.account.frontier != ZERO_AMT else {
             viewModel.getAccountInfo() { [weak self] in
-                self?.totalBalanceLabel?.text = self?.viewModel.testAccountInfo?.balance
+                self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
 //                guard self.viewModel.account.pending > 0 else {
 //                    self.refreshControl?.endRefreshing()
 //                    return

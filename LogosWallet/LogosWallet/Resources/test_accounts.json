@@ -1,21 +1,21 @@
  [
   {
-  "address": "xrb_3xjeiapyjosq6k4kp7f3bju97fw6wtommau5t3zbs1z5rtzcz61qwfm9nh3g",
+  "address": "lgn_3xjeiapyjosq6k4kp7f3bju97fw6wtommau5t3zbs1z5rtzcz61qwfm9nh3g",
   "publicKey": "F62C822DE8D73724852B15A14C7672B784E6AB39A363D07E9C83E3C6BEAF9017",
   "privateKey": "686BC81118F9C8B9E6FA134F7713B769ADC4A8D93BA7F51A3542452848F25614",
   },
   {
-  "address": "xrb_31tqe498qt4sxtr75e3icgxpamwdg95wgtarm9ywykk9rdyzq4ehnxxp7ojq",
+  "address": "lgn_31tqe498qt4sxtr75e3icgxpamwdg95wgtarm9ywykk9rdyzq4ehnxxp7ojq",
   "publicKey": "8357608E6BE859EEB051B03053BB644F8B71C7C7691899FDCF4A47C2FDFB898F",
   "privateKey": "2C43D37C1B0F2665AAF9F37BF30E86FA9545B5591C8AB5FC3E347F6627434435",
   },
   {
-  "address": "xrb_35zr336wteeanr5mzidna1hphnifbh1ae3brsdfgkmzqiptxw73wucihug3f",
+  "address": "lgn_35zr336wteeanr5mzidna1hphnifbh1ae3brsdfgkmzqiptxw73wucihug3f",
   "publicKey": "8FF80849CD3188A6073FC174401F67D20D4BC0860538CADAE94FF785B5DE143C",
   "privateKey": "58F1FF670BA1BFBF31745447840366E0C677244BA7A1DAC22AC9BAA9224AF649",
   },
   {
-  "address": "xrb_1csu89cgs9p4ghs9td3bzxthtrot8o1zujbqk83i1ifr1rknfcqko7nk8bwx",
+  "address": "lgn_1csu89cgs9p4ghs9td3bzxthtrot8o1zujbqk83i1ifr1rknfcqko7nk8bwx",
   "publicKey": "2B3B31D4EC9EC273F27D2C29FF74FD62BA3541FDC53791830041B8062546AAF2",
   "privateKey": "F3C4BFEBA3DCECBDF553612C5DA4E40B9E6EF7EE0D576E6E8CF969B30AB7DB93",
   },

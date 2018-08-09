@@ -48,8 +48,6 @@ class AccountViewModel {
     }
     private(set) var currencyValue: String = ""
     private(set) var refineType: RefineType = .latestFirst
-    // TEMP
-    private(set) var testAccountInfo: AccountInfoResponse?
     var onNewBlockBroadcasted: (() -> Void)?
     var updateView: (() -> Void)?
     
@@ -154,11 +152,11 @@ class AccountViewModel {
         guard let account = WalletManager.shared.testAccount?.address else {
             return
         }
-        NetworkAdapter.accountInfo(for: account) { [weak self] (accountInfo, error) in
+        NetworkAdapter.accountInfo(for: account) { (accountInfo, error) in
             guard error == nil else {
                 return
             }
-            self?.testAccountInfo = accountInfo
+            WalletManager.shared.testAccountInfo = accountInfo
             completion?()
         }
 //        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
