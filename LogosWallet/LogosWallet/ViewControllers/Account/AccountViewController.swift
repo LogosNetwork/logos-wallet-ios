@@ -190,10 +190,11 @@ class AccountViewController: UIViewController {
     }
     
     @objc fileprivate func currencySwitch() {
-        viewModel.toggleCurrency()
-        tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
-        unitsLabel?.text = viewModel.currencyValue
+        // TEMP
+//        viewModel.toggleCurrency()
+//        tableView?.reloadData()
+//        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
+//        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {
