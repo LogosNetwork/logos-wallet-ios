@@ -168,6 +168,14 @@ class StartViewController: UIViewController {
             return []
         }
         let accounts = try? JSONDecoder().decode([TestAccount].self, from: data)
+
+        // load into address book as well if needed
+        if PersistentStore.getAddressEntries().isEmpty {
+            accounts?.enumerated().forEach { (offset, account) in
+                PersistentStore.addAddressEntry("Test Account \(offset)", address: account.address)
+            }
+        }
+
         return accounts ?? []
     }
 
