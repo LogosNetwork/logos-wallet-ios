@@ -63,9 +63,9 @@ extension SendCoordinator: SendViewControllerDelegate {
             guard let me = self else {
                 return
             }
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
-            }
+//            if #available(iOS 10.3, *) {
+//                SKStoreReviewController.requestReview()
+//            }
             me.rootViewController.dismiss(animated: true)
             me.delegate?.sendComplete(coordinator:  me)
         }

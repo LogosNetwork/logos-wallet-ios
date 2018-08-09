@@ -32,7 +32,9 @@ class AccountViewController: UIViewController {
     fileprivate var balanceToSortOffset: CGFloat?
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
-    
+    // TEMP
+    private(set) var pollingTimer: Timer?
+
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
@@ -44,7 +46,12 @@ class AccountViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    deinit {
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if balanceToSortOffset == nil {
@@ -71,6 +78,9 @@ class AccountViewController: UIViewController {
         viewModel.getAccountInfo { [weak self] in
             // TEMP
             self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
+            if let strongSelf = self {
+                strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
+            }
 //            self.viewModel.getHistory {
 //                self.tableView.reloadData()
 //            }
@@ -160,29 +170,35 @@ class AccountViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
+
+    @objc private func pollAccountInfo() {
+        self.viewModel.getAccountInfo { [weak self] in
+            self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
+        }
+    }
+
     @objc fileprivate func backTapped() {
         self.delegate?.backTapped()
     }
     
     @IBAction func refineTapped(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let latestAction = UIAlertAction(title: .localize("latest-sort"), style: .default) { (_) in
+        let latestAction = UIAlertAction(title: .localize("latest-sort"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.latestFirst)
         }
-        let oldestAction = UIAlertAction(title: .localize("oldest-sort"), style: .default) { (_) in
+        let oldestAction = UIAlertAction(title: .localize("oldest-sort"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.oldestFirst)
         }
-        let smallestAction = UIAlertAction(title: .localize("smallest-sort"), style: .default) { (_) in
+        let smallestAction = UIAlertAction(title: .localize("smallest-sort"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.smallestFirst)
         }
-        let largestAction = UIAlertAction(title: .localize("largest-sort"), style: .default) { (_) in
+        let largestAction = UIAlertAction(title: .localize("largest-sort"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.largestFirst)
         }
-        let sendAction = UIAlertAction(title: .localize("sent-filter"), style: .default) { (_) in
+        let sendAction = UIAlertAction(title: .localize("sent-filter"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.sent)
         }
-        let receiveAction = UIAlertAction(title: .localize("received-filter"), style: .default) { (_) in
+        let receiveAction = UIAlertAction(title: .localize("received-filter"), style: .default) { [unowned self] (_) in
             self.viewModel.refine(.received)
         }
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
