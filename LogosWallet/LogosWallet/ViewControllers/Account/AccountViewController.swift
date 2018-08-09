@@ -36,8 +36,8 @@ class AccountViewController: UIViewController {
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.onNewBlockBroadcasted = {
-            self.onNewBlockBroadcasted()
+        self.viewModel.onNewBlockBroadcasted = { [weak self] in
+            self?.onNewBlockBroadcasted()
         }
     }
     
@@ -198,23 +198,23 @@ class AccountViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
         let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { (_) in
-            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { (textField) in
+            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { [weak self] (textField) in
                 guard let text = textField.text, !text.isEmpty else {
                     Banner.show("No account name provided", style: .warning)
                     return
                 }
                 PersistentStore.write {
-                    self.viewModel.account.name = textField.text
+                    self?.viewModel.account.name = textField.text
                 }
-                self.setupNavBar()
+                self?.setupNavBar()
             })
         }
-        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { (_) in
+        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { [unowned self] (_) in
             self.delegate?.editRepTapped(account: self.viewModel.account)
         }
-        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { (_) in
-            self.viewModel.repair() {
-                self.tableView.reloadData()
+        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] (_) in
+            self.viewModel.repair() { [weak self] in
+                self?.tableView.reloadData()
             }
         }
         alertController.addAction(editName)
@@ -242,13 +242,13 @@ class AccountViewController: UIViewController {
             return
         }
         guard getPending else {
-            viewModel.getHistory {
-                self.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
+            viewModel.getHistory { [weak self] in
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
             }
             return
         }
-        viewModel.getPending { (pendingCount) in
+        viewModel.getPending { [weak self] (pendingCount) in
             if pendingCount > 0 {
                 var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
                 if pendingCount < 2 {
@@ -256,9 +256,9 @@ class AccountViewController: UIViewController {
                 }
                 Banner.show(pendingStatus, style: .success)
             }
-            self.viewModel.getHistory {
-                self.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
+            self?.viewModel.getHistory {
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
             }
         }
     }
@@ -292,8 +292,8 @@ class AccountViewController: UIViewController {
         }
         guard viewModel.account.frontier != ZERO_AMT else {
             // No blocks have been made yet, store the rep for later
-            PersistentStore.write {
-                viewModel.account.representative = rep
+            PersistentStore.write { [weak self] in
+                self?.viewModel.account.representative = rep
             }
             Banner.show(.localize("rep-changed"), style: .success)
             return
