@@ -96,6 +96,33 @@ class ConfirmTxViewController: UIViewController {
     }
     
     fileprivate func handleSend() {
+        let replacePrefix: (String?) -> String = { str in
+            return str?.replacingOccurrences(of: "lgn_", with: "xrb_") ?? ""
+        }
+
+        guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
+            let privateKey = WalletManager.shared.testAccount?.privateKey,
+            let previous = WalletManager.shared.testAccountInfo?.frontier else {
+            return
+        }
+
+        let account = replacePrefix(WalletManager.shared.testAccount?.address)
+        let recipientAccount = replacePrefix(txInfo.recipientAddress)
+        Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
+        UIView.animate(withDuration: 0.3) {
+            self.contentView?.alpha = 0.0
+        }
+        LoadingView.startAnimating(in: self.navigationController)
+
+        let rep = "0000000000000000000000000000000000000000000000000000000000000000"
+        let parameters = BlockCreateParameters(account: account, amount: txInfo.amount, destination: recipientAccount, previous: previous, privateKey: privateKey, representative: rep)
+        NetworkAdapter.createBlock(parameters: parameters) { (error) in
+            
+        }
+
+    }
+
+    fileprivate func legacySend() {
         guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
             let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
             let account = keyPair.lgnAccount else { return }
@@ -106,7 +133,7 @@ class ConfirmTxViewController: UIViewController {
         block.transactionAmounts = [txInfo.amount]
         block.targetAddresses = [txInfo.recipientAddress]
         guard block.build(with: keyPair) else { return }
-        
+
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
         UIView.animate(withDuration: 0.3) {
             self.contentView?.alpha = 0.0
