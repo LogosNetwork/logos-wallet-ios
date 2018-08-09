@@ -26,6 +26,7 @@ struct BlockCreateParameters {
 enum LogosService {
     case serverStatus
     case process(block: BlockAdapter)
+    case processBlockString(block: String)
     case generateWork(hash: String)
     case accountHistory(address: String, count: Int)
     case ledger(address: String, count: Int)
@@ -88,6 +89,8 @@ extension LogosService: TargetType {
             ])
         case .accountInfo(let account):
             return params(for: "account_info", params: ["account": account])
+        case .processBlockString(let block):
+            return params(for: "process", params: ["block": block])
         }
     }
     

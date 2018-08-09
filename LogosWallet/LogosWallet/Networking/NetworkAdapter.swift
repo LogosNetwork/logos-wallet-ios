@@ -64,16 +64,16 @@ public struct NetworkAdapter {
     }
 
     // Temp action
-    static func createBlock(parameters: BlockCreateParameters, completion: ((APIError?) -> Void)? = nil) {
+    static func createBlock(parameters: BlockCreateParameters, completion: ((String?, APIError?) -> Void)? = nil) {
         Lincoln.log("Creating block with parameters: \(parameters)")
         request(target: .blockCreate(parameters: parameters), success: { (response) in
             guard let json = try? response.mapJSON() as? [String: String] else {
-                completion?(APIError.badResponse)
+                completion?(nil, APIError.badResponse)
                 return
             }
             Lincoln.log("Block Create Response: \(json ?? [:])", inConsole: true)
             let error = APIError.parseError(json?["error"])
-            completion?(error)
+            completion?(json?["block"], error)
         })
     }
 
@@ -87,6 +87,20 @@ public struct NetworkAdapter {
             } catch {
                 completion?(nil, .badResponse)
             }
+        })
+    }
+
+    static func process(block: String, completion: ((String?, APIError?) -> Void)? = nil) {
+        Lincoln.log("Broadcasting block '\(block)'", inConsole: true)
+        request(target: .processBlockString(block: block), success: { (response) in
+            guard let json = try? response.mapJSON() as? [String: String] else {
+                completion?(nil, APIError.badResponse)
+                return
+            }
+            Lincoln.log("Process Response: \(json ?? [:])", inConsole: true)
+            let hash = json?["hash"]
+            let error = APIError.parseError(json?["error"])
+            completion?(hash, error)
         })
     }
 

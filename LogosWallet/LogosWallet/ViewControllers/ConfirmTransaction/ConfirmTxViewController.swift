@@ -116,8 +116,24 @@ class ConfirmTxViewController: UIViewController {
 
         let rep = "0000000000000000000000000000000000000000000000000000000000000000"
         let parameters = BlockCreateParameters(account: account, amount: txInfo.amount, destination: recipientAccount, previous: previous, privateKey: privateKey, representative: rep)
-        NetworkAdapter.createBlock(parameters: parameters) { (error) in
-            
+        NetworkAdapter.createBlock(parameters: parameters) { (block, error) in
+            guard error == nil, let block = block else {
+                Banner.show("Error on block create: \(error?.localizedDescription ?? "")", style: .danger)
+                LoadingView.stopAnimating()
+                return
+            }
+
+            NetworkAdapter.process(block: block) { [weak self] (response, error) in
+                guard error == nil else {
+                    Banner.show("Error on process: \(error?.localizedDescription ?? "") ", style: .danger)
+                    LoadingView.stopAnimating()
+                    return
+                }
+                LoadingView.stopAnimating(true) {
+                    self?.onSendComplete?()
+                    self?.dismiss(animated: true)
+                }
+            }
         }
 
     }
