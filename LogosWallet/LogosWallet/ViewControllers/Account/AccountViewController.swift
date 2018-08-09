@@ -99,13 +99,14 @@ class AccountViewController: UIViewController {
         stackView.axis = .vertical
         
         let accountNameLabel = UILabel()
-        accountNameLabel.text = viewModel.account.name
+        // TEMP
+        accountNameLabel.text = "Test Account" //viewModel.account.name
         accountNameLabel.textColor = .white
         accountNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
-        let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index)
+//        let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index)
         let accountAddressLabel = UILabel()
-        accountAddressLabel.text = keyPair?.lgnAccount
+        accountAddressLabel.text = WalletManager.shared.testAccount?.address //keyPair?.lgnAccount
         accountAddressLabel.lineBreakMode = .byTruncatingMiddle
         accountAddressLabel.textColor = UIColor.white.withAlphaComponent(0.4)
         accountAddressLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
