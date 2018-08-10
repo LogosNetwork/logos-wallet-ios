@@ -80,7 +80,8 @@ class ReceiveViewController: UIViewController {
     // MARK: - Setup
     
     fileprivate func setupView() {
-        guard let qrImageView = qrCodeImageView, let address = account.address else { return }
+        // TEMP
+        guard let qrImageView = qrCodeImageView, let address = WalletManager.shared.testAccount?.address else { return }
         qrImageView.image = UIImage
             .qrCode(data: ("lgn:" + address).data(using: .utf8), color: .black)?
             .resize(CGSize(width: qrImageView.bounds.width, height: qrImageView.bounds.height))
@@ -116,7 +117,10 @@ class ReceiveViewController: UIViewController {
     }
     
     @IBAction func copyTapped(_ sender: Any) {
-        UIPasteboard.general.string = account.address
+        guard let address = WalletManager.shared.testAccount?.address else {
+            return
+        }
+        UIPasteboard.general.string = address
         Banner.show(.localize("address-copied-clipboard"), style: .success)
     }
     

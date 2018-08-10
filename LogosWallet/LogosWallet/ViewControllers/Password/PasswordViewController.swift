@@ -153,14 +153,15 @@ class PasswordViewController: TransparentNavViewController {
             isAuthenticated = true
             onAuthenticated?(pw)
         case .authenticate:
+            // TEMP
             guard let pw = passwordTextField?.text, !pw.isEmpty else {
                 Banner.show(.localize("no-password-entered"), style: .warning)
                 return
             }
-            guard WalletManager.shared.unlockWallet(pw) else {
-                Banner.show(.localize("unable-to-authenticate"), style: .danger)
-                return
-            }
+//            guard WalletManager.shared.unlockWallet(pw) else {
+//                Banner.show(.localize("unable-to-authenticate"), style: .danger)
+//                return
+//            }
             isAuthenticated = true
             onAuthenticated?(pw)
         case .encrypt:
