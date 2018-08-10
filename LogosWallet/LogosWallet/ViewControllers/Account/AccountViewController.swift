@@ -296,7 +296,7 @@ class AccountViewController: UIViewController {
     
     func onNewBlockBroadcasted() {
         self.viewModel.getAccountInfo { [weak self] in
-            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+            self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
             self?.getPendingAndHistory(false)
         }
     }
