@@ -34,6 +34,7 @@ class AccountViewController: UIViewController {
     private(set) var viewModel: AccountViewModel
     // TEMP
     private(set) var pollingTimer: Timer?
+    private(set) var previousBalance: BDouble?
 
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
@@ -173,6 +174,13 @@ class AccountViewController: UIViewController {
 
     @objc private func pollAccountInfo() {
         self.viewModel.getAccountInfo { [weak self] in
+            guard let current = WalletManager.shared.testAccountInfo?.balance.bNumber else {
+                return
+            }
+            if let previous = self?.previousBalance, current > previous {
+                SoundManager.shared.play(.receive)
+            }
+            self?.previousBalance = current
             self?.totalBalanceLabel?.text = WalletManager.shared.testAccountInfo?.balance
         }
     }

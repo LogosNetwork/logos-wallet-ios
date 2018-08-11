@@ -60,6 +60,8 @@
 		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
 		A757A252211AA15C00A9C688 /* test_accounts.json in Resources */ = {isa = PBXBuildFile; fileRef = A757A251211AA15C00A9C688 /* test_accounts.json */; };
+		A757A254211EC89200A9C688 /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = A757A253211EC89100A9C688 /* hint.wav */; };
+		A757A257211EC95400A9C688 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A256211EC95400A9C688 /* SoundManager.swift */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
 		A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B994201F037500620B62 /* EnterAmountViewController.swift */; };
 		A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B999201F0ABB00620B62 /* NumpadCollectionViewCell.swift */; };
@@ -240,6 +242,8 @@
 		A753FBD3206104EC00E88B77 /* LogosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosService.swift; sourceTree = "<group>"; };
 		A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoResponse.swift; sourceTree = "<group>"; };
 		A757A251211AA15C00A9C688 /* test_accounts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test_accounts.json; sourceTree = "<group>"; };
+		A757A253211EC89100A9C688 /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
+		A757A256211EC95400A9C688 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
 		A768B994201F037500620B62 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		A768B995201F037500620B62 /* EnterAmountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterAmountViewController.xib; sourceTree = "<group>"; };
@@ -515,6 +519,14 @@
 			path = BlockInfo;
 			sourceTree = "<group>";
 		};
+		A757A255211EC89400A9C688 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				A757A253211EC89100A9C688 /* hint.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		A768B998201F037D00620B62 /* EnterAmount */ = {
 			isa = PBXGroup;
 			children = (
@@ -700,6 +712,7 @@
 				A70E8E052097B7FF00372394 /* DataExporter.swift */,
 				A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */,
 				A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */,
+				A757A256211EC95400A9C688 /* SoundManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -707,6 +720,7 @@
 		A7EF84211FEDAD6800C74035 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A757A255211EC89400A9C688 /* Sounds */,
 				A7EB8F5320662C54004463FC /* Animations */,
 				A7975A8B20787D1F00B2995D /* Localization */,
 				A7EB8F5A20664B0C004463FC /* weak_pw.txt */,
@@ -945,6 +959,7 @@
 				A74361F11FE64F9100054078 /* LaunchScreen.storyboard in Resources */,
 				A7B327FF2003327B00E0E360 /* ImportWalletViewController.xib in Resources */,
 				A79116F72017264000890432 /* AddressBookViewController.xib in Resources */,
+				A757A254211EC89200A9C688 /* hint.wav in Resources */,
 				A76AC7C320301D8500C7CEE8 /* CurrencySelectViewController.xib in Resources */,
 				A7FC7DB72109866000CE3B0E /* Localizable.strings in Resources */,
 				A7B3280F20049D4B00E0E360 /* PassphraseCollectionViewCell.xib in Resources */,
@@ -1146,6 +1161,7 @@
 				A72EBDA31FFCCF4200407E6D /* AccountsViewController.swift in Sources */,
 				A768B9A92022E10800620B62 /* AccountCoordinator.swift in Sources */,
 				A73065242045321E00A49C03 /* URLHandler.swift in Sources */,
+				A757A257211EC95400A9C688 /* SoundManager.swift in Sources */,
 				A7B327FA200331BD00E0E360 /* TransparentNavigationTransition.swift in Sources */,
 				A7B858EE20338B6200698FAE /* ConsoleViewController.swift in Sources */,
 				A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */,

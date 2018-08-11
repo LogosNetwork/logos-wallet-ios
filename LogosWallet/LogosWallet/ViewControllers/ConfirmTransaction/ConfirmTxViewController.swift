@@ -8,6 +8,7 @@
 
 import UIKit
 import LocalAuthentication
+import AVFoundation
 
 class ConfirmTxViewController: UIViewController {
 
@@ -129,6 +130,7 @@ class ConfirmTxViewController: UIViewController {
                     LoadingView.stopAnimating()
                     return
                 }
+                SoundManager.shared.play(.send)
                 LoadingView.stopAnimating(true) {
                     self?.onSendComplete?()
                     self?.dismiss(animated: true)
