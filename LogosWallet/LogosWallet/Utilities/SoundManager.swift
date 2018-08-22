@@ -26,6 +26,7 @@ struct SoundManager {
             print(error.localizedDescription)
         }
     }
+
     func play(_ sound: Sound) {
         switch sound {
         case .receive, .send:

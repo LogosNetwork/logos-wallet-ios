@@ -28,7 +28,6 @@
 		A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */; };
 		A732981B20086B4D00B21C8D /* TransactionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */; };
 		A732981F2008769200B21C8D /* AccountsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981E2008769200B21C8D /* AccountsCoordinator.swift */; };
-		A73298222009AFAF00B21C8D /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298212009AFAF00B21C8D /* Block.swift */; };
 		A73298242009F22B00B21C8D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298232009F22B00B21C8D /* AccountViewModel.swift */; };
 		A73298262009F29B00B21C8D /* AccountHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298252009F29B00B21C8D /* AccountHistory.swift */; };
 		A7329828200A078A00B21C8D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329827200A078A00B21C8D /* Common.swift */; };
@@ -209,7 +208,6 @@
 		A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionTableViewCell.xib; sourceTree = "<group>"; };
 		A732981E2008769200B21C8D /* AccountsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsCoordinator.swift; sourceTree = "<group>"; };
-		A73298212009AFAF00B21C8D /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		A73298232009F22B00B21C8D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		A73298252009F29B00B21C8D /* AccountHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHistory.swift; sourceTree = "<group>"; };
 		A7329827200A078A00B21C8D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -412,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				A768B9A620225DAC00620B62 /* TxInfo.swift */,
-				A73298212009AFAF00B21C8D /* Block.swift */,
 				A73298252009F29B00B21C8D /* AccountHistory.swift */,
 				A74FCD87206CB846001C9725 /* StateBlock.swift */,
 				A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */,
@@ -1173,7 +1170,6 @@
 				A7EB8F6120684645004463FC /* PasswordViewController.swift in Sources */,
 				A768B9A4202194B300620B62 /* Banner.swift in Sources */,
 				A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */,
-				A73298222009AFAF00B21C8D /* Block.swift in Sources */,
 				A7B3280A2004990F00E0E360 /* ImportPassphraseViewController.swift in Sources */,
 				A7EF843B1FF0D45A00C74035 /* Lincoln.swift in Sources */,
 				A76AC7B8202AD8C200C7CEE8 /* SettingsTableViewCell.swift in Sources */,

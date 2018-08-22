@@ -301,8 +301,8 @@ class AccountViewController: UIViewController {
         
         var block = StateBlock(intent: .change)
         block.previous = viewModel.account.frontier
-        block.transactionAmounts = [ZERO_AMT]
-        block.targetAddresses = [rep]
+        block.amount = ZERO_AMT
+        block.link = rep
         guard block.build(with: keyPair) else { return }
         Banner.show("Waiting for work on change block...", style: .success)
         BlockHandler.handle(block, for: account) { [weak self] (result) in

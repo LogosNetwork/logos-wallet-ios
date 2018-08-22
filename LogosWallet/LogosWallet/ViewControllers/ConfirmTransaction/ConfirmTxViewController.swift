@@ -103,8 +103,8 @@ class ConfirmTxViewController: UIViewController {
         // Generate block
         var block = StateBlock(intent: .send)
         block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.transactionAmounts = [txInfo.amount]
-        block.targetAddresses = [txInfo.recipientAddress]
+        block.amount = txInfo.amount
+        block.link = txInfo.recipientAddress
         guard block.build(with: keyPair) else { return }
         
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)

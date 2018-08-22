@@ -30,14 +30,16 @@ struct StateBlock: BlockAdapter {
     // client should only be sending single state block
     let messageType: MessageType = .singleStateBlock
     // hardcoded for now since we're only sending to 1 target
-    var targets: UInt8 = 1
+//    var targets: UInt8 = 1
     /// Either send recipient or representative address to change to. Must match transactionAmounts size
-    var targetAddresses: [String]?
-    var transactionAmounts: [String]?
-    var transactionFee: UInt8?
-    var additionalSignatures: UInt8?
+//    var targetAddresses: [String]?
+//    var transactionAmounts: [String]?
+//    var transactionFee: UInt8?
+//    var additionalSignatures: UInt8?
+    var link: String?
     var representative: String?
     var account: String?
+    var amount: String?
     var previous: String = ZERO_AMT
     // Base 10 remaining balance as RAW
     var signature: String?
@@ -62,21 +64,22 @@ struct StateBlock: BlockAdapter {
     mutating func build(with signingKeys: KeyPair) -> Bool {
         guard let encodedAccount = signingKeys.lgnAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
-            let targetAddress = self.targetAddresses?.first,
-            let previousData = previous.hexData else {
+            var linkData = self.link?.hexData,
+            let previousData = self.previous.hexData,
+            let representative = self.representative,
+            let repData = WalletUtil.derivePublic(from: representative)?.hexData,
+            let amount = self.amount,
+            let amountValue = BInt(amount) else {
             return false
         }
 
-        var hexAmount: String?
+        var amountData: Data?
         if self.intent == .send {
-            guard let amount = self.transactionAmounts?.first,
-                let amountValue = BInt(amount) else {
-                return false
-            }
-
-            hexAmount = amountValue
+            amountData = amountValue
                 .asString(radix: 16)
-                .leftPadding(toLength: 32, withPad: "0")
+                .leftPadding(toLength: 32, withPad: "0").hexData
+        } else {
+            linkData = repData
         }
         
         // TODO: create correct digest
@@ -84,9 +87,13 @@ struct StateBlock: BlockAdapter {
             STATEBLOCK_PREAMBLE.hexData!,
             accountData,
             previousData,
+            repData,
+            amountData!,
+            linkData
         ], outputLength: 32) else {
             return false
         }
+
         guard let sig = NaCl.sign(digest, secret: signingKeys.secretKey) else { return false }
         self.account = encodedAccount
         self.signature = sig.hexString.uppercased()
