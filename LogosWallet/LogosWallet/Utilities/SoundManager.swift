@@ -10,8 +10,10 @@ import Foundation
 import AVFoundation
 
 struct SoundManager {
+
     static let shared = SoundManager()
     private var player: AVAudioPlayer?
+
     init() {
         guard let url = Bundle.main.url(forResource: "hint", withExtension: "wav") else {
             return
@@ -31,7 +33,9 @@ struct SoundManager {
             self.player?.play()
         }
     }
+
 }
+
 enum Sound {
     case send
     case receive
