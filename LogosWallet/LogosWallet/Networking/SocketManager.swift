@@ -1,5 +1,5 @@
 //
-//  LogosWSService.swift
+//  SocketManager.swift
 //  LogosWallet
 //
 //  Created by Ben Kray on 8/23/18.
@@ -9,21 +9,48 @@
 import Foundation
 import SwiftWebSocket
 
-class LogosWSService {
+enum LogosService {
 
-    private var url = "ws://34.201.126.140:443"
+    case accountInfo(account: String)
+
+    var payload: String? {
+        switch self {
+        case .accountInfo(let account):
+            return self.params(for: "account_info", params: ["account": account])
+        }
+    }
+
+    static var url: String {
+        return "ws://34.201.126.140:443"
+    }
+
+    fileprivate func params(for action: String, params: [String: Any] = [:]) -> String? {
+        var result: [String: Any] = ["action": action, "logos": ""]
+        result.merge(params) { (current, _) in current }
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: result, options: [])
+            return String(data: jsonData, encoding: .utf8)
+        } catch {
+            return nil
+        }
+    }
+}
+
+class SocketManager {
+
     private var webSocket: WebSocket
 
     var state: WebSocketReadyState {
         return self.webSocket.readyState
     }
 
-    static let shared = LogosWSService()
+    static let shared = SocketManager()
 
     // MARK: - Object Lifeycle
 
     init() {
-        self.webSocket = WebSocket(url)
+        self.webSocket = WebSocket(LogosService.url)
         self.webSocket.allowSelfSignedSSL = true
         self.setupWebSocket()
     }
@@ -72,6 +99,10 @@ class LogosWSService {
 
 
     // MARK: - API
+
+    func action(_ action: LogosService, completion: (String?) -> Void) {
+        
+    }
 
     // MARK: - Helpers
 

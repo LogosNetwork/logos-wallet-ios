@@ -42,7 +42,7 @@ public struct NetworkAdapter {
         // TODO: get other error messages
     }
     
-    static let provider = MoyaProvider<LogosService>()
+    static let provider = MoyaProvider<LogosLegacyService>()
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
     
     // MARK: - Logos
@@ -172,7 +172,7 @@ public struct NetworkAdapter {
         }
     }
     
-    static func request(target: LogosService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
+    static func request(target: LogosLegacyService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
         provider.request(target) { (result) in
             handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)
         }

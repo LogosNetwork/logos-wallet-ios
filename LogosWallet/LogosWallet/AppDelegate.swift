@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             alert.addAction(okAction)
             AppCoordinator.shared.rootViewController.present(alert, animated: true)
         }
-        
+
         return true
     }
 

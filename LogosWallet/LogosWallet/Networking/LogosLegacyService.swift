@@ -23,7 +23,7 @@ struct BlockCreateParameters {
     var representative: String
 }
 
-enum LogosService {
+enum LogosLegacyService {
     case serverStatus
     case process(block: BlockAdapter)
     case generateWork(hash: String)
@@ -38,7 +38,7 @@ enum LogosService {
     case blockCreate(parameters: BlockCreateParameters)
 }
 
-extension LogosService: TargetType {
+extension LogosLegacyService: TargetType {
     var baseURL: URL {
         // TODO: update url
         return URL(string: "http://34.201.126.140:55000")!

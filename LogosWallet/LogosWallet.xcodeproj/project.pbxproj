@@ -56,7 +56,7 @@
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
 		A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlock.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
-		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
+		A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
 		A757A25B212D0F5000A9C688 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A25A212D0F5000A9C688 /* SoundManager.swift */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
@@ -92,7 +92,7 @@
 		A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FC2017398300890432 /* AddressBookViewModel.swift */; };
 		A79116FF20173C4400890432 /* AddressEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FE20173C4400890432 /* AddressEntry.swift */; };
 		A7938276212D10FB0038286C /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7938275212D10FA0038286C /* hint.wav */; };
-		A7938299212FA9F80038286C /* LogosWSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7938298212FA9F80038286C /* LogosWSService.swift */; };
+		A7938299212FA9F80038286C /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7938298212FA9F80038286C /* SocketManager.swift */; };
 		A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B1B24320140D0F009E5CB0 /* SendViewController.swift */; };
 		A7B1B24620140D0F009E5CB0 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B1B24420140D0F009E5CB0 /* SendViewController.xib */; };
 		A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B327F32001D4AA00E0E360 /* StartViewController.swift */; };
@@ -238,7 +238,7 @@
 		A74FCD87206CB846001C9725 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
-		A753FBD3206104EC00E88B77 /* LogosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosService.swift; sourceTree = "<group>"; };
+		A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosLegacyService.swift; sourceTree = "<group>"; };
 		A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoResponse.swift; sourceTree = "<group>"; };
 		A757A25A212D0F5000A9C688 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
@@ -277,7 +277,7 @@
 		A79116FC2017398300890432 /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		A79116FE20173C4400890432 /* AddressEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntry.swift; sourceTree = "<group>"; };
 		A7938275212D10FA0038286C /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
-		A7938298212FA9F80038286C /* LogosWSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWSService.swift; sourceTree = "<group>"; };
+		A7938298212FA9F80038286C /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		A7975A8920787D0800B2995D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8A20787D0E00B2995D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8F20787D6100B2995D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -779,10 +779,10 @@
 				A78854DE200F12FA00C9565B /* Networking.swift */,
 				A7B858E92032CC6E00698FAE /* CurrencyAPI.swift */,
 				A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */,
-				A753FBD3206104EC00E88B77 /* LogosService.swift */,
+				A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */,
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
 				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
-				A7938298212FA9F80038286C /* LogosWSService.swift */,
+				A7938298212FA9F80038286C /* SocketManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1152,7 +1152,7 @@
 				A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */,
 				A73AC9E9203FDFE200ED24E9 /* RequestAmountViewController.swift in Sources */,
 				A70E8E062097B7FF00372394 /* DataExporter.swift in Sources */,
-				A7938299212FA9F80038286C /* LogosWSService.swift in Sources */,
+				A7938299212FA9F80038286C /* SocketManager.swift in Sources */,
 				A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */,
 				A7329828200A078A00B21C8D /* Common.swift in Sources */,
 				A7B858F72033F7D700698FAE /* SecurityViewController.swift in Sources */,
@@ -1190,7 +1190,7 @@
 				A73EBBB31FFF606F00F77B4D /* CreateWalletCoordinator.swift in Sources */,
 				A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */,
 				A7EB8F5720662D75004463FC /* LoadingView.swift in Sources */,
-				A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */,
+				A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */,
 				A7F88F3A2069F26200CDB7AB /* EnterAddressViewModel.swift in Sources */,
 				A7B327F82002A43500E0E360 /* LeftAlignedIconButton.swift in Sources */,
 				A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */,
