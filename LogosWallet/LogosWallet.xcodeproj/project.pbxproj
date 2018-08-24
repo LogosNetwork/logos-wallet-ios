@@ -55,7 +55,6 @@
 		A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */; };
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
 		A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlock.swift */; };
-		A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD89206CD2D9001C9725 /* PubSubService.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
 		A753FBD4206104EC00E88B77 /* LogosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
@@ -1041,8 +1040,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LogosWallet/Pods-LogosWallet-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaMQTT/CocoaMQTT.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -1051,14 +1048,12 @@
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftWebSocket/SwiftWebSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaMQTT.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -1067,7 +1062,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTimer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftWebSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1124,7 +1119,6 @@
 				A7EF84311FEE43C300C74035 /* UIKit+Extensions.swift in Sources */,
 				A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */,
 				A7B32801200333C500E0E360 /* AppStyle.swift in Sources */,
-				A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
 				A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */,
 				A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */,
