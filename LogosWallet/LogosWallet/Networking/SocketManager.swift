@@ -12,11 +12,14 @@ import Starscream
 enum LogosService {
 
     case accountInfo(account: String)
+    case subscribe(account: String)
 
     var payload: String? {
         switch self {
         case .accountInfo(let account):
             return self.params(for: "account_info", params: ["account": account])
+        case .subscribe(let account):
+            return self.params(for: "account_subscribe", params: ["account": account])
         }
     }
 
@@ -41,6 +44,9 @@ class SocketManager {
 
     private(set) var webSocket: WebSocket
 
+    /// After this callback is invoked, it should be set to nil to avoid it firing more than once.
+    private var onConnect: (() -> Void)?
+
     static let shared = SocketManager()
 
     // MARK: - Object Lifeycle
@@ -53,8 +59,13 @@ class SocketManager {
     // MARK: - Setup
 
     private func setupWebSocket() {
-        self.webSocket.onConnect = {
-            Lincoln.log("Socket connected @ \(self.webSocket.currentURL.absoluteString)")
+        self.webSocket.onConnect = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            Lincoln.log("Socket connected @ \(strongSelf.webSocket.currentURL.absoluteString)")
+            strongSelf.onConnect?()
+            strongSelf.onConnect = nil
         }
 
         self.webSocket.onDisconnect = { error in
@@ -71,13 +82,13 @@ class SocketManager {
 
     // MARK: - Socket Open/Close
 
-    func openConnection() {
+    func openConnection(_ completion: (() -> Void)? = nil) {
         guard !self.webSocket.isConnected else {
             return
         }
 
         Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
-        self.webSocket.connect()
+        self.connectAndPerform(completion)
     }
 
     func closeConnection() {
@@ -91,11 +102,25 @@ class SocketManager {
 
     // MARK: - API
 
-    func action(_ action: LogosService, completion: (String?) -> Void) {
-        
+    func action(_ action: LogosService) {
+        guard self.webSocket.isConnected else {
+            self.connectAndPerform { [weak self] in
+                self?.action(action)
+            }
+            return
+        }
+
+        if let payload = action.payload {
+            self.webSocket.write(string: payload)
+        }
     }
 
     // MARK: - Helpers
+
+    private func connectAndPerform(_ completion: (() -> Void)? = nil) {
+        self.webSocket.connect()
+        self.onConnect = completion
+    }
 
     private func handle(_ message: String?) {
         guard let message = message,
