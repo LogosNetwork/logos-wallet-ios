@@ -30,9 +30,7 @@ class AppCoordinator: NSObject, RootViewCoordinator {
             navController.pushViewController(LockViewController(), animated: true)
             return
         }
-        NetworkAdapter.getVerifiedReps { (accounts) in
-            WalletManager.shared.setRepList(accounts)
-        }
+
         if WalletManager.shared.accounts.count < 1 {
             showStart()
         } else {

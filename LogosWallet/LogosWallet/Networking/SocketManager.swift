@@ -54,13 +54,13 @@ class SocketManager {
 
     private func setupWebSocket() {
         self.webSocket.onConnect = {
-            Lincoln.log("Socket connected")
+            Lincoln.log("Socket connected @ \(self.webSocket.currentURL.absoluteString)")
         }
 
         self.webSocket.onDisconnect = { error in
             Lincoln.log("Socket disconnected")
             if let error = error {
-                Lincoln.log("Socket Disconnect error: \(error.localizedDescription)")
+                Lincoln.log("Socket disconnect error: \(error.localizedDescription)")
             }
         }
 
@@ -76,7 +76,7 @@ class SocketManager {
             return
         }
 
-        Lincoln.log("Opening socket connection @ \(self.webSocket.request.url?.absoluteString ?? "")...")
+        Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
         self.webSocket.connect()
     }
 
@@ -103,6 +103,6 @@ class SocketManager {
                 return
         }
 
-        Lincoln.log("Socket Message Received: \(message)")
+        Lincoln.log("Socket message received: \(message)")
     }
 }
