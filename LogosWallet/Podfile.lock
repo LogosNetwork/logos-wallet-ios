@@ -18,7 +18,7 @@ PODS:
   - Result (3.2.4)
   - SnapKit (4.0.0)
   - SSZipArchive (2.1.1)
-  - SwiftWebSocket (2.7.0)
+  - Starscream (3.0.4)
 
 DEPENDENCIES:
   - Alamofire
@@ -27,7 +27,7 @@ DEPENDENCIES:
   - NotificationBannerSwift
   - RealmSwift
   - SSZipArchive
-  - SwiftWebSocket
+  - Starscream
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -40,8 +40,8 @@ SPEC CHECKSUMS:
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
-  SwiftWebSocket: 612c9729fd503cb6b0b8b45390c788686dac306f
+  Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
 
-PODFILE CHECKSUM: 013f6f7ceaa16d3baf588a41b9f7a6abe7dae5d2
+PODFILE CHECKSUM: 94cd5708d13639ecc624419ecbf4423c8ea07eb2
 
 COCOAPODS: 1.4.0

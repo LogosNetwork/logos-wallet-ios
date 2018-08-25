@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftWebSocket
+import Starscream
 
 enum LogosService {
 
@@ -20,8 +20,8 @@ enum LogosService {
         }
     }
 
-    static var url: String {
-        return "ws://34.201.126.140:443"
+    static var url: URL {
+        return URL(string: "ws://34.201.126.140:443")!
     }
 
     fileprivate func params(for action: String, params: [String: Any] = [:]) -> String? {
@@ -39,62 +39,53 @@ enum LogosService {
 
 class SocketManager {
 
-    private var webSocket: WebSocket
-
-    var state: WebSocketReadyState {
-        return self.webSocket.readyState
-    }
+    private(set) var webSocket: WebSocket
 
     static let shared = SocketManager()
 
     // MARK: - Object Lifeycle
 
     init() {
-        self.webSocket = WebSocket(LogosService.url)
-        self.webSocket.allowSelfSignedSSL = true
+        self.webSocket = WebSocket(url: LogosService.url)
         self.setupWebSocket()
     }
 
     // MARK: - Setup
 
     private func setupWebSocket() {
-        self.webSocket.event.open = {
-            Lincoln.log("Socket opened")
+        self.webSocket.onConnect = {
+            Lincoln.log("Socket connected")
         }
 
-        self.webSocket.event.close = { code, reason, _ in
-            Lincoln.log("Socket closed.\nCode: \(code)\nReason: \(reason)")
+        self.webSocket.onDisconnect = { error in
+            Lincoln.log("Socket disconnected")
+            if let error = error {
+                Lincoln.log("Socket Disconnect error: \(error.localizedDescription)")
+            }
         }
 
-        self.webSocket.event.message = { [weak self] message in
-            self?.handle(message as? String)
-        }
-
-        self.webSocket.event.error = { error in
-            Lincoln.log("Socket Error: \(error.localizedDescription)")
-        }
-
-        self.webSocket.event.end = { code, reason, _, error in
-            Lincoln.log("Socket End.\nCode: \(code)\nReason: \(reason)\nError: \(error?.localizedDescription ?? "")")
+        self.webSocket.onText = { [weak self] message in
+            self?.handle(message)
         }
     }
 
     // MARK: - Socket Open/Close
 
     func openConnection() {
-        guard self.webSocket.readyState != .open else {
+        guard !self.webSocket.isConnected else {
             return
         }
 
-        self.webSocket.open()
+        Lincoln.log("Opening socket connection @ \(self.webSocket.request.url?.absoluteString ?? "")...")
+        self.webSocket.connect()
     }
 
     func closeConnection() {
-        guard self.webSocket.readyState != .closed || self.webSocket.readyState != .closing else {
+        guard self.webSocket.isConnected else {
             return
         }
 
-        self.webSocket.close()
+        self.webSocket.disconnect()
     }
 
 

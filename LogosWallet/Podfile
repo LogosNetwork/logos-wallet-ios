@@ -12,7 +12,7 @@ target 'LogosWallet' do
   pod 'Moya', '~> 11.0'
   pod 'lottie-ios'
   pod 'SSZipArchive'
-  pod 'SwiftWebSocket'
+  pod 'Starscream'
 end
 
 target 'LogosWalletTests' do
