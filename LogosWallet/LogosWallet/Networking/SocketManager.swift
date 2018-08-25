@@ -8,9 +8,11 @@
 
 import Foundation
 import Starscream
+import RxSwift
 
 class SocketManager {
 
+    private(set) var accountInfoSubject = PublishSubject<AccountInfoResponse>()
     private(set) var webSocket: WebSocket
 
     /// After this callback is invoked, it should be set to nil to avoid it firing more than once.
@@ -80,6 +82,7 @@ class SocketManager {
         }
 
         if let payload = action.payload {
+            Lincoln.log("Socket write:\n\(payload)", inConsole: true)
             self.webSocket.write(string: payload)
         }
     }
@@ -93,12 +96,27 @@ class SocketManager {
 
     private func handle(_ message: String?) {
         guard let message = message,
-            let _ = message.data(using: .utf8) else {
+            let data = message.data(using: .utf8) else {
                 return
         }
 
         Lincoln.log("Socket message received: \(message)")
+
+        if let accountInfo = Decoda.decode(AccountInfoResponse.self, from: data) {
+            self.accountInfoSubject.onNext(accountInfo)
+        }
+
     }
+}
+
+struct Decoda {
+
+    static func decode<T: Decodable>(_ type: T.Type, from data: Data) -> T? {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return try? decoder.decode(type, from: data)
+    }
+
 }
 
 enum LogosService {
