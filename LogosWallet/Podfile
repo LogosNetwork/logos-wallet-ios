@@ -13,6 +13,8 @@ target 'LogosWallet' do
   pod 'lottie-ios'
   pod 'SSZipArchive'
   pod 'Starscream'
+  pod 'RxSwift'
+  pod 'RxCocoa'
 end
 
 target 'LogosWalletTests' do
