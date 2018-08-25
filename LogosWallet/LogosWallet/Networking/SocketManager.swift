@@ -9,37 +9,6 @@
 import Foundation
 import Starscream
 
-enum LogosService {
-
-    case accountInfo(account: String)
-    case subscribe(account: String)
-
-    var payload: String? {
-        switch self {
-        case .accountInfo(let account):
-            return self.params(for: "account_info", params: ["account": account])
-        case .subscribe(let account):
-            return self.params(for: "account_subscribe", params: ["account": account])
-        }
-    }
-
-    static var url: URL {
-        return URL(string: "ws://34.201.126.140:443")!
-    }
-
-    fileprivate func params(for action: String, params: [String: Any] = [:]) -> String? {
-        var result: [String: Any] = ["action": action, "logos": ""]
-        result.merge(params) { (current, _) in current }
-
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: result, options: [])
-            return String(data: jsonData, encoding: .utf8)
-        } catch {
-            return nil
-        }
-    }
-}
-
 class SocketManager {
 
     private(set) var webSocket: WebSocket
@@ -129,5 +98,36 @@ class SocketManager {
         }
 
         Lincoln.log("Socket message received: \(message)")
+    }
+}
+
+enum LogosService {
+
+    case accountInfo(account: String)
+    case subscribe(account: String)
+
+    var payload: String? {
+        switch self {
+        case .accountInfo(let account):
+            return self.params(for: "account_info", params: ["account": account])
+        case .subscribe(let account):
+            return self.params(for: "account_subscribe", params: ["account": account])
+        }
+    }
+
+    static var url: URL {
+        return URL(string: "ws://34.201.126.140:443")!
+    }
+
+    fileprivate func params(for action: String, params: [String: Any] = [:]) -> String? {
+        var result: [String: Any] = ["action": action, "logos": ""]
+        result.merge(params) { (current, _) in current }
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: result, options: [])
+            return String(data: jsonData, encoding: .utf8)
+        } catch {
+            return nil
+        }
     }
 }
