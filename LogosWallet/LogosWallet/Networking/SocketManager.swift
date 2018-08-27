@@ -127,9 +127,9 @@ enum LogosService {
     var payload: String? {
         switch self {
         case .accountInfo(let account):
-            return self.params(for: "account_info", params: ["account": account])
+            return self.params(for: "account_info", params: ["account": self.changePrefix(account)])
         case .subscribe(let account):
-            return self.params(for: "account_subscribe", params: ["account": account])
+            return self.params(for: "account_subscribe", params: ["account": self.changePrefix(account)])
         }
     }
 
@@ -147,5 +147,9 @@ enum LogosService {
         } catch {
             return nil
         }
+    }
+
+    fileprivate func changePrefix(_ lgnAccount: String) -> String {
+        return lgnAccount.replacingOccurrences(of: "lgn_", with: "xrb_")
     }
 }
