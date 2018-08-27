@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol AccountViewControllerDelegate: class {
     func transactionTapped(txInfo: SimpleBlockBridge)
@@ -32,7 +33,8 @@ class AccountViewController: UIViewController {
     fileprivate var balanceToSortOffset: CGFloat?
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
-    
+    private let disposeBag = DisposeBag()
+
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
@@ -59,32 +61,40 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupTableView()
-        setupNavBar()
-        viewModel.updateView = {
-            self.tableView.reloadData()
-            self.sortButton?.setTitle(self.viewModel.refineType.title, for: .normal)
+        self.setupView()
+        self.setupTableView()
+        self.setupNavBar()
+        self.viewModel.updateView = { [weak self] in
+            self?.tableView.reloadData()
+            self?.sortButton?.setTitle(self?.viewModel.refineType.title, for: .normal)
         }
         self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
-        
-        viewModel.getAccountInfo {
-            self.viewModel.getHistory {
-                self.tableView.reloadData()
-            }
-            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
-            if self.viewModel.history.count > 0 {
-                self.viewModel.getPending() { (pendingCount) in
-                    guard pendingCount > 0 else { return }
-                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-                    if pendingCount < 2 {
-                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-                    }
-                    Banner.show(pendingStatus, style: .success)
-                }
-            }
-            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
-        }
+
+        SocketManager.shared.accountInfoSubject
+            .subscribe(onNext: { (accountInfo) in
+                print("GOT Account Info! \(accountInfo)")
+//                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+        }).disposed(by: self.disposeBag)
+
+//        viewModel.getAccountInfo {
+//            self.viewModel.getHistory {
+//                self.tableView.reloadData()
+//            }
+//            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
+//            if self.viewModel.history.count > 0 {
+//                self.viewModel.getPending() { (pendingCount) in
+//                    guard pendingCount > 0 else { return }
+//                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
+//                    if pendingCount < 2 {
+//                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
+//                    }
+//                    Banner.show(pendingStatus, style: .success)
+//                }
+//            }
+//            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
+//        }
+
+        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
     }
 
     // MARK: - Setup
