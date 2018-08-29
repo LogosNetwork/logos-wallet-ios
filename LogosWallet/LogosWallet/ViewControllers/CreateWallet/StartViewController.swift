@@ -150,7 +150,7 @@ class StartViewController: UIViewController {
             if #available(iOS 11.0, *) {
                 make.bottomMargin.equalTo(self.view.safeAreaInsets.bottom).offset(-AppStyle.Size.mediumPadding)
             } else {
-                make.bottomMargin.equalToSuperview().offset(AppStyle.Size.mediumPadding)
+                make.bottomMargin.equalToSuperview().offset(-AppStyle.Size.mediumPadding)
             }
         }
 
