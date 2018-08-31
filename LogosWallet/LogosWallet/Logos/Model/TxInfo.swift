@@ -12,6 +12,5 @@ struct TxInfo {
     var recipientName: String
     var recipientAddress: String
     var amount: String
-    var balance: String
     var accountInfo: AccountInfo
 }

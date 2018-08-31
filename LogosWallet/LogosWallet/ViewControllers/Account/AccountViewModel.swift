@@ -67,13 +67,13 @@ class AccountViewModel {
     }
     
     func toggleCurrency() {
-        if isShowingSecondary {
-            currencyValue = CURRENCY_NAME
-        } else {
-            let secondary = Currency.secondary
-            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            
-        }
-        isShowingSecondary = !isShowingSecondary
+//        if isShowingSecondary {
+//            currencyValue = CURRENCY_NAME
+//        } else {
+//            let secondary = Currency.secondary
+//            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            
+//        }
+//        isShowingSecondary = !isShowingSecondary
     }
     
     func initHistory() {

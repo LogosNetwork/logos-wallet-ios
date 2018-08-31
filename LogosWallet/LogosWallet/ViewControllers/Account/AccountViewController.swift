@@ -71,8 +71,13 @@ class AccountViewController: UIViewController {
         self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
 
         SocketManager.shared.accountInfoSubject
-            .subscribe(onNext: { (accountInfo) in
+            .subscribe(onNext: { [weak self] accountInfo in
                 print("GOT Account Info! \(accountInfo)")
+                self?.totalBalanceLabel?.text = accountInfo.balance
+                PersistentStore.write {
+                    self?.viewModel.account.balance = accountInfo.balance
+                    self?.viewModel.account.frontier = accountInfo.frontier
+                }
 //                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
         }).disposed(by: self.disposeBag)
 

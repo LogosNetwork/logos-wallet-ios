@@ -126,10 +126,11 @@ class EnterAmountViewController: UIViewController {
             feedback.notificationOccurred(.error)
             return
         }
-        if amount > account.mlgnBalance.bNumber {
-            Banner.show(.localize("insufficient-funds"), style: .danger)
-            return
-        }
+        // TEMP remove check
+//        if amount > account.mlgnBalance.bNumber {
+//            Banner.show(.localize("insufficient-funds"), style: .danger)
+//            return
+//        }
         dismiss(animated: true)
         // Return value in Nano
         enteredAmount?(amount.decimalExpansion(precisionAfterComma: 6))

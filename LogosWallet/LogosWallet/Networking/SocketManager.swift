@@ -122,12 +122,18 @@ struct Decoda {
 enum LogosService {
 
     case accountInfo(account: String)
+    case process(block: BlockAdapter)
     case subscribe(account: String)
 
     var payload: String? {
         switch self {
         case .accountInfo(let account):
             return self.params(for: "account_info", params: ["account": self.changePrefix(account)])
+        case .process(let block):
+            // TODO: use encode
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: block.json, options: []),
+                let blockString = String(data: jsonData, encoding: .ascii) else { return nil }
+            return self.params(for: "process", params: ["block": blockString])
         case .subscribe(let account):
             return self.params(for: "account_subscribe", params: ["account": self.changePrefix(account)])
         }

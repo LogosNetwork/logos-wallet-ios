@@ -104,9 +104,11 @@ struct StateBlock: BlockAdapter {
     var json: [String: String] {
         return [
             "type": "state",
-            "account": self.account ?? "",
+            "account": (self.account ?? "").replacingOccurrences(of: "lgn_", with: "xrb_"),
             "previous": self.previous,
             "signature": self.signature ?? "",
+            "representative": self.representative ?? "",
+            "amount": self.amount ?? "",
             "work": self.work ?? ""
         ]
     }
