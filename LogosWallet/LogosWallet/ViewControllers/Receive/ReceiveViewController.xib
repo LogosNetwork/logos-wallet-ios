@@ -120,7 +120,7 @@
                                             <action selector="copyTapped:" destination="-1" eventType="touchUpInside" id="1Vc-rX-z1u"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lgn_3749njeq65uk47wyy3j59e157ghcx1y7q1fkz8kje3e6jyioodziiteup8he" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTs-O1-oNa">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lgs_3749njeq65uk47wyy3j59e157ghcx1y7q1fkz8kje3e6jyioodziiteup8he" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTs-O1-oNa">
                                         <rect key="frame" x="113" y="295" width="150" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="150" id="Wr2-qU-XI2"/>

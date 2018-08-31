@@ -62,7 +62,7 @@ struct StateBlock: BlockAdapter {
     /// b.amount = <amount to send>
     /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
-        guard let encodedAccount = signingKeys.lgnAccount,
+        guard let encodedAccount = signingKeys.lgsAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
             var linkData = self.link?.hexData,
             let previousData = self.previous.hexData,
@@ -104,7 +104,7 @@ struct StateBlock: BlockAdapter {
     var json: [String: String] {
         return [
             "type": "state",
-            "account": (self.account ?? "").replacingOccurrences(of: "lgn_", with: "xrb_"),
+            "account": (self.account ?? "").replacingOccurrences(of: "lgs_", with: "xrb_"),
             "previous": self.previous,
             "signature": self.signature ?? "",
             "representative": self.representative ?? "",

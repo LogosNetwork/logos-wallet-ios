@@ -39,7 +39,7 @@ class AccountViewModel {
     private(set) var isShowingSecondary: Bool = false
     var balanceValue: String {
         if !isShowingSecondary {
-            return account.mlgnBalance.trimTrailingZeros()
+            return account.mlgsBalance.trimTrailingZeros()
         } else {
             let secondary = Currency.secondary
             currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")
@@ -84,7 +84,7 @@ class AccountViewModel {
     /// Completion returns count of pending blocks
     func getPending(shouldOpen: Bool = false, completion: ((Int) -> Void)? = nil) {
         guard let keyPair = WalletManager.shared.keyPair(at: account.index),
-            let acc = keyPair.lgnAccount else { return }
+            let acc = keyPair.lgsAccount else { return }
         // fetch pending
         isFetching = true
         NetworkAdapter.getPending(for: acc) { [weak self] (pending) in
@@ -148,7 +148,7 @@ class AccountViewModel {
 //    }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgnAccount else { return }
+        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
         NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
             if let info = info {
                 PersistentStore.write {
@@ -163,7 +163,7 @@ class AccountViewModel {
     }
     
     func getHistory(completion: @escaping () -> Void) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgnAccount else { return }
+        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
         NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount) { (chain) in
             self.history = chain
             self.refined = chain

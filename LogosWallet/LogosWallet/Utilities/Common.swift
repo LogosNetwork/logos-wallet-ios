@@ -8,27 +8,27 @@
 
 import Foundation
 
-let CURRENCY_NAME = "LGN"
+let CURRENCY_NAME = "LGS"
 let STATEBLOCK_PREAMBLE: String = "0000000000000000000000000000000000000000000000000000000000000006"
 let ZERO_AMT: String = "0000000000000000000000000000000000000000000000000000000000000000"
 let LAMBO_PRICE: Double = 200000.0
 let POW_THRESHOLD: UInt64 = 0xFFFFFFC000000000
-let RAW_LGN: BDouble = BDouble("1000000000000000000000000000000")!
+let RAW_LGS: BDouble = BDouble("1000000000000000000000000000000")!
 let SECRET_KEY_BYTES: Int = 32
 let BLOCK_EXPLORER_URL = "https://nanode.co/block/"
 let DB_NAME: String = "my-little-db"
 
 extension BDouble {
     var toRaw: BDouble {
-        return self * RAW_LGN
+        return self * RAW_LGS
     }
-    var toMlgn: String {
-        let expanded = (self / RAW_LGN).decimalExpansion(precisionAfterComma: 30)
+    var toMlgs: String {
+        let expanded = (self / RAW_LGS).decimalExpansion(precisionAfterComma: 30)
         guard let expandedValue = Double(expanded) else { return "" }
         return String(format: "%.6f", expandedValue)
     }
-    var toMlgnValue: BDouble {
-        return toMlgn.bNumber
+    var toMlgsValue: BDouble {
+        return toMlgs.bNumber
     }
 }
 
@@ -43,7 +43,7 @@ extension Double {
         return BDouble(self)
     }
     
-    var toMlgn: String {
+    var toMlgs: String {
         let value = self / 1000000000000000000000000000000.0
         return String(format: "%.6f", value).trimTrailingZeros()
     }

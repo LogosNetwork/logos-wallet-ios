@@ -39,7 +39,7 @@ class AccountTableViewCell: UITableViewCell {
             valueString = secondary.convert(accountValue.bNumber)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
-            valueString = accountValue.bNumber.toMlgn.trimTrailingZeros()
+            valueString = accountValue.bNumber.toMlgs.trimTrailingZeros()
             unitLabel?.text = CURRENCY_NAME
         }
         balanceLabel?.text = valueString

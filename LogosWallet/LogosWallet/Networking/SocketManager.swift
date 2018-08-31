@@ -155,7 +155,7 @@ enum LogosService {
         }
     }
 
-    fileprivate func changePrefix(_ lgnAccount: String) -> String {
-        return lgnAccount.replacingOccurrences(of: "lgn_", with: "xrb_")
+    fileprivate func changePrefix(_ account: String) -> String {
+        return account.replacingOccurrences(of: "lgs_", with: "xrb_")
     }
 }

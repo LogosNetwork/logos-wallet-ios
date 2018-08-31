@@ -160,7 +160,7 @@ final class WalletManager {
         guard let seed = sd else { return }
         let name = name ?? "Account \(index)"
         Keychain.standard.set(value: Data(index), key: KeychainKey.walletSeedIndex)
-        guard let accountAddress = WalletUtil.keyPair(seed: seed, index: index)?.lgnAccount else { return }
+        guard let accountAddress = WalletUtil.keyPair(seed: seed, index: index)?.lgsAccount else { return }
         Lincoln.log("Account created '\(accountAddress)'", inConsole: true)
         // Create account
         PersistentStore.addAccount(name: name, address: accountAddress, index: Int(index))

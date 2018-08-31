@@ -38,6 +38,6 @@ struct AccountsViewModel {
         let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
             result + account.balance.bNumber
         })
-        return total.toMlgn.trimTrailingZeros()
+        return total.toMlgs.trimTrailingZeros()
     }
 }
