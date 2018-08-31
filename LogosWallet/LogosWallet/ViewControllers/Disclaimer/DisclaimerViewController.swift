@@ -75,7 +75,7 @@ class DisclaimerViewController: TransparentNavViewController {
                 if #available(iOS 11.0, *) {
                     make.bottomMargin.equalTo(self.view.safeAreaInsets.bottom)
                 } else {
-                    make.bottomMargin.equalToSuperview().offset(AppStyle.Size.padding)
+                    make.bottomMargin.equalToSuperview().offset(-AppStyle.Size.padding)
                 }
                 make.left.right.equalToSuperview()
             }
@@ -109,7 +109,7 @@ class DisclaimerViewController: TransparentNavViewController {
                 if #available(iOS 11.0, *) {
                     make.bottomMargin.equalTo(self.view.safeAreaInsets.bottom)
                 } else {
-                    make.bottomMargin.equalToSuperview().offset(AppStyle.Size.padding)
+                    make.bottomMargin.equalToSuperview().offset(-AppStyle.Size.padding)
                 }
             }
         }
