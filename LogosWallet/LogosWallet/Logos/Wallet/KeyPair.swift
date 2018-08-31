@@ -14,7 +14,7 @@ struct KeyPair {
 }
 
 extension KeyPair {
-    var lgnAccount: String? {
-        return try? WalletUtil.deriveLGNAccount(from: publicKey)
+    var lgsAccount: String? {
+        return try? WalletUtil.deriveLGSAccount(from: publicKey)
     }
 }

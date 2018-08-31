@@ -39,11 +39,11 @@ struct WalletUtil {
         return derivePublic(from: address) != nil
     }
     
-    static func derivePublic(from lgnAccount: String) -> String? {
-        let prefix = lgnAccount.prefix(4)
+    static func derivePublic(from account: String) -> String? {
+        let prefix = account.prefix(4)
 
-        if prefix == "lgn_" || prefix == "xrb_" {
-            guard lgnAccount.count == 64 else {
+        if prefix == "lgs_" || prefix == "xrb_" {
+            guard account.count == 64 else {
                 return nil
             }
         } else {
@@ -57,10 +57,10 @@ struct WalletUtil {
             lookup[letters[String.Index(encodedOffset: i)]] = UInt8(i)
         }
         
-        let pubEnd = String.Index(encodedOffset: lgnAccount.endIndex.encodedOffset - 9)
-        let pubStart = String.Index(encodedOffset: lgnAccount.startIndex.encodedOffset + offset)
-        let encodedKey: String = String(lgnAccount[pubStart...pubEnd])
-        let encodedChecksum: String = String(lgnAccount.suffix(8))
+        let pubEnd = String.Index(encodedOffset: account.endIndex.encodedOffset - 9)
+        let pubStart = String.Index(encodedOffset: account.startIndex.encodedOffset + offset)
+        let encodedKey: String = String(account[pubStart...pubEnd])
+        let encodedChecksum: String = String(account.suffix(8))
         
         var pubKeyBits: BitArray = BitArray()
         for i in 0..<encodedKey.count {
@@ -91,13 +91,13 @@ struct WalletUtil {
     /// Derives the LGN wallet account given an ED25519 public key string. The public key is hashed using Blake2b.
     ///
     /// LGN wallet address contains the following:
-    ///     - prefix (lgn_)
+    ///     - prefix (lgs_)
     ///     - address (260 bit)
     ///     - checksum (last 40 bit of public key hash)
     /// - Parameter publicKey: The public key to derive the LGN wallet address from.
     ///
     /// - Returns: The LGN wallet account
-    static func deriveLGNAccount(from publicKey: Data) throws -> String {
+    static func deriveLGSAccount(from publicKey: Data) throws -> String {
         // Checksum should have a 5 byte digest size
         guard let checksumHash = NaCl.hash(publicKey, outputLength: 5) else {
             throw WalletUtilError.internalSodium
@@ -116,7 +116,7 @@ struct WalletUtil {
         guard let encodedP = encodedPubKey, let encodedC = encodedChecksum else {
             throw WalletUtilError.encoding
         }
-        return "lgn_" + encodedP + encodedC
+        return "lgs_" + encodedP + encodedC
     }
     
     /// Encodes a bit array using Base 32 encoding with 5-bit chunks.

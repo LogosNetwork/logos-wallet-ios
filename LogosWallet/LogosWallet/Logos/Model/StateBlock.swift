@@ -60,7 +60,7 @@ struct StateBlock: BlockAdapter {
     /// b.amount = <amount to send>
     /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
-        guard let encodedAccount = signingKeys.lgnAccount,
+        guard let encodedAccount = signingKeys.lgsAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
             let targetAddress = self.targetAddresses?.first,
             let previousData = previous.hexData else {

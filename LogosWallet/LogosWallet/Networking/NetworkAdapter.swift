@@ -49,7 +49,7 @@ public struct NetworkAdapter {
 
     // TODO: remove when not needed
     static func prefixReplace(_ account: String) -> String {
-        return account.replacingOccurrences(of: "lgn_", with: "xrb_")
+        return account.replacingOccurrences(of: "lgs_", with: "xrb_")
     }
 
     static func blockInfo(hashes: [String], completion: @escaping ([BlockInfo], APIError?) -> Void) {
