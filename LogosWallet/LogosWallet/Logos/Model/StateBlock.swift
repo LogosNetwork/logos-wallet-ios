@@ -109,6 +109,7 @@ struct StateBlock: BlockAdapter {
             "signature": self.signature ?? "",
             "representative": self.representative ?? "",
             "amount": self.amount ?? "",
+            "link": self.link ?? "",
             "work": self.work ?? ""
         ]
     }
