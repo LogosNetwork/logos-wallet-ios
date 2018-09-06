@@ -66,7 +66,7 @@ extension SendCoordinator: SendViewControllerDelegate {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
             }
-            if let address = self?.account.address {
+            if let address = me.account.address {
                 SocketManager.shared.action(.accountInfo(account: address))
             }
             me.rootViewController.dismiss(animated: true)
