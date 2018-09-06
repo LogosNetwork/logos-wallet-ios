@@ -116,6 +116,16 @@ class ConfirmTxViewController: UIViewController {
             self.contentView?.alpha = 0.0
         }
         LoadingView.startAnimating(in: self.navigationController)
+        NetworkAdapter.process(block: block) { [weak self] (hash, error) in
+            if let error = error {
+                Banner.show("Send error: \(error.message)", style: .danger)
+            } else {
+                LoadingView.stopAnimating(true) {
+                    self?.onSendComplete?()
+                    self?.dismiss(animated: true)
+                }
+            }
+        }
         SocketManager.shared.action(.process(block: block))
 //        BlockHandler.handle(block, for: account) { [weak self] (result) in
 //            switch result {

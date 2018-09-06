@@ -287,10 +287,10 @@ class AccountViewController: UIViewController {
     }
     
     func onNewBlockBroadcasted() {
-        self.viewModel.getAccountInfo { [weak self] in
-            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-            self?.getPendingAndHistory(false)
-        }
+//        self.viewModel.getAccountInfo { [weak self] in
+//            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+//            self?.getPendingAndHistory(false)
+//        }
     }
     
     func updateView() {
