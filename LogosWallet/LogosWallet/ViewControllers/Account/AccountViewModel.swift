@@ -39,7 +39,7 @@ class AccountViewModel {
     private(set) var isShowingSecondary: Bool = false
     var balanceValue: String {
         if !isShowingSecondary {
-            return account.mlgsBalance.trimTrailingZeros()
+            return self.account.balance.trimTrailingZeros()
         } else {
             let secondary = Currency.secondary
             currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")

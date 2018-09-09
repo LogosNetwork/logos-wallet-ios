@@ -27,7 +27,7 @@ struct AccountsViewModel {
             let secondary = Currency.secondary
             currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")
             let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
-                result + account.balance.bNumber
+                result + (BDouble(account.balance) ?? 0.0)
             })
             balanceValue = secondary.convert(total)
         }
@@ -35,9 +35,9 @@ struct AccountsViewModel {
     }
     
     func getTotalNano() -> String {
-        let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
-            result + account.balance.bNumber
+        let total = WalletManager.shared.accounts.reduce(Double(0.0), { (result, account) in
+            result + (Double(account.balance) ?? 0.0)
         })
-        return total.toMlgs.trimTrailingZeros()
+        return String(total).trimTrailingZeros()
     }
 }
