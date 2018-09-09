@@ -98,7 +98,7 @@ class ConfirmTxViewController: UIViewController {
     fileprivate func handleSend() {
         guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
             let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
-            let account = keyPair.lgsAccount else { return }
+            let _ = keyPair.lgsAccount else { return }
 
         // Generate block
         var block = StateBlock(intent: .send)
@@ -126,20 +126,5 @@ class ConfirmTxViewController: UIViewController {
                 }
             }
         }
-        SocketManager.shared.action(.process(block: block))
-//        BlockHandler.handle(block, for: account) { [weak self] (result) in
-//            switch result {
-//            case .success(_):
-//                LoadingView.stopAnimating(true) {
-//                    self?.onSendComplete?()
-//                    self?.dismiss(animated: true)
-//                }
-//            case .failure(let error):
-//                Banner.show(.localize("send-error-arg", arg: error.description), style: .danger)
-//                UIView.animate(withDuration: 0.3) {
-//                    self?.contentView?.alpha = 1.0
-//                }
-//            }
-//        }
     }
 }

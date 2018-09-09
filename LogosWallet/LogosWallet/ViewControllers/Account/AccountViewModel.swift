@@ -83,16 +83,16 @@ class AccountViewModel {
     
     /// Completion returns count of pending blocks
     func getPending(shouldOpen: Bool = false, completion: ((Int) -> Void)? = nil) {
-        guard let keyPair = WalletManager.shared.keyPair(at: account.index),
-            let acc = keyPair.lgsAccount else { return }
-        // fetch pending
-        isFetching = true
-        NetworkAdapter.getPending(for: acc) { [weak self] (pending) in
-            guard let me = self else { return }
-            me.isFetching = false
-            completion?(pending.count)
-//            me.handlePending(pending, previous: me.account.frontier, shouldOpen: shouldOpen)
-        }
+//        guard let keyPair = WalletManager.shared.keyPair(at: account.index),
+//            let acc = keyPair.lgsAccount else { return }
+//        // fetch pending
+//        isFetching = true
+//        NetworkAdapter.getPending(for: acc) { [weak self] (pending) in
+//            guard let me = self else { return }
+//            me.isFetching = false
+//            completion?(pending.count)
+////            me.handlePending(pending, previous: me.account.frontier, shouldOpen: shouldOpen)
+//        }
     }
     
     /// Recursively handle pending
@@ -148,28 +148,28 @@ class AccountViewModel {
 //    }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
-        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
-            if let info = info {
-                PersistentStore.write {
-                    self?.account.copyProperties(from: info)
-                }
-            } else {
-                // Assume account is not open yet
-                self?.getPending(shouldOpen: true)
-            }
-            completion?()
-        }
+//        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
+//        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
+//            if let info = info {
+//                PersistentStore.write {
+//                    self?.account.copyProperties(from: info)
+//                }
+//            } else {
+//                // Assume account is not open yet
+//                self?.getPending(shouldOpen: true)
+//            }
+//            completion?()
+//        }
     }
     
     func getHistory(completion: @escaping () -> Void) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
-        NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount) { (chain) in
-            self.history = chain
-            self.refined = chain
-            PersistentStore.updateBlockHistory(for: self.account, history: chain)
-            completion()
-        }
+//        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
+//        NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount) { (chain) in
+//            self.history = chain
+//            self.refined = chain
+//            PersistentStore.updateBlockHistory(for: self.account, history: chain)
+//            completion()
+//        }
     }
     
     func repair(_ completion: @escaping () -> Void) {
