@@ -16,6 +16,7 @@ protocol SettingsViewControllerDelegate: class {
     func addressBookTapped()
     func clearWalletTapped()
     func aboutTapped()
+    func nodeAddressTapped()
 }
 
 class SettingsViewController: TitleTableViewController {
@@ -25,6 +26,7 @@ class SettingsViewController: TitleTableViewController {
         case console
         case security
         case about
+        case nodeAddress
         case clearData
         
         var title: String {
@@ -34,6 +36,7 @@ class SettingsViewController: TitleTableViewController {
             case .console: return .localize("console")
             case .currency: return .localize("currency")
             case .security: return .localize("security")
+            case .nodeAddress: return "Node Address"
             case .about: return .localize("about")
             }
         }
@@ -41,11 +44,27 @@ class SettingsViewController: TitleTableViewController {
     }
     
     weak var delegate: SettingsViewControllerDelegate?
+
+    lazy var serverUrlLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = AppStyle.Color.offBlack
+        label.font = AppStyle.Font.body
+        label.text = NetworkAdapter.baseNodeUrl
+        return label
+    }()
+
+    lazy var serverConnectionStatusView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        view.layer.cornerRadius = 4.0
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
-        setupTableView()
+        self.setupNavBar()
+        self.setupTableView()
+        self.setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +72,7 @@ class SettingsViewController: TitleTableViewController {
         UIApplication.shared.statusBarStyle = .default
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isHidden = false
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -64,19 +83,39 @@ class SettingsViewController: TitleTableViewController {
     }
     
     // MARK: - Setup
-    
+
+    private func setupViews() {
+        self.view.addSubview(self.serverUrlLabel)
+        self.serverUrlLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(self.view.snp.bottom).offset(-AppStyle.Size.padding)
+            make.left.equalTo(self.view.snp.left).offset(AppStyle.Size.smallPadding)
+            make.height.equalTo(24.0)
+        }
+
+//        self.view.addSubview(self.serverConnectionStatusView)
+//        self.serverConnectionStatusView.snp.makeConstraints { (make) in
+//            make.left.equalTo(self.serverUrlLabel.snp.right).offset(AppStyle.Size.smallPadding)
+//            make.centerY.equalTo(self.serverUrlLabel.snp.centerY)
+//            make.width.height.equalTo(8.0)
+//        }
+    }
+
     override func setupNavBar() {
         let leftBarItem = UIBarButtonItem(image: #imageLiteral(resourceName: "close2").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(dismissTapped))
         navigationItem.leftBarButtonItem = leftBarItem
     }
-    
+
     fileprivate func setupTableView() {
-        tableView.register(SettingsTableViewCell.self)
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.tableView.register(SettingsTableViewCell.self)
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
     }
     
     // MARK: - Actions
+
+    func updateNodeUrlText() {
+        self.serverUrlLabel.text = NetworkAdapter.baseNodeUrl
+    }
     
     fileprivate func handleClearWalletData() {
         self.delegate?.clearWalletTapped()
@@ -122,6 +161,8 @@ extension SettingsViewController: UITableViewDelegate {
             delegate?.securityTapped()
         case .about:
             delegate?.aboutTapped()
+        case .nodeAddress:
+            delegate?.nodeAddressTapped()
         }
     }
 }

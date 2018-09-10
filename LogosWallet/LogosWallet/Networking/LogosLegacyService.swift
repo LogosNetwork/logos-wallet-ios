@@ -41,7 +41,7 @@ enum LogosLegacyService {
 extension LogosLegacyService: TargetType {
     var baseURL: URL {
         // TODO: update url
-        return URL(string: "http://34.201.126.140:55000")!
+        return URL(string: NetworkAdapter.baseNodeUrl)!
     }
     
     var path: String {

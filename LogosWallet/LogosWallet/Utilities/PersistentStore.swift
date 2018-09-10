@@ -29,7 +29,12 @@ struct PersistentStore {
     }
     
     // MARK: - Accounts
-    
+
+    static func getNodeUrl() -> String {
+        // TODO
+        return "http://34.201.126.140:55000"
+    }
+
     static func remove(account: AccountInfo) {
         try? Realm().delete(account)
     }
