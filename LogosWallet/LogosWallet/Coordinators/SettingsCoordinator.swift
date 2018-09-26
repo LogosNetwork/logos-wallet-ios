@@ -38,6 +38,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
             }
 
             NetworkAdapter.baseNodeUrl = newAddress
+            PersistentStore.updateNodeUrl(to: newAddress)
             (self.navController.viewControllers.first as? SettingsViewController)?.updateNodeUrlText()
         }
     }
