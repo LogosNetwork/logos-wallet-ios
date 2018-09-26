@@ -53,7 +53,7 @@ class EnterAmountViewController: UIViewController {
         continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
-        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mxrbBalance)".trimTrailingZeros()).uppercased()
+        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgsBalance)".trimTrailingZeros()).uppercased()
         balanceLabel?.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(balanceTapped))
         balanceLabel?.addGestureRecognizer(gesture)
@@ -96,8 +96,8 @@ class EnterAmountViewController: UIViewController {
     // MARK: - Actions
     
     @objc fileprivate func balanceTapped() {
-        amountLabel?.text = account.mxrbBalance.trimTrailingZeros()
-        amount = account.mxrbBalance.bNumber
+        amountLabel?.text = account.mlgsBalance.trimTrailingZeros()
+        amount = account.mlgsBalance.bNumber
     }
     
     @objc fileprivate func closeTapped() {
@@ -109,7 +109,7 @@ class EnterAmountViewController: UIViewController {
         if isShowingSecondary {
             let secondary = Currency.secondary
             let converted = amount * Currency.secondaryConversionRate
-            let convertedBalance = account.mxrbBalance.bNumber * Currency.secondaryConversionRate
+            let convertedBalance = account.mlgsBalance.bNumber * Currency.secondaryConversionRate
             currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
             amountLabel?.text = converted.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros()
             balanceLabel?.text = String.localize("available-balance-arg", arg: "\(convertedBalance.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros())").uppercased()
@@ -117,7 +117,7 @@ class EnterAmountViewController: UIViewController {
             currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
             amountLabel?.text = amountText
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mxrbBalance.trimTrailingZeros())").uppercased()
+            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgsBalance.trimTrailingZeros())").uppercased()
         }
     }
     
@@ -126,10 +126,11 @@ class EnterAmountViewController: UIViewController {
             feedback.notificationOccurred(.error)
             return
         }
-        if amount > account.mxrbBalance.bNumber {
-            Banner.show(.localize("insufficient-funds"), style: .danger)
-            return
-        }
+        // TEMP remove check
+//        if amount > account.mlgnBalance.bNumber {
+//            Banner.show(.localize("insufficient-funds"), style: .danger)
+//            return
+//        }
         dismiss(animated: true)
         // Return value in Nano
         enteredAmount?(amount.decimalExpansion(precisionAfterComma: 6))

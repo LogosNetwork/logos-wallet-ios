@@ -29,6 +29,19 @@ class SettingsCoordinator: RootViewCoordinator {
 }
 
 extension SettingsCoordinator: SettingsViewControllerDelegate {
+
+    func nodeAddressTapped() {
+        let currentUrl = NetworkAdapter.baseNodeUrl
+        self.navController.showTextDialogue("Node Address", placeholder: currentUrl, keyboard: .default) { (textField) in
+            guard let newAddress = textField.text, let _ = URL(string: newAddress) else {
+                return
+            }
+
+            NetworkAdapter.baseNodeUrl = newAddress
+            (self.navController.viewControllers.first as? SettingsViewController)?.updateNodeUrlText()
+        }
+    }
+
     func aboutTapped() {
         navController.pushViewController(AboutViewController(title: .localize("about")), animated: true)
     }

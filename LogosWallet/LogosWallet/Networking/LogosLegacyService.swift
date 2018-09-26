@@ -1,5 +1,5 @@
 //
-//  CanoeService.swift
+//  LogosService.swift
 //  LogosWallet
 //
 //  Created by Ben Kray on 3/20/18.
@@ -13,7 +13,17 @@ protocol BlockAdapter {
     var json: [String: String] { get }
 }
 
-enum CanoeService {
+struct BlockCreateParameters {
+    var account: String
+    var amount: String
+    var destination: String
+    var previous: String
+    // this is why this is temporary
+    var privateKey: String
+    var representative: String
+}
+
+enum LogosLegacyService {
     case serverStatus
     case process(block: BlockAdapter)
     case generateWork(hash: String)
@@ -22,17 +32,22 @@ enum CanoeService {
     case blockInfo(hashes: [String])
     case pending(accounts: [String], count: Int)
     case createServerAccount(walletID: String, username: String, password: String)
+    case accountInfo(account: String)
+
+    // Temp RPC calls
+    case blockCreate(parameters: BlockCreateParameters)
 }
 
-extension CanoeService: TargetType {
+extension LogosLegacyService: TargetType {
     var baseURL: URL {
-        return URL(string: "https://getcanoe.io")!
+        // TODO: update url
+        return URL(string: NetworkAdapter.baseNodeUrl)!
     }
     
     var path: String {
-        return "rpc"
+        return ""
     }
-    
+
     var method: Moya.Method {
         return .post
     }
@@ -61,6 +76,18 @@ extension CanoeService: TargetType {
             return params(for: "accounts_pending", params: ["accounts": accounts, "count": count])
         case .createServerAccount(let walletID, let username, let password):
             return params(for: "create_server_account", params: ["wallet": walletID, "token": username, "tokenPass": password])
+        case .blockCreate(let parameters):
+            return params(for: "block_create", params: [
+                "account": parameters.account,
+                "amount": parameters.amount,
+                "destination": parameters.destination,
+                "previous": parameters.previous,
+                "key": parameters.privateKey,
+                "representative": parameters.representative,
+                "type": "state",
+            ])
+        case .accountInfo(let account):
+            return params(for: "account_info", params: ["account": account])
         }
     }
     
@@ -69,7 +96,8 @@ extension CanoeService: TargetType {
     }
     
     fileprivate func params(for action: String, params: [String: Any] = [:]) -> Task {
-        var p: [String: Any] = ["action": action]
+        // TEMP
+        var p: [String: Any] = ["action": action, "logos": ""]
         p.merge(params) { (current, _) in current }
         return .requestParameters(parameters: p, encoding: JSONEncoding.default)
     }

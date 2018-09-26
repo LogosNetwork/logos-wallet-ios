@@ -28,7 +28,6 @@
 		A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */; };
 		A732981B20086B4D00B21C8D /* TransactionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */; };
 		A732981F2008769200B21C8D /* AccountsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981E2008769200B21C8D /* AccountsCoordinator.swift */; };
-		A73298222009AFAF00B21C8D /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298212009AFAF00B21C8D /* Block.swift */; };
 		A73298242009F22B00B21C8D /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298232009F22B00B21C8D /* AccountViewModel.swift */; };
 		A73298262009F29B00B21C8D /* AccountHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73298252009F29B00B21C8D /* AccountHistory.swift */; };
 		A7329828200A078A00B21C8D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329827200A078A00B21C8D /* Common.swift */; };
@@ -56,9 +55,10 @@
 		A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */; };
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
 		A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlock.swift */; };
-		A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD89206CD2D9001C9725 /* PubSubService.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
-		A753FBD4206104EC00E88B77 /* CanoeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* CanoeService.swift */; };
+		A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */; };
+		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
+		A757A25B212D0F5000A9C688 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A25A212D0F5000A9C688 /* SoundManager.swift */; };
 		A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B992201EF02000620B62 /* ReceiveCoordinator.swift */; };
 		A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B994201F037500620B62 /* EnterAmountViewController.swift */; };
 		A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768B999201F0ABB00620B62 /* NumpadCollectionViewCell.swift */; };
@@ -91,6 +91,8 @@
 		A79116FB20172FB100890432 /* AddressItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116F920172FB100890432 /* AddressItemTableViewCell.xib */; };
 		A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FC2017398300890432 /* AddressBookViewModel.swift */; };
 		A79116FF20173C4400890432 /* AddressEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FE20173C4400890432 /* AddressEntry.swift */; };
+		A7938276212D10FB0038286C /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7938275212D10FA0038286C /* hint.wav */; };
+		A7938299212FA9F80038286C /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7938298212FA9F80038286C /* SocketManager.swift */; };
 		A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B1B24320140D0F009E5CB0 /* SendViewController.swift */; };
 		A7B1B24620140D0F009E5CB0 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B1B24420140D0F009E5CB0 /* SendViewController.xib */; };
 		A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B327F32001D4AA00E0E360 /* StartViewController.swift */; };
@@ -206,7 +208,6 @@
 		A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionTableViewCell.xib; sourceTree = "<group>"; };
 		A732981E2008769200B21C8D /* AccountsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsCoordinator.swift; sourceTree = "<group>"; };
-		A73298212009AFAF00B21C8D /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		A73298232009F22B00B21C8D /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		A73298252009F29B00B21C8D /* AccountHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHistory.swift; sourceTree = "<group>"; };
 		A7329827200A078A00B21C8D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -237,7 +238,9 @@
 		A74FCD87206CB846001C9725 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
-		A753FBD3206104EC00E88B77 /* CanoeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanoeService.swift; sourceTree = "<group>"; };
+		A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosLegacyService.swift; sourceTree = "<group>"; };
+		A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoResponse.swift; sourceTree = "<group>"; };
+		A757A25A212D0F5000A9C688 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		A768B992201EF02000620B62 /* ReceiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveCoordinator.swift; sourceTree = "<group>"; };
 		A768B994201F037500620B62 /* EnterAmountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAmountViewController.swift; sourceTree = "<group>"; };
 		A768B995201F037500620B62 /* EnterAmountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterAmountViewController.xib; sourceTree = "<group>"; };
@@ -273,6 +276,8 @@
 		A79116F920172FB100890432 /* AddressItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressItemTableViewCell.xib; sourceTree = "<group>"; };
 		A79116FC2017398300890432 /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		A79116FE20173C4400890432 /* AddressEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntry.swift; sourceTree = "<group>"; };
+		A7938275212D10FA0038286C /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
+		A7938298212FA9F80038286C /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		A7975A8920787D0800B2995D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8A20787D0E00B2995D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8F20787D6100B2995D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -406,12 +411,12 @@
 			isa = PBXGroup;
 			children = (
 				A768B9A620225DAC00620B62 /* TxInfo.swift */,
-				A73298212009AFAF00B21C8D /* Block.swift */,
 				A73298252009F29B00B21C8D /* AccountHistory.swift */,
 				A74FCD87206CB846001C9725 /* StateBlock.swift */,
 				A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */,
 				A749FCEF2089980000AB7D9C /* BlockInfo.swift */,
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
+				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 		A7EF841C1FED8A5B00C74035 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A757A25A212D0F5000A9C688 /* SoundManager.swift */,
 				A7B327F9200331BD00E0E360 /* TransparentNavigationTransition.swift */,
 				A74361FA1FE6572800054078 /* Foundaton+Extensions.swift */,
 				A7EF841A1FED8A5000C74035 /* Keychain.swift */,
@@ -708,6 +714,7 @@
 				A7EB8F5320662C54004463FC /* Animations */,
 				A7975A8B20787D1F00B2995D /* Localization */,
 				A7EB8F5A20664B0C004463FC /* weak_pw.txt */,
+				A7938275212D10FA0038286C /* hint.wav */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -772,9 +779,10 @@
 				A78854DE200F12FA00C9565B /* Networking.swift */,
 				A7B858E92032CC6E00698FAE /* CurrencyAPI.swift */,
 				A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */,
-				A753FBD3206104EC00E88B77 /* CanoeService.swift */,
+				A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */,
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
 				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
+				A7938298212FA9F80038286C /* SocketManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -956,6 +964,7 @@
 				A732981B20086B4D00B21C8D /* TransactionTableViewCell.xib in Resources */,
 				A7EB8F6220684645004463FC /* PasswordViewController.xib in Resources */,
 				A7B858FE203408E200698FAE /* PasscodeViewController.xib in Resources */,
+				A7938276212D10FB0038286C /* hint.wav in Resources */,
 				A72EBDA41FFCCF4200407E6D /* AccountsViewController.xib in Resources */,
 				A732981720075B7100B21C8D /* AccountViewController.xib in Resources */,
 				A726C2821FFCD5D400E73C18 /* AccountTableViewCell.xib in Resources */,
@@ -1034,33 +1043,33 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LogosWallet/Pods-LogosWallet-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaMQTT/CocoaMQTT.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaMQTT.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTimer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1117,7 +1126,6 @@
 				A7EF84311FEE43C300C74035 /* UIKit+Extensions.swift in Sources */,
 				A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */,
 				A7B32801200333C500E0E360 /* AppStyle.swift in Sources */,
-				A74FCD8A206CD2D9001C9725 /* PubSubService.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
 				A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */,
 				A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */,
@@ -1125,10 +1133,12 @@
 				A7EF84351FEE453700C74035 /* ReceiveViewController.swift in Sources */,
 				A7B3280620033C1300E0E360 /* SeedViewController.swift in Sources */,
 				A732982C200AA2E300B21C8D /* AccountInfo.swift in Sources */,
+				A757A25B212D0F5000A9C688 /* SoundManager.swift in Sources */,
 				A73FAAF2204F3FF90087E025 /* SwitchTableViewCell.swift in Sources */,
 				A7B858EA2032CC6E00698FAE /* CurrencyAPI.swift in Sources */,
 				A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */,
 				A749FD12208AF09200AB7D9C /* Swift-Big-Number-Core.swift in Sources */,
+				A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */,
 				A79116FF20173C4400890432 /* AddressEntry.swift in Sources */,
 				A76AC7B4202AD7C000C7CEE8 /* SettingsViewController.swift in Sources */,
 				A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */,
@@ -1146,6 +1156,7 @@
 				A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */,
 				A73AC9E9203FDFE200ED24E9 /* RequestAmountViewController.swift in Sources */,
 				A70E8E062097B7FF00372394 /* DataExporter.swift in Sources */,
+				A7938299212FA9F80038286C /* SocketManager.swift in Sources */,
 				A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */,
 				A7329828200A078A00B21C8D /* Common.swift in Sources */,
 				A7B858F72033F7D700698FAE /* SecurityViewController.swift in Sources */,
@@ -1161,7 +1172,6 @@
 				A7EB8F6120684645004463FC /* PasswordViewController.swift in Sources */,
 				A768B9A4202194B300620B62 /* Banner.swift in Sources */,
 				A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */,
-				A73298222009AFAF00B21C8D /* Block.swift in Sources */,
 				A7B3280A2004990F00E0E360 /* ImportPassphraseViewController.swift in Sources */,
 				A7EF843B1FF0D45A00C74035 /* Lincoln.swift in Sources */,
 				A76AC7B8202AD8C200C7CEE8 /* SettingsTableViewCell.swift in Sources */,
@@ -1184,7 +1194,7 @@
 				A73EBBB31FFF606F00F77B4D /* CreateWalletCoordinator.swift in Sources */,
 				A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */,
 				A7EB8F5720662D75004463FC /* LoadingView.swift in Sources */,
-				A753FBD4206104EC00E88B77 /* CanoeService.swift in Sources */,
+				A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */,
 				A7F88F3A2069F26200CDB7AB /* EnterAddressViewModel.swift in Sources */,
 				A7B327F82002A43500E0E360 /* LeftAlignedIconButton.swift in Sources */,
 				A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */,

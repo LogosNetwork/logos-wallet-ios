@@ -42,12 +42,13 @@ class CreateWalletCoordinator: RootViewCoordinator {
         
         guard let password = NaCl.randomBytes() else { return }
         Keychain.standard.set(value: password, key: KeychainKey.mqttPassword)
-        
-        NetworkAdapter.createAccountForSub(String(uuid), username: username.hexString, password: password.hexString) { (status) in
-            completion()
-            guard let status = status, status == "ok" else { return }
-            Lincoln.log("MQTT account created: \(uuid)")
-        }
+
+        completion()
+//        NetworkAdapter.createAccountForSub(String(uuid), username: username.hexString, password: password.hexString) { (status) in
+//            completion()
+//            guard let status = status, status == "ok" else { return }
+//            Lincoln.log("MQTT account created: \(uuid)")
+//        }
     }
 }
 

@@ -1,9 +1,5 @@
 PODS:
   - Alamofire (4.6.0)
-  - CocoaAsyncSocket (7.6.2)
-  - CocoaMQTT (1.1.1):
-    - CocoaAsyncSocket (~> 7.6.1)
-    - SwiftyTimer (~> 2.0.0)
   - lottie-ios (2.5.0)
   - MarqueeLabel/Swift (3.1.4)
   - Moya (11.0.1):
@@ -20,23 +16,26 @@ PODS:
   - RealmSwift (3.1.1):
     - Realm (= 3.1.1)
   - Result (3.2.4)
+  - RxCocoa (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.1.2)
   - SnapKit (4.0.0)
   - SSZipArchive (2.1.1)
-  - SwiftyTimer (2.0.0)
+  - Starscream (3.0.4)
 
 DEPENDENCIES:
   - Alamofire
-  - CocoaMQTT
   - lottie-ios
   - Moya (~> 11.0)
   - NotificationBannerSwift
   - RealmSwift
+  - RxCocoa
+  - RxSwift
   - SSZipArchive
+  - Starscream
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
-  CocoaAsyncSocket: 3541e024f48c54b251638ef72d51dd42808de932
-  CocoaMQTT: 3a01a51d534e0419b950d32236d4da389f074de8
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   MarqueeLabel: bf768455fe88d427f71476ebb23f9092b660f40b
   Moya: 3d594ada51a21cc02b18739ab578a1984f900c8a
@@ -44,10 +43,12 @@ SPEC CHECKSUMS:
   Realm: 42d1c38a5b1bbcc828b48a7ce702cb86fc68adf4
   RealmSwift: d31937ca6a6ee54acde64ec839523c0a3c04924b
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SSZipArchive: 14401ade5f8e82aba1ff03e9f88e9de60937ae60
-  SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
+  Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
 
-PODFILE CHECKSUM: fc59e4b7db8b644054494ab6704b241979c36a23
+PODFILE CHECKSUM: 9be4acd45e8c95193f356909afe2426e88f0a96e
 
 COCOAPODS: 1.4.0

@@ -41,12 +41,18 @@ public struct NetworkAdapter {
         }
         // TODO: get other error messages
     }
-    
-    static let provider = MoyaProvider<CanoeService>()
+
+    static var baseNodeUrl = PersistentStore.getNodeUrl()
+    static let provider = MoyaProvider<LogosLegacyService>()
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
     
-    // MARK: - Canoe
-    
+    // MARK: - Logos
+
+    // TODO: remove when not needed
+    static func prefixReplace(_ account: String) -> String {
+        return account.replacingOccurrences(of: "lgs_", with: "xrb_")
+    }
+
     static func blockInfo(hashes: [String], completion: @escaping ([BlockInfo], APIError?) -> Void) {
         request(target: .blockInfo(hashes: hashes), success:  { (response) in
             guard let json = try? response.mapJSON() as? [String: Any],
@@ -57,7 +63,34 @@ public struct NetworkAdapter {
             completion(hashes.map { BlockInfo(blocks[$0]) }, nil)
         })
     }
-    
+
+    // Temp action
+    static func createBlock(parameters: BlockCreateParameters, completion: ((APIError?) -> Void)? = nil) {
+        Lincoln.log("Creating block with parameters: \(parameters)")
+        request(target: .blockCreate(parameters: parameters), success: { (response) in
+            guard let json = try? response.mapJSON() as? [String: String] else {
+                completion?(APIError.badResponse)
+                return
+            }
+            Lincoln.log("Block Create Response: \(json ?? [:])", inConsole: true)
+            let error = APIError.parseError(json?["error"])
+            completion?(error)
+        })
+    }
+
+    static func accountInfo(for account: String, completion: ((AccountInfoResponse?, APIError?) -> Void)? = nil) {
+        request(target: .accountInfo(account: account), success: { (response) in
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            do {
+                let accountInfo = try decoder.decode(AccountInfoResponse.self, from: response.data)
+                completion?(accountInfo, nil)
+            } catch {
+                completion?(nil, .badResponse)
+            }
+        })
+    }
+
     static func process(block: BlockAdapter, completion: ((String?, APIError?) -> Void)? = nil) {
         Lincoln.log("Broadcasting block '\(block.json)'", inConsole: true)
         request(target: .process(block: block), success: { (response) in
@@ -80,7 +113,7 @@ public struct NetworkAdapter {
     }
     
     static func getLedger(account: String, count: Int = 1, completion: @escaping (AccountInfo?) -> Void) {
-        request(target: .ledger(address: account, count: 1), success: { (response) in
+        request(target: .ledger(address: prefixReplace(account), count: 1), success: { (response) in
             // Funky response here, if the account doesn't exist yet, a random (perhaps adjacent in DB?) account is returned. Ensure that the requesting account is equal to the account in the response
             guard let json = try? response.mapJSON() as? [String: Any] else { completion(nil); return }
             let info = AccountInfo.fromJSON(json, account: account)
@@ -89,7 +122,7 @@ public struct NetworkAdapter {
     }
     
     static func getAccountHistory(account: String, count: Int, completion: @escaping ([SimpleBlock]) -> Void) {
-        request(target: .accountHistory(address: account, count: count), success: { (response) in
+        request(target: .accountHistory(address: prefixReplace(account), count: count), success: { (response) in
             if let json = try? response.mapJSON() as? [String: Any],
                 let blocks = json?["history"] as? [[String: String]] {
                 let accountHistory = blocks.map { SimpleBlock.fromJSON($0) }
@@ -107,7 +140,7 @@ public struct NetworkAdapter {
     }
     
     static func getPending(for account: String, count: Int = 4096, completion: @escaping ([String]) -> Void) {
-        request(target: .pending(accounts: [account], count: count), success: { (response) in
+        request(target: .pending(accounts: [prefixReplace(account)], count: count), success: { (response) in
             do {
                 let json = try response.mapJSON() as? [String: Any]
                 guard let blocks = json?["blocks"] as? [String: Any],
@@ -140,7 +173,7 @@ public struct NetworkAdapter {
         }
     }
     
-    static func request(target: CanoeService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
+    static func request(target: LogosLegacyService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
         provider.request(target) { (result) in
             handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)
         }

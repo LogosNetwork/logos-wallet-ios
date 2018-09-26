@@ -82,7 +82,7 @@ class ReceiveViewController: UIViewController {
     fileprivate func setupView() {
         guard let qrImageView = qrCodeImageView, let address = account.address else { return }
         qrImageView.image = UIImage
-            .qrCode(data: ("xrb:" + address).data(using: .utf8), color: .black)?
+            .qrCode(data: ("lgs:" + address).data(using: .utf8), color: .black)?
             .resize(CGSize(width: qrImageView.bounds.width, height: qrImageView.bounds.height))
         let qrGesture = UITapGestureRecognizer(target: self, action: #selector(copyTapped(_:)))
         qrImageView.addGestureRecognizer(qrGesture)

@@ -146,12 +146,12 @@ class SendViewController: UIViewController {
             Banner.show(.localize("enter-recipient-address"), style: .warning)
             return
         }
-        let remaining = account.mxrbBalance.bNumber - amountValue
-        guard remaining >= 0.0 else {
-            Banner.show(.localize("insufficient-funds"), style: .danger)
-            return
-        }
-        let txInfo = TxInfo(recipientName: recipientName, recipientAddress: recipientAddress, amount: amount, balance: remaining.decimalExpansion(precisionAfterComma: 6), accountInfo: account)
+//        let remaining = account.mlgnBalance.bNumber - amountValue
+//        guard remaining >= 0.0 else {
+//            Banner.show(.localize("insufficient-funds"), style: .danger)
+//            return
+//        }
+        let txInfo = TxInfo(recipientName: recipientName, recipientAddress: recipientAddress, amount: amount, accountInfo: account)
         delegate?.sendTapped(txInfo: txInfo)
     }
     

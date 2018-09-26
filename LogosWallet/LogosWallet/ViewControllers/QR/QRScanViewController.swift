@@ -15,7 +15,7 @@ struct PaymentInfo {
     let address: String?
     // Non-RAW amount
     var nanoAmount: String? {
-        guard let amt = amount, let amtVal = Double(amt)?.toMxrb else { return nil }
+        guard let amt = amount, let amtVal = Double(amt)?.toMlgs else { return nil }
         return amtVal
     }
 }
@@ -120,7 +120,7 @@ extension QRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
                 address = value
             }
             qrIndicatorView?.layer.borderColor = UIColor.green.cgColor
-            // Example format: xrb:xrb_3wm37qz19zhei7nzscjcopbrbnnachs4p1gnwo5oroi3qonw6inwgoeuufdp?amount=1000
+            // Example format: lgn:lgn_3wm37qz19zhei7nzscjcopbrbnnachs4p1gnwo5oroi3qonw6inwgoeuufdp?amount=1000
             if let paymentInfo = URLHandler.parse(urlString: value), let _ = WalletUtil.derivePublic(from: paymentInfo.address ?? "") {
                 address = paymentInfo.address
                 amount = paymentInfo.amount

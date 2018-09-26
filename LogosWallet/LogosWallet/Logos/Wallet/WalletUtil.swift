@@ -39,33 +39,28 @@ struct WalletUtil {
         return derivePublic(from: address) != nil
     }
     
-    static func derivePublic(from xrbAccount: String) -> String? {
-        let xrbPrefix = xrbAccount.prefix(4)
-        let nanoPrefix = xrbAccount.prefix(5)
-        var offset: Int = 0
-        if xrbPrefix == "xrb_" {
-            guard xrbAccount.count == 64 else {
+    static func derivePublic(from account: String) -> String? {
+        let prefix = account.prefix(4)
+
+        if prefix == "lgs_" || prefix == "xrb_" {
+            guard account.count == 64 else {
                 return nil
             }
-            offset = 4
-        } else if nanoPrefix == "nano_" {
-            guard xrbAccount.count == 65 else {
-                return nil
-            }
-            offset = 5
         } else {
             return nil
         }
+
+        let offset = 4
         let letters = "13456789abcdefghijkmnopqrstuwxyz"
         var lookup: [Character: UInt8] = [:]
         for i in 0..<32 {
             lookup[letters[String.Index(encodedOffset: i)]] = UInt8(i)
         }
         
-        let pubEnd = String.Index(encodedOffset: xrbAccount.endIndex.encodedOffset - 9)
-        let pubStart = String.Index(encodedOffset: xrbAccount.startIndex.encodedOffset + offset)
-        let encodedKey: String = String(xrbAccount[pubStart...pubEnd])
-        let encodedChecksum: String = String(xrbAccount.suffix(8))
+        let pubEnd = String.Index(encodedOffset: account.endIndex.encodedOffset - 9)
+        let pubStart = String.Index(encodedOffset: account.startIndex.encodedOffset + offset)
+        let encodedKey: String = String(account[pubStart...pubEnd])
+        let encodedChecksum: String = String(account.suffix(8))
         
         var pubKeyBits: BitArray = BitArray()
         for i in 0..<encodedKey.count {
@@ -93,16 +88,16 @@ struct WalletUtil {
         return result
     }
     
-    /// Derives the XRB wallet account given an ED25519 public key string. The public key is hashed using Blake2b.
+    /// Derives the LGS wallet account given an ED25519 public key string. The public key is hashed using Blake2b.
     ///
-    /// XRB wallet address contains the following:
-    ///     - prefix (xrb_ or nano_)
+    /// LGS wallet address contains the following:
+    ///     - prefix (lgs_)
     ///     - address (260 bit)
     ///     - checksum (last 40 bit of public key hash)
-    /// - Parameter publicKey: The public key to derive the XRB wallet address from.
+    /// - Parameter publicKey: The public key to derive the LGS wallet address from.
     ///
-    /// - Returns: The XRB wallet account
-    static func deriveXRBAccount(from publicKey: Data) throws -> String {
+    /// - Returns: The LGS wallet account
+    static func deriveLGSAccount(from publicKey: Data) throws -> String {
         // Checksum should have a 5 byte digest size
         guard let checksumHash = NaCl.hash(publicKey, outputLength: 5) else {
             throw WalletUtilError.internalSodium
@@ -121,7 +116,7 @@ struct WalletUtil {
         guard let encodedP = encodedPubKey, let encodedC = encodedChecksum else {
             throw WalletUtilError.encoding
         }
-        return "xrb_" + encodedP + encodedC
+        return "lgs_" + encodedP + encodedC
     }
     
     /// Encodes a bit array using Base 32 encoding with 5-bit chunks.

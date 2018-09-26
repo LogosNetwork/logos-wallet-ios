@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol AccountViewControllerDelegate: class {
     func transactionTapped(txInfo: SimpleBlockBridge)
@@ -32,12 +33,13 @@ class AccountViewController: UIViewController {
     fileprivate var balanceToSortOffset: CGFloat?
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
-    
+    private let disposeBag = DisposeBag()
+
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.onNewBlockBroadcasted = {
-            self.onNewBlockBroadcasted()
+        self.viewModel.onNewBlockBroadcasted = { [weak self] in
+            self?.onNewBlockBroadcasted()
         }
     }
     
@@ -59,32 +61,45 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupTableView()
-        setupNavBar()
-        viewModel.updateView = {
-            self.tableView.reloadData()
-            self.sortButton?.setTitle(self.viewModel.refineType.title, for: .normal)
+        self.setupView()
+        self.setupTableView()
+        self.setupNavBar()
+        self.viewModel.updateView = { [weak self] in
+            self?.tableView.reloadData()
+            self?.sortButton?.setTitle(self?.viewModel.refineType.title, for: .normal)
         }
         self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
-        
-        viewModel.getAccountInfo {
-            self.viewModel.getHistory {
-                self.tableView.reloadData()
-            }
-            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
-            if self.viewModel.history.count > 0 {
-                self.viewModel.getPending() { (pendingCount) in
-                    guard pendingCount > 0 else { return }
-                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-                    if pendingCount < 2 {
-                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-                    }
-                    Banner.show(pendingStatus, style: .success)
+
+        SocketManager.shared.accountInfoSubject
+            .subscribe(onNext: { [weak self] accountInfo in
+                print("GOT Account Info! \(accountInfo)")
+                self?.totalBalanceLabel?.text = accountInfo.balance
+                PersistentStore.write {
+                    self?.viewModel.account.balance = accountInfo.balance
+                    self?.viewModel.account.frontier = accountInfo.frontier
                 }
-            }
-            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
-        }
+//                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+        }).disposed(by: self.disposeBag)
+
+//        viewModel.getAccountInfo {
+//            self.viewModel.getHistory {
+//                self.tableView.reloadData()
+//            }
+//            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
+//            if self.viewModel.history.count > 0 {
+//                self.viewModel.getPending() { (pendingCount) in
+//                    guard pendingCount > 0 else { return }
+//                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
+//                    if pendingCount < 2 {
+//                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
+//                    }
+//                    Banner.show(pendingStatus, style: .success)
+//                }
+//            }
+//            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
+//        }
+
+        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
     }
 
     // MARK: - Setup
@@ -103,7 +118,7 @@ class AccountViewController: UIViewController {
         
         let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index)
         let accountAddressLabel = UILabel()
-        accountAddressLabel.text = keyPair?.xrbAccount
+        accountAddressLabel.text = keyPair?.lgsAccount
         accountAddressLabel.lineBreakMode = .byTruncatingMiddle
         accountAddressLabel.textColor = UIColor.white.withAlphaComponent(0.4)
         accountAddressLabel.font = UIFont.systemFont(ofSize: 13, weight: .light)
@@ -153,6 +168,7 @@ class AccountViewController: UIViewController {
         sortButton?.setTitle(viewModel.refineType.title, for: .normal)
         sendButton?.setTitle(.localize("send"), for: .normal)
         receiveButton?.setTitle(.localize("receive"), for: .normal)
+        unitsLabel?.text = CURRENCY_NAME
     }
     
     // MARK: - Actions
@@ -197,23 +213,23 @@ class AccountViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
         let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { (_) in
-            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { (textField) in
+            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { [weak self] (textField) in
                 guard let text = textField.text, !text.isEmpty else {
                     Banner.show("No account name provided", style: .warning)
                     return
                 }
                 PersistentStore.write {
-                    self.viewModel.account.name = textField.text
+                    self?.viewModel.account.name = textField.text
                 }
-                self.setupNavBar()
+                self?.setupNavBar()
             })
         }
-        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { (_) in
+        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { [unowned self] (_) in
             self.delegate?.editRepTapped(account: self.viewModel.account)
         }
-        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { (_) in
-            self.viewModel.repair() {
-                self.tableView.reloadData()
+        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] (_) in
+            self.viewModel.repair() { [weak self] in
+                self?.tableView.reloadData()
             }
         }
         alertController.addAction(editName)
@@ -241,13 +257,13 @@ class AccountViewController: UIViewController {
             return
         }
         guard getPending else {
-            viewModel.getHistory {
-                self.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
+            viewModel.getHistory { [weak self] in
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
             }
             return
         }
-        viewModel.getPending { (pendingCount) in
+        viewModel.getPending { [weak self] (pendingCount) in
             if pendingCount > 0 {
                 var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
                 if pendingCount < 2 {
@@ -255,9 +271,9 @@ class AccountViewController: UIViewController {
                 }
                 Banner.show(pendingStatus, style: .success)
             }
-            self.viewModel.getHistory {
-                self.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
+            self?.viewModel.getHistory {
+                self?.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
             }
         }
     }
@@ -271,10 +287,10 @@ class AccountViewController: UIViewController {
     }
     
     func onNewBlockBroadcasted() {
-        self.viewModel.getAccountInfo { [weak self] in
-            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-            self?.getPendingAndHistory(false)
-        }
+//        self.viewModel.getAccountInfo { [weak self] in
+//            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+//            self?.getPendingAndHistory(false)
+//        }
     }
     
     func updateView() {
@@ -284,24 +300,24 @@ class AccountViewController: UIViewController {
     func initiateChangeBlock(newRep: String?) {
         guard let rep = newRep,
             let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
-            let account = keyPair.xrbAccount else { return }
+            let account = keyPair.lgsAccount else { return }
         if rep == viewModel.account.representative {
             Banner.show(.localize("no-rep-change"), style: .warning)
             return
         }
         guard viewModel.account.frontier != ZERO_AMT else {
             // No blocks have been made yet, store the rep for later
-            PersistentStore.write {
-                viewModel.account.representative = rep
+            PersistentStore.write { [weak self] in
+                self?.viewModel.account.representative = rep
             }
             Banner.show(.localize("rep-changed"), style: .success)
             return
         }
-        var block = StateBlock(.change)
+        
+        var block = StateBlock(intent: .change)
         block.previous = viewModel.account.frontier
-        block.link = ZERO_AMT
-        block.balanceValue = BInt(viewModel.account.balance)
-        block.representative = rep
+        block.amount = ZERO_AMT
+        block.link = rep
         guard block.build(with: keyPair) else { return }
         Banner.show("Waiting for work on change block...", style: .success)
         BlockHandler.handle(block, for: account) { [weak self] (result) in

@@ -58,7 +58,7 @@ class ConfirmTxViewController: UIViewController {
         contentView?.layer.cornerRadius = 10.0
         contentView?.clipsToBounds = true
         confirmButton?.backgroundColor = AppStyle.Color.logosBlue
-        balanceLabel?.text = "\(txInfo.balance.trimTrailingZeros()) \(CURRENCY_NAME)"
+        balanceLabel?.text = "-- \(CURRENCY_NAME)"
         amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) \(CURRENCY_NAME)"
         let secondaryAmount = Currency.secondary.convertToFiat(amountValue, isRaw: false)
         secondaryAmountLabel?.text = "\(secondaryAmount) \(Currency.secondary.rawValue.uppercased())"
@@ -96,16 +96,19 @@ class ConfirmTxViewController: UIViewController {
     }
     
     fileprivate func handleSend() {
-        guard let balanceValue = BDouble(txInfo.balance), let amountValue = BDouble(txInfo.amount), amountValue > 0.0 else { return }
-        guard let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
-            let account = keyPair.xrbAccount else { return }
+        guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
+            let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
+            let _ = keyPair.lgsAccount else { return }
+
         // Generate block
-        let remainingRaw = balanceValue.toRaw.rounded()
-        var block = StateBlock(.send)
+        var block = StateBlock(intent: .send)
         block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.link = txInfo.recipientAddress
-        block.balanceValue = remainingRaw
-        block.representative = txInfo.accountInfo.representative
+        block.amount = txInfo.amount
+        block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
+        // TEMP
+        block.work = "0000000000000000"
+        // TEMP
+        block.representative = "xrb_1ueszjma45nw54i56rtkgjutrtfyihqipbzf8bo8e7gb6f45xfup4o1rfkae"
         guard block.build(with: keyPair) else { return }
         
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
@@ -113,17 +116,13 @@ class ConfirmTxViewController: UIViewController {
             self.contentView?.alpha = 0.0
         }
         LoadingView.startAnimating(in: self.navigationController)
-        BlockHandler.handle(block, for: account) { [weak self] (result) in
-            switch result {
-            case .success(_):
+        NetworkAdapter.process(block: block) { [weak self] (hash, error) in
+            if let error = error {
+                Banner.show("Send error: \(error.message)", style: .danger)
+            } else {
                 LoadingView.stopAnimating(true) {
                     self?.onSendComplete?()
                     self?.dismiss(animated: true)
-                }
-            case .failure(let error):
-                Banner.show(.localize("send-error-arg", arg: error.description), style: .danger)
-                UIView.animate(withDuration: 0.3) {
-                    self?.contentView?.alpha = 1.0
                 }
             }
         }

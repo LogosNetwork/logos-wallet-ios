@@ -21,7 +21,7 @@ struct PersistentStore {
                             let new = new,
                             let oldBalance = old["balance"] as? Double else { return }
                         // new balance is stored as string
-                        new["balance"] = oldBalance.toMxrb.bNumber.toRaw.decimalDescription
+                        new["balance"] = oldBalance.toMlgs.bNumber.toRaw.decimalDescription
                     })
                 }
         })
@@ -29,7 +29,12 @@ struct PersistentStore {
     }
     
     // MARK: - Accounts
-    
+
+    static func getNodeUrl() -> String {
+        // TODO
+        return "http://34.201.126.140:55000"
+    }
+
     static func remove(account: AccountInfo) {
         try? Realm().delete(account)
     }

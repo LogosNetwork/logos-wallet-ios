@@ -32,6 +32,12 @@ class AccountsViewController: UIViewController {
         setupTableView()
         setupNavBar()
         navigationController?.delegate = self
+
+        WalletManager.shared.accounts.forEach {
+            if let address = $0.address {
+                SocketManager.shared.action(.subscribe(account: address))
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

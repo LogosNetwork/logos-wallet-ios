@@ -14,7 +14,8 @@ struct Lincoln {
     
     static private(set) var consoleLog: [String] = []
     
-    static func log(_ message: String = "", inConsole: Bool = false, file: String = #file, line: Int = #line, function: String = #function) {
+    static func log(_ message: String? = nil, inConsole: Bool = false, file: String = #file, line: Int = #line, function: String = #function) {
+        let message: String = message ?? ""
         #if DEBUG
             if let file = NSURL(fileURLWithPath: file).lastPathComponent {
                 let funct = function + (function.contains("()") ? "" : "()")

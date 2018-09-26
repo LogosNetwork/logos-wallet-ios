@@ -9,68 +9,94 @@
 import Foundation
 
 struct StateBlock: BlockAdapter {
-    enum Intent {
-        case open
+
+    enum Intent: String {
         case send
-        case receive
         case change
     }
-    var account: String = ""
-    var representative: String = ""
+
+    enum MessageType: UInt8 {
+        case prePrepare = 0
+        case prepare
+        case postPrepare
+        case commit
+        case postCommit
+        case prePrepareReject
+        case postPrepareReject
+        case singleStateBlock
+    }
+
+    var version: UInt8?
+    // client should only be sending single state block
+    let messageType: MessageType = .singleStateBlock
+    // hardcoded for now since we're only sending to 1 target
+//    var targets: UInt8 = 1
+    /// Either send recipient or representative address to change to. Must match transactionAmounts size
+//    var targetAddresses: [String]?
+//    var transactionAmounts: [String]?
+//    var transactionFee: UInt8?
+//    var additionalSignatures: UInt8?
+    var link: String?
+    var representative: String?
+    var account: String?
+    var amount: String?
     var previous: String = ZERO_AMT
     // Base 10 remaining balance as RAW
-    var balance: String = ""
-    var link: String = ""
-    var signature: String = ""
-    var work: String = ""
-    var intent: Intent
-    var balanceValue: BInt? = nil
-    
-    init(_ intent: Intent) {
+    var signature: String?
+    var work: String?
+    let intent: Intent
+
+    init(intent: Intent) {
         self.intent = intent
     }
     
     /// Builds and signs a state block.
     /// - Parameter signingKeys: The keys to sign the block with.
-    /// Note: The link, representative, account, previous, and balance are required to be set before calling this function.
+    /// Note: The target addresses, amounts, and tx fee are required to be set before calling this function.
     /// An example of a state block with the intent to send would be as follows:
     /// let b = StateBlock(.send)
-    /// b.link = <destination address>
+    /// b.targetAddresses = [<destination address>]
+    /// b.transactionAmounts = [<transaction amount>]
     /// b.account = <block creator's address>
     /// b.previous = <current account's head block>
-    /// b.balance = <remaining balance after subtracting amount sent>
-    /// b.representative = <either current or a new rep>
+    /// b.amount = <amount to send>
     /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
-        guard var linkData = link.hexData,
-            let encodedAccount = signingKeys.xrbAccount,
-            let repData = WalletUtil.derivePublic(from: representative)?.hexData,
+        guard let encodedAccount = signingKeys.lgsAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
-            let previousData = previous.hexData,
-            let decimalBalance = balanceValue?.asString(radix: 10) else { return false }
-        let finalBalance = balanceValue?
-            .asString(radix: 16)
-            .leftPadding(toLength: 32, withPad: "0") ?? ZERO_AMT
-        if intent == .send, let destinationData = WalletUtil.derivePublic(from: link)?.hexData {
-            linkData = destinationData
+            var linkData = self.link?.hexData,
+            let previousData = self.previous.hexData,
+            let representative = self.representative,
+            let repData = WalletUtil.derivePublic(from: representative)?.hexData,
+            let amount = self.amount,
+            let amountValue = BInt(amount) else {
+            return false
         }
-        if intent == .change {
-            linkData = ZERO_AMT.hexData!
-            link = ZERO_AMT
+
+        var amountData: Data?
+        if self.intent == .send {
+            amountData = amountValue
+                .asString(radix: 16)
+                .leftPadding(toLength: 32, withPad: "0").hexData
+        } else {
+            linkData = repData
         }
-        guard let balanceData = finalBalance.hexData else { return false }
+        
+        // TODO: create correct digest
         guard let digest = NaCl.digest([
             STATEBLOCK_PREAMBLE.hexData!,
             accountData,
             previousData,
             repData,
-            balanceData,
+            amountData!,
             linkData
-            ], outputLength: 32) else { return false }
+        ], outputLength: 32) else {
+            return false
+        }
+
         guard let sig = NaCl.sign(digest, secret: signingKeys.secretKey) else { return false }
-        balance = decimalBalance
-        account = encodedAccount
-        signature = sig.hexString.uppercased()
+        self.account = encodedAccount
+        self.signature = sig.hexString.uppercased()
 
         return true
     }
@@ -78,13 +104,13 @@ struct StateBlock: BlockAdapter {
     var json: [String: String] {
         return [
             "type": "state",
-            "account": account,
-            "previous": previous,
-            "link": link,
-            "balance": balance,
-            "representative": representative,
-            "signature": signature,
-            "work": work
+            "account": (self.account ?? "").replacingOccurrences(of: "lgs_", with: "xrb_"),
+            "previous": self.previous,
+            "signature": self.signature ?? "",
+            "representative": self.representative ?? "",
+            "amount": self.amount ?? "",
+            "link": self.link ?? "",
+            "work": self.work ?? ""
         ]
     }
 }

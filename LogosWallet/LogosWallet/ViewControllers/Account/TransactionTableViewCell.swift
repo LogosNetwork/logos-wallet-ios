@@ -27,11 +27,12 @@ class TransactionTableViewCell: UITableViewCell {
         backgroundColor = UIColor.white.withAlphaComponent(0.04)
         contentView.backgroundColor = .clear
         layer.cornerRadius = 10.0
-        guard let tx = tx, let type = Block.BlockType(rawValue: tx.type) else { return }
+
+        guard let tx = tx, let type = StateBlock.Intent(rawValue: tx.type) else { return }
         typeLabel?.text = type == .send ? .localize("sent-filter") : .localize("received-filter")
         let secondary = Currency.secondary
         var stringValue = ""
-        let value = tx.amount.bNumber.toMxrbValue
+        let value = tx.amount.bNumber.toMlgsValue
         if useSecondaryCurrency {
             let converted = secondary.convertToFiat(tx.amount.bNumber)
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
@@ -41,7 +42,7 @@ class TransactionTableViewCell: UITableViewCell {
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name
         sourceDestLabel?.text = alias ?? tx.account
-        typeIndicatorLabel?.text = type == .receive ? "+" : "-"
+        typeIndicatorLabel?.text = type.rawValue == "receive" ? "+" : "-"
     }
     
 }

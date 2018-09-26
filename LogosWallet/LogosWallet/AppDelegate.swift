@@ -24,14 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.statusBarStyle = .lightContent
         UINavigationBar.appearance().makeTransparent()
-        
-        let cur = Currency.secondary
-        CurrencyAPI.getCurrencyInfo(for: cur) { rate in
-            if let rate = rate {
-                Lincoln.log("Got currency info for '\(cur.rawValue)': \(cur.symbol)\(rate) per \(CURRENCY_NAME)")
-                cur.setRate(rate)
-            }
-        }
+
         AppCoordinator.shared.start()
         if RtChk.ir() {
             let alert = UIAlertController(title: "Uh oh!", message: "We've detected your device may be jail broken. It is strongly recommended that you don't run wallet software on a jail broken device.", preferredStyle: .alert)
@@ -39,7 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             alert.addAction(okAction)
             AppCoordinator.shared.rootViewController.present(alert, animated: true)
         }
-        
+
+        SocketManager.shared.openConnection()
+
         return true
     }
 

@@ -84,12 +84,12 @@ enum Currency: String {
     
     /// Converts a Nano (either raw or mxrb) amount to the user's selected 'secondary' currency.
     func convert(_ value: BDouble, isRaw: Bool = true) -> String {
-        let value = isRaw ? value.toMxrbValue : value
+        let value = isRaw ? value.toMlgsValue : value
         return (Currency.secondaryConversionRate * value).decimalExpansion(precisionAfterComma: self.precision)
     }
     
     func convertToFiat(_ value: BDouble, isRaw: Bool = true) -> String {
-        let value = isRaw ? value.toMxrb : value.decimalExpansion(precisionAfterComma: 6)
+        let value = isRaw ? value.toMlgs : value.decimalExpansion(precisionAfterComma: 6)
         return ((Double(value) ?? 0.0) * Currency.secondaryConversionRate).chopDecimal(to: Currency.secondary.precision)
     }
     func setRate(_ rate: Double) {
