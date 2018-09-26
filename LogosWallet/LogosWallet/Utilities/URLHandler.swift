@@ -16,7 +16,7 @@ struct URLHandler {
     static func parse(urlString: String) -> PaymentInfo? {
         var amount: String?
         var address: String?
-        // Example format: xrb:xrb_3wm37qz19zhei7nzscjcopbrbnnachs4p1gnwo5oroi3qonw6inwgoeuufdp?amount=1000
+        // Example format: lgs:lgs_3wm37qz19zhei7nzscjcopbrbnnachs4p1gnwo5oroi3qonw6inwgoeuufdp?amount=1000
         guard urlString.prefix(4) == "lgs:" else { return nil }
         let components = URLComponents(string: urlString)
         for query in components?.queryItems ?? [] {
