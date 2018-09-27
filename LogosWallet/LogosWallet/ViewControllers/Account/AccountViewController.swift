@@ -90,7 +90,11 @@ class AccountViewController: UIViewController {
 
         SocketManager.shared.accountInfoSubject
             .subscribe(onNext: { [weak self] accountInfo in
-                guard let strongSelf = self, strongSelf.viewIfLoaded != nil else {
+                guard
+                    let strongSelf = self,
+                    strongSelf.viewIfLoaded != nil,
+                    strongSelf.viewModel.account.openBlock.isEmpty || accountInfo.openBlock == strongSelf.viewModel.account.openBlock
+                else {
                     return
                 }
                 print("GOT Account Info! \(accountInfo)")
