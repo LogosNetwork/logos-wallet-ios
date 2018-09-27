@@ -27,20 +27,32 @@ struct AppStyle {
     struct Font {
         /// 25.0, medium
         static var title: UIFont = .systemFont(ofSize: 25.0, weight: .medium)
+
+        /// 14.0 light
+        static var subtitle: UIFont = .systemFont(ofSize: 14.0, weight: .regular)
+
         /// 17.0, light
         static var body: UIFont = .systemFont(ofSize: 17.0, weight: .light)
+
         /// 17.0, medium
         static var control: UIFont = .systemFont(ofSize: 17.0, weight: .medium)
     }
 
     struct Color {
         // 43, 45, 53
-        static var offBlack = #colorLiteral(red: 0.168627451, green: 0.1764705882, blue: 0.2078431373, alpha: 1)
+        static let offBlack = #colorLiteral(red: 0.168627451, green: 0.1764705882, blue: 0.2078431373, alpha: 1)
+
         // 43, 49, 101
-        static var deepBlue = #colorLiteral(red: 0.168627451, green: 0.1921568627, blue: 0.3960784314, alpha: 1)
+        static let deepBlue = #colorLiteral(red: 0.168627451, green: 0.1921568627, blue: 0.3960784314, alpha: 1)
+
+        /// 135, 136, 140
+        static let lightGrey = #colorLiteral(red: 0.5294117647, green: 0.5333333333, blue: 0.5490196078, alpha: 1)
+
+        /// 224 224 224
+        static let superLightGrey = #colorLiteral(red: 0.8784313725, green: 0.8784313725, blue: 0.8784313725, alpha: 1)
 
         /// R: 91, G: 142, B: 220
-        static var logosBlue = #colorLiteral(red: 0.2899867296, green: 0.5629279017, blue: 0.8873699903, alpha: 1)
+        static let logosBlue = #colorLiteral(red: 0.2899867296, green: 0.5629279017, blue: 0.8873699903, alpha: 1)
         
         static var lowAlphaBlack: UIColor {
             return UIColor.black.withAlphaComponent(0.6)

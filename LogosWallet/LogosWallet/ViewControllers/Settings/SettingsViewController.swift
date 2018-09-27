@@ -36,7 +36,7 @@ class SettingsViewController: TitleTableViewController {
             case .console: return .localize("console")
             case .currency: return .localize("currency")
             case .security: return .localize("security")
-            case .nodeAddress: return "Node Address"
+            case .nodeAddress: return "Server URLs"
             case .about: return .localize("about")
             }
         }
@@ -44,27 +44,11 @@ class SettingsViewController: TitleTableViewController {
     }
     
     weak var delegate: SettingsViewControllerDelegate?
-
-    lazy var serverUrlLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppStyle.Color.offBlack
-        label.font = AppStyle.Font.body
-        label.text = NetworkAdapter.baseNodeUrl
-        return label
-    }()
-
-    lazy var serverConnectionStatusView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .green
-        view.layer.cornerRadius = 4.0
-        return view
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupNavBar()
         self.setupTableView()
-        self.setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,22 +68,6 @@ class SettingsViewController: TitleTableViewController {
     
     // MARK: - Setup
 
-    private func setupViews() {
-        self.view.addSubview(self.serverUrlLabel)
-        self.serverUrlLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(self.view.snp.bottom).offset(-AppStyle.Size.padding)
-            make.left.equalTo(self.view.snp.left).offset(AppStyle.Size.smallPadding)
-            make.height.equalTo(24.0)
-        }
-
-//        self.view.addSubview(self.serverConnectionStatusView)
-//        self.serverConnectionStatusView.snp.makeConstraints { (make) in
-//            make.left.equalTo(self.serverUrlLabel.snp.right).offset(AppStyle.Size.smallPadding)
-//            make.centerY.equalTo(self.serverUrlLabel.snp.centerY)
-//            make.width.height.equalTo(8.0)
-//        }
-    }
-
     override func setupNavBar() {
         let leftBarItem = UIBarButtonItem(image: #imageLiteral(resourceName: "close2").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(dismissTapped))
         navigationItem.leftBarButtonItem = leftBarItem
@@ -112,10 +80,6 @@ class SettingsViewController: TitleTableViewController {
     }
     
     // MARK: - Actions
-
-    func updateNodeUrlText() {
-        self.serverUrlLabel.text = NetworkAdapter.baseNodeUrl
-    }
     
     fileprivate func handleClearWalletData() {
         self.delegate?.clearWalletTapped()

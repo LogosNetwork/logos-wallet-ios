@@ -23,7 +23,8 @@ class SocketManager {
     // MARK: - Object Lifeycle
 
     init() {
-        self.webSocket = WebSocket(url: LogosService.url)
+        let url = URL(string: PersistentStore.getAppUrls().walletServerUrl)!
+        self.webSocket = WebSocket(url: url)
         self.setupWebSocket()
     }
 
@@ -72,6 +73,19 @@ class SocketManager {
 
 
     // MARK: - API
+
+    @discardableResult
+    func changeSocketUrl(to url: String) -> Bool {
+        guard let newUrl = URL(string: url) else {
+            return false
+        }
+        PersistentStore.updateWalletServerUrl(to: url)
+        self.webSocket.disconnect()
+        self.webSocket = WebSocket(url: newUrl)
+        self.setupWebSocket()
+        self.openConnection()
+        return true
+    }
 
     func action(_ action: LogosService) {
         guard self.webSocket.isConnected else {
@@ -137,10 +151,6 @@ enum LogosService {
         case .subscribe(let account):
             return self.params(for: "account_subscribe", params: ["account": self.changePrefix(account)])
         }
-    }
-
-    static var url: URL {
-        return URL(string: "ws://34.201.126.140:443")!
     }
 
     fileprivate func params(for action: String, params: [String: Any] = [:]) -> String? {

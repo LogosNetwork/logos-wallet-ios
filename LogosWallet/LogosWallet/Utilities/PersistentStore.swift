@@ -160,29 +160,37 @@ struct PersistentStore {
     static func updateNodeUrl(to url: String) {
         do {
             let realm = try Realm()
-            let currentNodeUrl = realm.objects(NodeUrl.self).first
+            let currentAppUrl = realm.objects(AppUrl.self).first
             self.write {
-                currentNodeUrl?.url = url
+                currentAppUrl?.nodeUrl = url
+            }
+        } catch { }
+    }
+
+    static func updateWalletServerUrl(to url: String) {
+        do {
+            let realm = try Realm()
+            let currentAppUrl = realm.objects(AppUrl.self).first
+            self.write {
+                currentAppUrl?.walletServerUrl = url
             }
         } catch { }
     }
 
     @discardableResult
-    static func getNodeUrl() -> String {
-        let defaultUrl = "http://52.215.106.54:55000"
+    static func getAppUrls() -> AppUrl {
         do {
             let realm = try Realm()
             guard
-                let nodeUrl = realm.objects(NodeUrl.self).first
+                let appUrl = realm.objects(AppUrl.self).first
             else {
-                let nodeUrl = NodeUrl()
-                nodeUrl.url = defaultUrl
-                self.add(nodeUrl)
-                return defaultUrl
+                let appUrl = AppUrl()
+                self.add(appUrl)
+                return appUrl
             }
-            return nodeUrl.url
+            return appUrl
         } catch {
-            return defaultUrl
+            return AppUrl()
         }
     }
 

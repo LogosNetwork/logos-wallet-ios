@@ -42,7 +42,9 @@ public struct NetworkAdapter {
         // TODO: get other error messages
     }
 
-    static var baseNodeUrl = PersistentStore.getNodeUrl()
+    static var baseNodeUrl: String {
+        return PersistentStore.getAppUrls().nodeUrl
+    }
     static let provider = MoyaProvider<LogosLegacyService>()
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
     
