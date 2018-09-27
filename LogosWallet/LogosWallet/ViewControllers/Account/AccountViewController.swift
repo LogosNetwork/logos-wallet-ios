@@ -34,6 +34,7 @@ class AccountViewController: UIViewController {
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
     private let disposeBag = DisposeBag()
+    private var loadComplete = false
     var pollingTimer: Timer?
 
     // MARK: - Object lifecycle
@@ -75,7 +76,7 @@ class AccountViewController: UIViewController {
         self.pollingTimer?.invalidate()
         self.pollingTimer = nil
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
@@ -89,7 +90,7 @@ class AccountViewController: UIViewController {
 
         SocketManager.shared.accountInfoSubject
             .subscribe(onNext: { [weak self] accountInfo in
-                guard let strongSelf = self else {
+                guard let strongSelf = self, strongSelf.viewIfLoaded != nil else {
                     return
                 }
                 print("GOT Account Info! \(accountInfo)")
@@ -99,7 +100,8 @@ class AccountViewController: UIViewController {
                     strongSelf.viewModel.account.frontier = accountInfo.frontier
                 }
 
-                if strongSelf.pollingTimer == nil && strongSelf.viewIfLoaded != nil {
+                if strongSelf.loadComplete == false {
+                    strongSelf.loadComplete = true
                     strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
                 }
 
@@ -203,6 +205,8 @@ class AccountViewController: UIViewController {
     }
 
     @objc fileprivate func backTapped() {
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
         self.delegate?.backTapped()
     }
     
