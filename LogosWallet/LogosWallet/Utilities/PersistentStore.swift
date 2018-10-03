@@ -30,11 +30,6 @@ struct PersistentStore {
     
     // MARK: - Accounts
 
-    static func getNodeUrl() -> String {
-        // TODO
-        return "http://34.201.126.140:55000"
-    }
-
     static func remove(account: AccountInfo) {
         try? Realm().delete(account)
     }
@@ -159,7 +154,46 @@ struct PersistentStore {
             return []
         }
     }
-    
+
+    // MARK: - Node Url
+
+    static func updateNodeUrl(to url: String) {
+        do {
+            let realm = try Realm()
+            let currentAppUrl = realm.objects(AppUrl.self).first
+            self.write {
+                currentAppUrl?.nodeUrl = url
+            }
+        } catch { }
+    }
+
+    static func updateWalletServerUrl(to url: String) {
+        do {
+            let realm = try Realm()
+            let currentAppUrl = realm.objects(AppUrl.self).first
+            self.write {
+                currentAppUrl?.walletServerUrl = url
+            }
+        } catch { }
+    }
+
+    @discardableResult
+    static func getAppUrls() -> AppUrl {
+        do {
+            let realm = try Realm()
+            guard
+                let appUrl = realm.objects(AppUrl.self).first
+            else {
+                let appUrl = AppUrl()
+                self.add(appUrl)
+                return appUrl
+            }
+            return appUrl
+        } catch {
+            return AppUrl()
+        }
+    }
+
     // MARK: - Helpers
     
     static func clearAll() {

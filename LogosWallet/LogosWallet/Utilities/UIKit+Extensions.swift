@@ -196,6 +196,16 @@ extension UIView: FromNib {
 }
 
 extension UIView {
+    static func line(_ color: UIColor? = AppStyle.Color.superLightGrey) -> UIView {
+        let view = UIView()
+        view.backgroundColor = color
+        view.snp.makeConstraints { (make) in
+            make.height.equalTo(1.0)
+        }
+
+        return view
+    }
+
     func mask(viewToMask: UIView, maskRect: CGRect, invert: Bool = false, cornerRadius: CGFloat = 0.0) {
         let maskLayer = CAShapeLayer()
         let path = CGMutablePath()

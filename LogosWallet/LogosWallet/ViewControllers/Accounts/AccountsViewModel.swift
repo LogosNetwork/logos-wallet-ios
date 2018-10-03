@@ -16,13 +16,13 @@ struct AccountsViewModel {
     
     init() {
         currencyValue = CURRENCY_NAME
-        balanceValue = getTotalNano()
+        balanceValue = getTotalLGS()
     }
     
     mutating func toggleCurrency() {
         if isShowingSecondary {
             currencyValue = CURRENCY_NAME
-            balanceValue = getTotalNano()
+            balanceValue = getTotalLGS()
         } else {
             let secondary = Currency.secondary
             currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")
@@ -34,7 +34,7 @@ struct AccountsViewModel {
         isShowingSecondary = !isShowingSecondary
     }
     
-    func getTotalNano() -> String {
+    func getTotalLGS() -> String {
         let total = WalletManager.shared.accounts.reduce(Double(0.0), { (result, account) in
             result + (Double(account.balance) ?? 0.0)
         })

@@ -207,7 +207,7 @@ class SendViewController: UIViewController {
             addAddressButton?.isHidden = false
         }
         
-        if let amount = scanResult.nanoAmount {
+        if let amount = scanResult.lgsAmount {
             amountLabel?.text = amount
             enterAmountButton?.isHidden = true
             amountLabel?.isHidden = false

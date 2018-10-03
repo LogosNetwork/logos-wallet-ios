@@ -31,6 +31,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>${PRODUCT_NAME} would like to use your camera to scan QR codes</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>${PRODUCT_NAME} would like permission to export QR codes to your photo library</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Your face is required for verification purposes</string>
 	<key>UILaunchStoryboardName</key>

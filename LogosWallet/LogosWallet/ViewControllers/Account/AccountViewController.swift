@@ -34,6 +34,10 @@ class AccountViewController: UIViewController {
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
     private let disposeBag = DisposeBag()
+    private var loadComplete = false
+    var pollingTimer: Timer?
+
+    // MARK: - Object lifecycle
 
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
@@ -42,11 +46,19 @@ class AccountViewController: UIViewController {
             self?.onNewBlockBroadcasted()
         }
     }
-    
+
+    deinit {
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+
+    // MARK: - View lifecycle
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if balanceToSortOffset == nil {
@@ -58,7 +70,13 @@ class AccountViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
     }
-    
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
@@ -72,12 +90,25 @@ class AccountViewController: UIViewController {
 
         SocketManager.shared.accountInfoSubject
             .subscribe(onNext: { [weak self] accountInfo in
-                print("GOT Account Info! \(accountInfo)")
-                self?.totalBalanceLabel?.text = accountInfo.balance
-                PersistentStore.write {
-                    self?.viewModel.account.balance = accountInfo.balance
-                    self?.viewModel.account.frontier = accountInfo.frontier
+                guard
+                    let strongSelf = self,
+                    strongSelf.viewIfLoaded != nil,
+                    strongSelf.viewModel.account.openBlock.isEmpty || accountInfo.openBlock == strongSelf.viewModel.account.openBlock
+                else {
+                    return
                 }
+                print("GOT Account Info! \(accountInfo)")
+                strongSelf.totalBalanceLabel?.text = accountInfo.balance
+                PersistentStore.write {
+                    strongSelf.viewModel.account.balance = accountInfo.balance
+                    strongSelf.viewModel.account.frontier = accountInfo.frontier
+                }
+
+                if strongSelf.loadComplete == false {
+                    strongSelf.loadComplete = true
+                    strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
+                }
+
 //                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
         }).disposed(by: self.disposeBag)
 
@@ -151,10 +182,10 @@ class AccountViewController: UIViewController {
         tableView.register(TransactionTableViewCell.self)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
-        refreshControl = UIRefreshControl()
-        refreshControl?.tintColor = .white
-        refreshControl?.addTarget(self, action: #selector(onPullDown(_:)), for: .valueChanged)
-        tableView.refreshControl = refreshControl
+//        refreshControl = UIRefreshControl()
+//        refreshControl?.tintColor = .white
+//        refreshControl?.addTarget(self, action: #selector(onPullDown(_:)), for: .valueChanged)
+//        tableView.refreshControl = refreshControl
     }
     
     fileprivate func setupView() {
@@ -172,8 +203,14 @@ class AccountViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
+
+    @objc fileprivate func pollAccountInfo() {
+        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
+    }
+
     @objc fileprivate func backTapped() {
+        self.pollingTimer?.invalidate()
+        self.pollingTimer = nil
         self.delegate?.backTapped()
     }
     
@@ -240,42 +277,42 @@ class AccountViewController: UIViewController {
     }
     
     @objc func onPullDown(_ refreshControl: UIRefreshControl) {
-        guard !viewModel.isFetching else { return }
-        refreshControl.beginRefreshing()
-        getPendingAndHistory()
+//        guard !viewModel.isFetching else { return }
+//        refreshControl.beginRefreshing()
+//        getPendingAndHistory()
     }
     
     fileprivate func getPendingAndHistory(_ getPending: Bool = true) {
-        guard viewModel.account.frontier != ZERO_AMT else {
-            viewModel.getAccountInfo() {
-                guard self.viewModel.account.pending > 0 else {
-                    self.refreshControl?.endRefreshing()
-                    return
-                }
-                self.getPendingAndHistory()
-            }
-            return
-        }
-        guard getPending else {
-            viewModel.getHistory { [weak self] in
-                self?.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
-            }
-            return
-        }
-        viewModel.getPending { [weak self] (pendingCount) in
-            if pendingCount > 0 {
-                var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-                if pendingCount < 2 {
-                    pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-                }
-                Banner.show(pendingStatus, style: .success)
-            }
-            self?.viewModel.getHistory {
-                self?.refreshControl?.endRefreshing()
-                self?.tableView.reloadData()
-            }
-        }
+//        guard viewModel.account.frontier != ZERO_AMT else {
+//            viewModel.getAccountInfo() {
+//                guard self.viewModel.account.pending > 0 else {
+//                    self.refreshControl?.endRefreshing()
+//                    return
+//                }
+//                self.getPendingAndHistory()
+//            }
+//            return
+//        }
+//        guard getPending else {
+//            viewModel.getHistory { [weak self] in
+//                self?.refreshControl?.endRefreshing()
+//                self?.tableView.reloadData()
+//            }
+//            return
+//        }
+//        viewModel.getPending { [weak self] (pendingCount) in
+//            if pendingCount > 0 {
+//                var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
+//                if pendingCount < 2 {
+//                    pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
+//                }
+//                Banner.show(pendingStatus, style: .success)
+//            }
+//            self?.viewModel.getHistory {
+//                self?.refreshControl?.endRefreshing()
+//                self?.tableView.reloadData()
+//            }
+//        }
     }
     
     @IBAction func sendTapped(_ sender: Any) {

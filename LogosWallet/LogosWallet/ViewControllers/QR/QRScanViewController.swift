@@ -14,7 +14,7 @@ struct PaymentInfo {
     let amount: String?
     let address: String?
     // Non-RAW amount
-    var nanoAmount: String? {
+    var lgsAmount: String? {
         guard let amt = amount, let amtVal = Double(amt)?.toMlgs else { return nil }
         return amtVal
     }
@@ -130,10 +130,10 @@ extension QRScanViewController: AVCaptureMetadataOutputObjectsDelegate {
                 return
             }
             // 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.onQRCodeScanned?(PaymentInfo(amount: amount, address: addr))
                 self.dismiss(animated: true)
-            })
+            }
         }
     }
 }
