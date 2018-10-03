@@ -276,14 +276,17 @@ class AccountViewController: UIViewController {
     @objc fileprivate func overflowPressed() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
-        let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { _ in
-            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { [weak self] (textField) in
+        let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { [weak self] _ in
+            self?.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { (textField) in
                 guard let text = textField.text, !text.isEmpty else {
                     Banner.show("No account name provided", style: .warning)
                     return
                 }
                 PersistentStore.write {
-                    self?.viewModel.account.name = textField.text
+                    self?.viewModel.account.name = text
+                }
+                if let address = self?.viewModel.account.address {
+                    PersistentStore.updateAddressEntry(address: address, name: text, originalAddress: address)
                 }
                 self?.setupNavBar()
             })
