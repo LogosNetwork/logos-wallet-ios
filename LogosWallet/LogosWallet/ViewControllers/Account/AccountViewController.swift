@@ -34,8 +34,8 @@ class AccountViewController: UIViewController {
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
     private let disposeBag = DisposeBag()
-    private var loadComplete = false
     var pollingTimer: Timer?
+    private let feedbackGenerator = UINotificationFeedbackGenerator()
 
     // MARK: - Object lifecycle
 
@@ -94,11 +94,7 @@ class AccountViewController: UIViewController {
                 strongSelf.viewModel.account.balance = accountInfo.balance
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
             }
-
-            if strongSelf.loadComplete == false {
-                strongSelf.loadComplete = true
-                strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
-            }
+            strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
         }
 
 //        SocketManager.shared.accountInfoSubject
@@ -217,6 +213,7 @@ class AccountViewController: UIViewController {
         guard let address = self.viewModel.account.address else {
             return
         }
+
         NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
             guard
                 let strongSelf = self,
@@ -227,6 +224,11 @@ class AccountViewController: UIViewController {
 
             Lincoln.log("Account info: \(accountInfo)")
             strongSelf.totalBalanceLabel?.text = accountInfo.balance
+
+            if strongSelf.viewModel.account.balance != accountInfo.balance {
+                SoundManager.shared.play(.receive)
+                strongSelf.feedbackGenerator.notificationOccurred(.success)
+            }
             PersistentStore.write {
                 strongSelf.viewModel.account.balance = accountInfo.balance
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
