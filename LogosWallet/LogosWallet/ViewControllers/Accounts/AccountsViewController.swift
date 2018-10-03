@@ -33,20 +33,27 @@ class AccountsViewController: UIViewController {
         setupNavBar()
         navigationController?.delegate = self
 
-        WalletManager.shared.accounts.forEach {
-            if let address = $0.address {
-                SocketManager.shared.action(.subscribe(account: address))
+        WalletManager.shared.accounts.forEach { account in
+            guard let address = account.address else {
+                return
+            }
+            SocketManager.shared.action(.subscribe(account: address))
+            NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+                if let info = info {
+                    PersistentStore.write {
+                        account.balance = info.balance
+                        account.frontier = info.frontier
+                    }
+                    self?.updateAccounts()
+                }
             }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        WalletManager.shared.updateAccounts()
-        tableView?.reloadData()
-        viewModel = AccountsViewModel()
-        totalBalanceLabel?.text = viewModel.balanceValue
-        unitsLabel?.text = viewModel.currencyValue
+
+        self.updateAccounts()
     }
     
     // MARK: - Setup
@@ -86,7 +93,15 @@ class AccountsViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
+
+    private func updateAccounts() {
+        WalletManager.shared.updateAccounts()
+        tableView?.reloadData()
+        viewModel = AccountsViewModel()
+        totalBalanceLabel?.text = viewModel.balanceValue
+        unitsLabel?.text = viewModel.currencyValue
+    }
+
     @objc func settingsTapped() {
         delegate?.settingsTapped()
     }
