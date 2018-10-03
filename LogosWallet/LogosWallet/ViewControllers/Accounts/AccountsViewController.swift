@@ -149,6 +149,12 @@ extension AccountsViewController: UITableViewDelegate {
 
 extension AccountsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if operation == .pop {
+            if let accountCoordinator = AppCoordinator.shared.childCoordinators.last?.childCoordinators.last as? AccountCoordinator {
+                accountCoordinator.backTapped()
+            }
+        }
+
         customInteractor = CustomInteractor(attachTo: toVC)
         return TransparentNavigationTransition(operation: operation)
     }
