@@ -86,7 +86,7 @@ class AccountViewController: UIViewController {
             guard
                 let strongSelf = self,
                 let accountInfo = info
-                else {
+            else {
                     return
             }
             strongSelf.totalBalanceLabel?.text = accountInfo.balance
@@ -210,7 +210,12 @@ class AccountViewController: UIViewController {
     // MARK: - Actions
 
     @objc fileprivate func pollAccountInfo() {
-        guard let address = self.viewModel.account.address else {
+        guard
+            let address = self.viewModel.account.address,
+            self.navigationController != nil
+        else {
+            self.pollingTimer?.invalidate()
+            self.pollingTimer = nil
             return
         }
 
@@ -267,10 +272,10 @@ class AccountViewController: UIViewController {
     }
     
     @objc fileprivate func currencySwitch() {
-        viewModel.toggleCurrency()
-        tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
-        unitsLabel?.text = viewModel.currencyValue
+//        viewModel.toggleCurrency()
+//        tableView?.reloadData()
+//        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
+//        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {
