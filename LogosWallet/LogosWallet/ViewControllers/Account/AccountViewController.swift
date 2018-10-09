@@ -34,8 +34,8 @@ class AccountViewController: UIViewController {
     weak var delegate: AccountViewControllerDelegate?
     private(set) var viewModel: AccountViewModel
     private let disposeBag = DisposeBag()
-    private var loadComplete = false
     var pollingTimer: Timer?
+    private let feedbackGenerator = UINotificationFeedbackGenerator()
 
     // MARK: - Object lifecycle
 
@@ -45,11 +45,6 @@ class AccountViewController: UIViewController {
         self.viewModel.onNewBlockBroadcasted = { [weak self] in
             self?.onNewBlockBroadcasted()
         }
-    }
-
-    deinit {
-        self.pollingTimer?.invalidate()
-        self.pollingTimer = nil
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -71,14 +66,9 @@ class AccountViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.pollingTimer?.invalidate()
-        self.pollingTimer = nil
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.setupView()
         self.setupTableView()
         self.setupNavBar()
@@ -88,29 +78,48 @@ class AccountViewController: UIViewController {
         }
         self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
 
-        SocketManager.shared.accountInfoSubject
-            .subscribe(onNext: { [weak self] accountInfo in
-                guard
-                    let strongSelf = self,
-                    strongSelf.viewIfLoaded != nil,
-                    strongSelf.viewModel.account.openBlock.isEmpty || accountInfo.openBlock == strongSelf.viewModel.account.openBlock
-                else {
+        guard let address = self.viewModel.account.address else {
+            return
+        }
+
+        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+            guard
+                let strongSelf = self,
+                let accountInfo = info
+            else {
                     return
-                }
-                print("GOT Account Info! \(accountInfo)")
-                strongSelf.totalBalanceLabel?.text = accountInfo.balance
-                PersistentStore.write {
-                    strongSelf.viewModel.account.balance = accountInfo.balance
-                    strongSelf.viewModel.account.frontier = accountInfo.frontier
-                }
+            }
+            PersistentStore.write {
+                strongSelf.viewModel.account.balance = accountInfo.balance
+                strongSelf.viewModel.account.frontier = accountInfo.frontier
+            }
+            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
+            strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
+        }
 
-                if strongSelf.loadComplete == false {
-                    strongSelf.loadComplete = true
-                    strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
-                }
-
-//                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-        }).disposed(by: self.disposeBag)
+//        SocketManager.shared.accountInfoSubject
+//            .subscribe(onNext: { [weak self] accountInfo in
+//                guard
+//                    let strongSelf = self,
+//                    strongSelf.viewIfLoaded != nil,
+//                    strongSelf.viewModel.account.openBlock.isEmpty || accountInfo.openBlock == strongSelf.viewModel.account.openBlock
+//                else {
+//                    return
+//                }
+//                print("GOT Account Info! \(accountInfo)")
+//                strongSelf.totalBalanceLabel?.text = accountInfo.balance
+//                PersistentStore.write {
+//                    strongSelf.viewModel.account.balance = accountInfo.balance
+//                    strongSelf.viewModel.account.frontier = accountInfo.frontier
+//                }
+//
+//                if strongSelf.loadComplete == false {
+//                    strongSelf.loadComplete = true
+//                    strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
+//                }
+//
+////                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+//        }).disposed(by: self.disposeBag)
 
 //        viewModel.getAccountInfo {
 //            self.viewModel.getHistory {
@@ -130,7 +139,7 @@ class AccountViewController: UIViewController {
 //            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
 //        }
 
-        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
+//        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
     }
 
     // MARK: - Setup
@@ -182,10 +191,6 @@ class AccountViewController: UIViewController {
         tableView.register(TransactionTableViewCell.self)
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
-//        refreshControl = UIRefreshControl()
-//        refreshControl?.tintColor = .white
-//        refreshControl?.addTarget(self, action: #selector(onPullDown(_:)), for: .valueChanged)
-//        tableView.refreshControl = refreshControl
     }
     
     fileprivate func setupView() {
@@ -205,34 +210,61 @@ class AccountViewController: UIViewController {
     // MARK: - Actions
 
     @objc fileprivate func pollAccountInfo() {
-        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
+        guard
+            let address = self.viewModel.account.address,
+            self.navigationController != nil
+        else {
+            self.pollingTimer?.invalidate()
+            self.pollingTimer = nil
+            return
+        }
+
+        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+            guard
+                let strongSelf = self,
+                let accountInfo = info
+            else {
+                return
+            }
+
+            Lincoln.log("Account info: \(accountInfo)")
+
+            if strongSelf.viewModel.account.balance.bNumber.toMlgs != accountInfo.balance.bNumber.toMlgs {
+                SoundManager.shared.play(.receive)
+                strongSelf.feedbackGenerator.notificationOccurred(.success)
+            }
+            PersistentStore.write {
+                strongSelf.viewModel.account.balance = accountInfo.balance
+                strongSelf.viewModel.account.frontier = accountInfo.frontier
+            }
+            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
+        }
     }
 
     @objc fileprivate func backTapped() {
-        self.pollingTimer?.invalidate()
-        self.pollingTimer = nil
+        self.navigationController?.popViewController(animated: true)
         self.delegate?.backTapped()
     }
-    
+
     @IBAction func refineTapped(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let latestAction = UIAlertAction(title: .localize("latest-sort"), style: .default) { (_) in
-            self.viewModel.refine(.latestFirst)
+        let latestAction = UIAlertAction(title: .localize("latest-sort"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.latestFirst)
         }
-        let oldestAction = UIAlertAction(title: .localize("oldest-sort"), style: .default) { (_) in
-            self.viewModel.refine(.oldestFirst)
+        let oldestAction = UIAlertAction(title: .localize("oldest-sort"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.oldestFirst)
         }
-        let smallestAction = UIAlertAction(title: .localize("smallest-sort"), style: .default) { (_) in
-            self.viewModel.refine(.smallestFirst)
+        let smallestAction = UIAlertAction(title: .localize("smallest-sort"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.smallestFirst)
         }
-        let largestAction = UIAlertAction(title: .localize("largest-sort"), style: .default) { (_) in
-            self.viewModel.refine(.largestFirst)
+        let largestAction = UIAlertAction(title: .localize("largest-sort"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.largestFirst)
         }
-        let sendAction = UIAlertAction(title: .localize("sent-filter"), style: .default) { (_) in
-            self.viewModel.refine(.sent)
+        let sendAction = UIAlertAction(title: .localize("sent-filter"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.sent)
         }
-        let receiveAction = UIAlertAction(title: .localize("received-filter"), style: .default) { (_) in
-            self.viewModel.refine(.received)
+        let receiveAction = UIAlertAction(title: .localize("received-filter"), style: .default) { [weak self] _ in
+            self?.viewModel.refine(.received)
         }
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
         [latestAction, oldestAction, smallestAction, largestAction, sendAction, receiveAction, cancelAction].forEach { alertController.addAction($0) }
@@ -240,31 +272,34 @@ class AccountViewController: UIViewController {
     }
     
     @objc fileprivate func currencySwitch() {
-        viewModel.toggleCurrency()
-        tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
-        unitsLabel?.text = viewModel.currencyValue
+//        viewModel.toggleCurrency()
+//        tableView?.reloadData()
+//        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
+//        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
-        let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { (_) in
-            self.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { [weak self] (textField) in
+        let editName = UIAlertAction(title: .localize("edit-name"), style: .default) { [weak self] _ in
+            self?.showTextDialogue(.localize("edit-name"), placeholder: "Account name", keyboard: .default, completion: { (textField) in
                 guard let text = textField.text, !text.isEmpty else {
                     Banner.show("No account name provided", style: .warning)
                     return
                 }
                 PersistentStore.write {
-                    self?.viewModel.account.name = textField.text
+                    self?.viewModel.account.name = text
+                }
+                if let address = self?.viewModel.account.address {
+                    PersistentStore.updateAddressEntry(address: address, name: text, originalAddress: address)
                 }
                 self?.setupNavBar()
             })
         }
-        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { [unowned self] (_) in
+        let editRepresentative = UIAlertAction(title: .localize("edit-representative"), style: .default) { [unowned self] _ in
             self.delegate?.editRepTapped(account: self.viewModel.account)
         }
-        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] (_) in
+        let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] _ in
             self.viewModel.repair() { [weak self] in
                 self?.tableView.reloadData()
             }
@@ -274,12 +309,6 @@ class AccountViewController: UIViewController {
         alertController.addAction(repair)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
-    }
-    
-    @objc func onPullDown(_ refreshControl: UIRefreshControl) {
-//        guard !viewModel.isFetching else { return }
-//        refreshControl.beginRefreshing()
-//        getPendingAndHistory()
     }
     
     fileprivate func getPendingAndHistory(_ getPending: Bool = true) {
@@ -401,15 +430,15 @@ extension AccountViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let tx = viewModel[indexPath.section] else { return }
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let copyAddress = UIAlertAction(title: "Copy Address", style: .default) { (_) in
+        let copyAddress = UIAlertAction(title: "Copy Address", style: .default) { _ in
             UIPasteboard.general.string = tx.account
             Banner.show("Address copied to clipboard", style: .success)
         }
-        let viewDetails = UIAlertAction(title: "View Details", style: .default) { (_) in
-            self.delegate?.transactionTapped(txInfo: tx)
+        let viewDetails = UIAlertAction(title: "View Details", style: .default) { [weak self] _ in
+            self?.delegate?.transactionTapped(txInfo: tx)
         }
-        let saveAddress = UIAlertAction(title: "Save Address", style: .default) { (_) in
-            self.showTextDialogue(.localize("enter-name"), placeholder: .localize("name"), keyboard: .default, completion: { (textField) in
+        let saveAddress = UIAlertAction(title: "Save Address", style: .default) { [weak self] _ in
+            self?.showTextDialogue(.localize("enter-name"), placeholder: .localize("name"), keyboard: .default, completion: { (textField) in
                 guard let text = textField.text, !text.isEmpty else {
                     Banner.show(.localize("no-name-provided"), style: .warning)
                     return
@@ -421,7 +450,7 @@ extension AccountViewController: UITableViewDelegate {
         let cancel = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
         actionSheet.addAction(viewDetails)
         actionSheet.addAction(copyAddress)
-        if !PersistentStore.getAddressEntries().contains(where: {$0.address == tx.account }) {
+        if !PersistentStore.getAddressEntries().contains(where: { $0.address == tx.account }) {
             actionSheet.addAction(saveAddress)
         }
         actionSheet.addAction(cancel)

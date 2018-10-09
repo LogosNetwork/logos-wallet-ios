@@ -103,7 +103,7 @@ class ConfirmTxViewController: UIViewController {
         // Generate block
         var block = StateBlock(intent: .send)
         block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.amount = txInfo.amount
+        block.amount = Double(txInfo.amount)?.toRaw
         block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
         // TEMP
         block.work = "0000000000000000"

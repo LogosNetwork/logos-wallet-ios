@@ -67,7 +67,8 @@ extension AccountCoordinator: AccountViewControllerDelegate {
     }
 
     func backTapped() {
-        navController.popViewController(animated: true)
+        self.accountVC?.pollingTimer?.invalidate()
+        self.accountVC?.pollingTimer = nil
         self.onDismiss?(self)
     }
 }

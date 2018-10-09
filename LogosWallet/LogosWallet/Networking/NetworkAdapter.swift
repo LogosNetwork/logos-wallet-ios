@@ -81,7 +81,7 @@ public struct NetworkAdapter {
     }
 
     static func accountInfo(for account: String, completion: ((AccountInfoResponse?, APIError?) -> Void)? = nil) {
-        request(target: .accountInfo(account: account), success: { (response) in
+        request(target: .accountInfo(account: self.prefixReplace(account)), success: { (response) in
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             do {
