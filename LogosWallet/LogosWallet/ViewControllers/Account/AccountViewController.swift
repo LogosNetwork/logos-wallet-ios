@@ -89,11 +89,11 @@ class AccountViewController: UIViewController {
             else {
                     return
             }
-            strongSelf.totalBalanceLabel?.text = accountInfo.balance
             PersistentStore.write {
                 strongSelf.viewModel.account.balance = accountInfo.balance
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
             }
+            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
             strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
         }
 
@@ -228,9 +228,8 @@ class AccountViewController: UIViewController {
             }
 
             Lincoln.log("Account info: \(accountInfo)")
-            strongSelf.totalBalanceLabel?.text = accountInfo.balance
 
-            if strongSelf.viewModel.account.balance != accountInfo.balance {
+            if strongSelf.viewModel.account.balance.bNumber.toMlgs != accountInfo.balance.bNumber.toMlgs {
                 SoundManager.shared.play(.receive)
                 strongSelf.feedbackGenerator.notificationOccurred(.success)
             }
@@ -238,6 +237,7 @@ class AccountViewController: UIViewController {
                 strongSelf.viewModel.account.balance = accountInfo.balance
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
             }
+            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
         }
     }
 

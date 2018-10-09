@@ -32,7 +32,7 @@ class AccountTableViewCell: UITableViewCell {
         
         addressLabel?.text = account?.address
         accountNameLabel?.text = account?.name
-        let accountValue = account?.balance ?? "0"
+        let accountValue = account?.balance.bNumber.toMlgs ?? "0"
         var valueString = ""
         if useSecondaryCurrency {
             let secondary = Currency.secondary

@@ -120,10 +120,10 @@ class AccountsViewController: UIViewController {
     }
     
     @objc func currencySwitch() {
-        viewModel.toggleCurrency()
-        tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue
-        unitsLabel?.text = viewModel.currencyValue
+//        viewModel.toggleCurrency()
+//        tableView?.reloadData()
+//        totalBalanceLabel?.text = viewModel.balanceValue
+//        unitsLabel?.text = viewModel.currencyValue
     }
 }
 
