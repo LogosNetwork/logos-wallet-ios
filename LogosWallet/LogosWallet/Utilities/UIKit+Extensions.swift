@@ -240,6 +240,201 @@ extension UIView {
         mask.path = path.cgPath
         self.layer.mask = mask
     }
+
+    /// Finds a common superview between self and a specified view.
+    ///
+    /// - Parameter with: The view to find a common superview with.
+    /// - Returns: A common superview if one is found, otherwise, self.
+    func commonSuperview(with view: UIView) -> UIView? {
+        var result: UIView? = self
+        while let test = result, !view.isDescendant(of: test) {
+            result = test.superview
+        }
+
+        return result
+    }
+
+    @discardableResult
+    func constrain(_ view: UIView, attribute: NSLayoutConstraint.Attribute, toView: UIView, toAttribute: NSLayoutConstraint.Attribute, constant: CGFloat = 0.0, relatedBy: NSLayoutConstraint.Relation = .equal, multiplier: CGFloat = 1.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraint = NSLayoutConstraint(item: view, attribute: attribute, relatedBy: relatedBy, toItem: toView, attribute: toAttribute, multiplier: multiplier, constant: constant)
+
+        if let priority = priority {
+            constraint.priority = priority
+        }
+        self.addConstraint(constraint)
+
+        return constraint
+    }
+
+    /// Pins the top edges to the top edges of a specified view.
+    ///
+    /// - Parameter to: The view to pin top edges to.
+    /// - Parameter offset: An offset between edges, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pinTopEdges(to view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .top, toView: view, toAttribute: .top, constant: offset, priority: priority)
+    }
+
+    /// Pins the bottom edges to the bottom edges of a specified view.
+    ///
+    /// - Parameter to: The view to pin bottom edges to.
+    /// - Parameter offset: An offset between edges, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pinBottomEdges(to view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .bottom, toView: view, toAttribute: .bottom, constant: offset, priority: priority)
+    }
+
+    /// Pins the left edges to the left edges of a specified view.
+    ///
+    /// - Parameter to: The view to pin left edges to.
+    /// - Parameter offset: An offset between edges, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pinLeftEdges(to view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .left, toView: view, toAttribute: .left, constant: offset, priority: priority)
+    }
+
+    /// Pins the right edges to the right edges of a specified view.
+    ///
+    /// - Parameter to: The view to pin right edges to.
+    /// - Parameter offset: An offset between edges, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pinRightEdges(to view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .right, toView: view, toAttribute: .right, constant: -offset, priority: priority)
+    }
+
+
+    /// Pins this view above a specified view.
+    ///
+    /// - Parameter above: The view to pin above.
+    /// - Parameter offset: An offset between views, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pin(above view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .bottom, toView: view, toAttribute: .top, constant: offset, priority: priority)
+    }
+
+    /// Pins this view below a specified view.
+    ///
+    /// - Parameter below: The view to pin below.
+    /// - Parameter offset: An offset between views, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func pin(below view: UIView, offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        return self.commonSuperview(with: view)?.constrain(self, attribute: .top, toView: view, toAttribute: .bottom, constant: offset, priority: priority)
+    }
+
+    /// Pins any specified attributes to the superview.
+    ///
+    /// - Parameter attributes: A variadic list of `NSLayoutConstraint.Attribute` to pin.
+    /// - Parameter offset: An offset between attributes, defaults to `0.0`. All attributes would share the same offset.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: A list of activated constraints in the same order they're specified as params.
+    @discardableResult
+    func pinToSuperview(_ attributes: NSLayoutConstraint.Attribute..., offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> [NSLayoutConstraint] {
+        guard let superview = self.superview else {
+            return []
+        }
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = attributes.map {
+            NSLayoutConstraint(item: self, attribute: $0, relatedBy: .equal, toItem: superview, attribute: $0, multiplier: 1.0, constant: $0 == .right ? -offset : offset)
+        }
+        superview.addConstraints(constraints)
+
+        return constraints
+    }
+
+    /// Horizontally and vertically centers the view within its superview.
+    ///
+    /// - Parameter offset: An offset from both centers, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: A tuple of activated constraints if they're created.
+    @discardableResult
+    func centerInSuperview(_ offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> (x: NSLayoutConstraint?, y: NSLayoutConstraint?) {
+        let xConstraint = self.centerHorizontally(offset, priority: priority)
+        let yConstraint = self.centerVertically(offset, priority: priority)
+        return (xConstraint, yConstraint)
+    }
+
+    /// Horizontally centers the view within its superview.
+    ///
+    /// - Parameter offset: An offset from the horizontal center, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func centerHorizontally(_ offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        guard let superview = self.superview else {
+            return nil
+        }
+        return superview.constrain(self, attribute: .centerX, toView: superview, toAttribute: .centerX, constant: offset, priority: priority)
+    }
+
+    /// Vertically centers the view within its superview.
+    ///
+    /// - Parameter offset: An offset from the vertical center, defaults to `0.0`.
+    /// - Parameter priority: An optional layout priority.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func centerVertically(_ offset: CGFloat = 0.0, priority: UILayoutPriority? = nil) -> NSLayoutConstraint? {
+        guard let superview = self.superview else {
+            return nil
+        }
+        return superview.constrain(self, attribute: .centerY, toView: superview, toAttribute: .centerY, constant: offset, priority: priority)
+    }
+
+
+    /// Sizes a view to the specified height and width.
+    ///
+    /// - Parameter height: The height value to set.
+    /// - Parameter width: The width value to set.
+    /// - Returns: A tuple of activated constraints.
+    @discardableResult
+    func size(height: CGFloat, width: CGFloat) -> (height: NSLayoutConstraint, width: NSLayoutConstraint) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        let height = self.heightAnchor.constraint(equalToConstant: height)
+        let width = self.widthAnchor.constraint(equalToConstant: width)
+        self.addConstraints([height, width])
+
+        return (height, width)
+    }
+
+    /// Sizes a view to the specified height.
+    ///
+    /// - Parameter height: The height value to set.
+    /// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func size(height: CGFloat) -> NSLayoutConstraint {
+        let height = self.heightAnchor.constraint(equalToConstant: height)
+        height.isActive = true
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        return height
+    }
+
+    /// Sizes a view to the specified width.
+    ///
+    /// - Parameter width: The width value to set.
+    //// - Returns: An activated `NSLayoutConstraint` if one is created.
+    @discardableResult
+    func size(width: CGFloat) -> NSLayoutConstraint {
+        let width = self.widthAnchor.constraint(equalToConstant: width)
+        width.isActive = true
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        return width
+    }
+
 }
 
 extension UIEdgeInsets {
