@@ -94,7 +94,6 @@ class AccountViewController: UIViewController {
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
             }
             strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
-            strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
         }
 
 //        SocketManager.shared.accountInfoSubject
@@ -208,38 +207,6 @@ class AccountViewController: UIViewController {
     }
     
     // MARK: - Actions
-
-    @objc fileprivate func pollAccountInfo() {
-        guard
-            let address = self.viewModel.account.address,
-            self.navigationController != nil
-        else {
-            self.pollingTimer?.invalidate()
-            self.pollingTimer = nil
-            return
-        }
-
-        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
-            guard
-                let strongSelf = self,
-                let accountInfo = info
-            else {
-                return
-            }
-
-            Lincoln.log("Account info: \(accountInfo)")
-
-            if strongSelf.viewModel.account.balance.bNumber.toMlgs != accountInfo.balance.bNumber.toMlgs {
-                SoundManager.shared.play(.receive)
-                strongSelf.feedbackGenerator.notificationOccurred(.success)
-            }
-            PersistentStore.write {
-                strongSelf.viewModel.account.balance = accountInfo.balance
-                strongSelf.viewModel.account.frontier = accountInfo.frontier
-            }
-            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
-        }
-    }
 
     @objc fileprivate func backTapped() {
         self.navigationController?.popViewController(animated: true)
