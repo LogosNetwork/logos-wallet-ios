@@ -8,9 +8,10 @@ target 'LogosWallet' do
   # Pods for LogosWallet
   pod 'Alamofire'
   pod 'RealmSwift'
-  pod 'NotificationBannerSwift'
+  pod 'NotificationBannerSwift', '1.6.3'
   pod 'Moya', '~> 11.0'
   pod 'lottie-ios'
+  pod 'Sodium', :git => 'https://github.com/nebyark/swift-sodium'
   pod 'SSZipArchive'
   pod 'Starscream'
   pod 'RxSwift'
