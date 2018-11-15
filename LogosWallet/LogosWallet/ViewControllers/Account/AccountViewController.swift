@@ -139,6 +139,9 @@ class AccountViewController: UIViewController {
 //        }
 
 //        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
+
+
+        self.updateView()
     }
 
     // MARK: - Setup

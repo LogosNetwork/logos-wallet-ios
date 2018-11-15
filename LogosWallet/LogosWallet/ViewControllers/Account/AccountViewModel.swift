@@ -57,7 +57,9 @@ class AccountViewModel {
     
     init(with account: AccountInfo) {
         self.account = account
-        self.history = account.blockHistory.compactMap { $0 as SimpleBlockBridge }
+        // TODO: remove
+        self.createTransactionList()
+//        self.history = account.blockHistory.compactMap { $0 as SimpleBlockBridge }
         self.refined = self.history
     }
     
@@ -203,5 +205,23 @@ class AccountViewModel {
         }
         refineType = type
         updateView?()
+    }
+
+    func createTransactionList() {
+        var history = PersistentStore.getBlockHistory(for: self.account.address)
+        if history.count < 1 {
+            let names = ["Michael", "Ben", "Carl", "Tyler", "Doug", "Satoshi"]
+            // Create dummy list
+            for _ in 0...Int.random(in: 20...50) {
+                let b = SimpleBlock()
+                b.account = names[Int.random(in: 0...names.count - 1)]//self.account.address!
+                b.amount = (Double.random(in: 1.0...30.39)).toRaw
+                b.blockHash = NaCl.hash(NaCl.randomBytes()!, outputLength: 32)!.hexString
+                b.type = Bool.random() ? "send" : "receive"
+                PersistentStore.addBlock(b, owner: self.account.address)
+            }
+            history = PersistentStore.getBlockHistory(for: self.account.address)
+        }
+        self.history = history
     }
 }
