@@ -12,6 +12,8 @@ struct StateBlock: BlockAdapter {
 
     enum Intent: String {
         case send
+        // temporary case
+        case receive
         case change
     }
 
