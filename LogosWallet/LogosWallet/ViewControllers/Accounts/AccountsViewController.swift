@@ -66,6 +66,13 @@ class AccountsViewController: UIViewController {
         let rightBarItem = UIBarButtonItem(image: #imageLiteral(resourceName: "nav_plus"), style: .plain, target: self, action: #selector(plusTapped))
         rightBarItem.tintColor = .white
         navigationItem.rightBarButtonItem = rightBarItem
+
+        navigationItem.title = "L O G O S"
+        let textAttributes = [
+            NSAttributedStringKey.foregroundColor: UIColor.white,
+            NSAttributedStringKey.font: AppStyle.Font.body
+        ]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
     fileprivate func setupTableView() {
@@ -100,6 +107,7 @@ class AccountsViewController: UIViewController {
         viewModel = AccountsViewModel()
         totalBalanceLabel?.text = viewModel.balanceValue
         unitsLabel?.text = viewModel.currencyValue
+        self.currencySwitch()
     }
 
     @objc func settingsTapped() {
@@ -120,10 +128,10 @@ class AccountsViewController: UIViewController {
     }
     
     @objc func currencySwitch() {
-//        viewModel.toggleCurrency()
-//        tableView?.reloadData()
-//        totalBalanceLabel?.text = viewModel.balanceValue
-//        unitsLabel?.text = viewModel.currencyValue
+        viewModel.toggleCurrency()
+        tableView?.reloadData()
+        totalBalanceLabel?.text = viewModel.balanceValue
+        unitsLabel?.text = viewModel.currencyValue
     }
 }
 
