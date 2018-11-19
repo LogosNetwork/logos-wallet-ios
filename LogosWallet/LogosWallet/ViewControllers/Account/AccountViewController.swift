@@ -206,7 +206,7 @@ class AccountViewController: UIViewController {
         sortButton?.setTitle(viewModel.refineType.title, for: .normal)
         sendButton?.setTitle(.localize("send"), for: .normal)
         receiveButton?.setTitle(.localize("receive"), for: .normal)
-        unitsLabel?.text = CURRENCY_NAME
+        unitsLabel?.text = self.viewModel.currencyValue
     }
     
     // MARK: - Actions
@@ -242,10 +242,10 @@ class AccountViewController: UIViewController {
     }
     
     @objc fileprivate func currencySwitch() {
-//        viewModel.toggleCurrency()
-//        tableView?.reloadData()
-//        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
-//        unitsLabel?.text = viewModel.currencyValue
+        viewModel.toggleCurrency()
+        tableView?.reloadData()
+        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
+        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {

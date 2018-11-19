@@ -36,7 +36,7 @@ class AccountViewModel {
     private(set) var refined: [SimpleBlockBridge] = []
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
-    private(set) var isShowingSecondary: Bool = false
+    private(set) var isShowingSecondary: Bool = true
     var balanceValue: String {
         if !isShowingSecondary {
             return self.account.balance.bNumber.toMlgs.trimTrailingZeros()
@@ -69,13 +69,13 @@ class AccountViewModel {
     }
     
     func toggleCurrency() {
-//        if isShowingSecondary {
-//            currencyValue = CURRENCY_NAME
-//        } else {
-//            let secondary = Currency.secondary
-//            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            
-//        }
-//        isShowingSecondary = !isShowingSecondary
+        if isShowingSecondary {
+            currencyValue = CURRENCY_NAME
+        } else {
+            let secondary = Currency.secondary
+            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            
+        }
+        isShowingSecondary = !isShowingSecondary
     }
     
     func initHistory() {
