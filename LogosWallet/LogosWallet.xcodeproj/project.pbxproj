@@ -1396,7 +1396,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TY84UMVK4N;
+				DEVELOPMENT_TEAM = F6RG6R2LWZ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
@@ -1406,7 +1406,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.logoswallet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.thelogoswallet;
 				PRODUCT_MODULE_NAME = LogosWallet;
 				PRODUCT_NAME = "Logos Wallet";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1425,7 +1425,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TY84UMVK4N;
+				DEVELOPMENT_TEAM = F6RG6R2LWZ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1435,7 +1435,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.logoswallet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.thelogoswallet;
 				PRODUCT_MODULE_NAME = LogosWallet;
 				PRODUCT_NAME = "Logos Wallet";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1451,7 +1451,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TY84UMVK4N;
+				DEVELOPMENT_TEAM = F6RG6R2LWZ;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1469,7 +1469,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = TY84UMVK4N;
+				DEVELOPMENT_TEAM = F6RG6R2LWZ;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
