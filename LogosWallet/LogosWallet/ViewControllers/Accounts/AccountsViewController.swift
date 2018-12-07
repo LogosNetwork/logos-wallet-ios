@@ -173,7 +173,9 @@ extension AccountsViewController: UITableViewDelegate {
 extension AccountsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .pop {
-            if let accountCoordinator = AppCoordinator.shared.childCoordinators.last?.childCoordinators.last as? AccountCoordinator {
+            // TODO: clean up this hack
+            if let accountCoordinator = AppCoordinator.shared.childCoordinators.last?.childCoordinators.last as? AccountCoordinator,
+                fromVC is BlockInfoViewController == false {
                 accountCoordinator.backTapped()
             }
         }

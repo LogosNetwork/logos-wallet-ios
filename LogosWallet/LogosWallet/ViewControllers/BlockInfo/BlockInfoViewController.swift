@@ -55,7 +55,7 @@ class BlockInfoViewController: TransparentNavViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,11 +111,9 @@ class BlockInfoViewController: TransparentNavViewController {
     }
     
     fileprivate func buildStackView() {
-        guard let contents = viewModel.model?.contentsObject else { return }
-        
         // Source
-        if viewModel.info.type == "receive" {
-            let sourceStack = buildSubStack("SOURCE", value: viewModel.model?.sourceAccount)
+        if viewModel.info.type == "send" {
+            let sourceStack = buildSubStack("RECIPIENT", value: viewModel.model?.linkAsAccount)
             mainStack.addArrangedSubview(sourceStack)
         }
         
@@ -124,10 +122,13 @@ class BlockInfoViewController: TransparentNavViewController {
         mainStack.addArrangedSubview(amountStack)
         
         dateLabel.text = viewModel.localizedDate
-        contents.sorted { $0.key < $1.key }.forEach {
-            let value = $0.key == "balance" ? $0.value.bNumber.toMlgs + " \(CURRENCY_NAME)" : $0.value
-            mainStack.addArrangedSubview(buildSubStack($0.key, value: value))
-        }
+
+        mainStack.addArrangedSubview(buildSubStack("PREVIOUS", value: self.viewModel.model?.previous))
+        mainStack.addArrangedSubview(buildSubStack("SIGNATURE", value: viewModel.model?.signature))
+//        contents.sorted { $0.key < $1.key }.forEach {
+//            let value = $0.key == "balance" ? $0.value.bNumber.toMlgs + " \(CURRENCY_NAME)" : $0.value
+//            mainStack.addArrangedSubview(buildSubStack($0.key, value: value))
+//        }
     }
     
     override func setupNavBar() {

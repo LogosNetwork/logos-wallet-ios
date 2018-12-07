@@ -15,7 +15,7 @@ let LAMBO_PRICE: Double = 200000.0
 let POW_THRESHOLD: UInt64 = 0xFFFFFFC000000000
 let RAW_LGS: BDouble = BDouble("1000000000000000000000000000000")!
 let SECRET_KEY_BYTES: Int = 32
-let BLOCK_EXPLORER_URL = "https://nanode.co/block/"
+let BLOCK_EXPLORER_URL = "https://pla.bs/"
 let DB_NAME: String = "my-little-db"
 
 extension BDouble {
