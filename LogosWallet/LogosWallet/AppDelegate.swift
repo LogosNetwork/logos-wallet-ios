@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         SocketManager.shared.openConnection()
 
+        // TEMP
+        Currency.usd.setAsSecondaryCurrency(with: 3.4)
+
         return true
     }
 

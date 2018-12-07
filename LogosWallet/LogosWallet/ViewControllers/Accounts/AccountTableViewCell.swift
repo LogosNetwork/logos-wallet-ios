@@ -36,7 +36,7 @@ class AccountTableViewCell: UITableViewCell {
         var valueString = ""
         if useSecondaryCurrency {
             let secondary = Currency.secondary
-            valueString = secondary.convert(accountValue.bNumber)
+            valueString = secondary.convert(accountValue.bNumber, isRaw: false)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
             valueString = accountValue.trimTrailingZeros()
