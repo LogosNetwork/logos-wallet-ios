@@ -149,14 +149,14 @@ enum LogosService {
     var payload: String? {
         switch self {
         case .accountInfo(let account):
-            return self.params(for: "account_info", params: ["account": self.changePrefix(account)])
+            return self.params(for: "account_info", params: ["account": account])
         case .process(let block):
             // TODO: use encode
             guard let jsonData = try? JSONSerialization.data(withJSONObject: block.json, options: []),
                 let blockString = String(data: jsonData, encoding: .ascii) else { return nil }
             return self.params(for: "process", params: ["block": blockString])
         case .subscribe(let account):
-            return self.params(for: "account_subscribe", params: ["account": self.changePrefix(account)])
+            return self.params(for: "account_subscribe", params: ["account": account])
         }
     }
 
@@ -172,7 +172,4 @@ enum LogosService {
         }
     }
 
-    fileprivate func changePrefix(_ account: String) -> String {
-        return account.replacingOccurrences(of: "lgs_", with: "xrb_")
-    }
 }

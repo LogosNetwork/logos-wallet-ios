@@ -42,7 +42,7 @@ struct WalletUtil {
     static func derivePublic(from account: String) -> String? {
         let prefix = account.prefix(4)
 
-        if prefix == "lgs_" || prefix == "xrb_" {
+        if prefix == "lgs_" {
             guard account.count == 64 else {
                 return nil
             }

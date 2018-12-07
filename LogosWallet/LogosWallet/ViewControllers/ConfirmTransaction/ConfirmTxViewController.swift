@@ -108,7 +108,7 @@ class ConfirmTxViewController: UIViewController {
         // TEMP
         block.work = "0000000000000000"
         // TEMP
-        block.representative = "xrb_1ueszjma45nw54i56rtkgjutrtfyihqipbzf8bo8e7gb6f45xfup4o1rfkae"
+        block.representative = "lgn_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo"
         guard block.build(with: keyPair) else { return }
         
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
