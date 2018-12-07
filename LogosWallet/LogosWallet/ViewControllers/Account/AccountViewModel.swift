@@ -163,13 +163,13 @@ class AccountViewModel {
     }
     
     func getHistory(completion: @escaping () -> Void) {
-//        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
-//        NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount) { (chain) in
-//            self.history = chain
-//            self.refined = chain
-//            PersistentStore.updateBlockHistory(for: self.account, history: chain)
-//            completion()
-//        }
+        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
+        NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount) { (chain) in
+            self.history = chain
+            self.refined = chain
+            PersistentStore.updateBlockHistory(for: self.account, history: chain)
+            completion()
+        }
     }
     
     func repair(_ completion: @escaping () -> Void) {

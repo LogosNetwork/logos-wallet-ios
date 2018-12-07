@@ -87,13 +87,18 @@ class AccountViewController: UIViewController {
                 let strongSelf = self,
                 let accountInfo = info
             else {
-                    return
+                return
             }
             PersistentStore.write {
                 strongSelf.viewModel.account.balance = accountInfo.balance
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
+                strongSelf.viewModel.account.blockCount = Int(accountInfo.blockCount) ?? 0
             }
             strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
+
+            strongSelf.viewModel.getHistory {
+                strongSelf.tableView.reloadData()
+            }
         }
 
 //        SocketManager.shared.accountInfoSubject
