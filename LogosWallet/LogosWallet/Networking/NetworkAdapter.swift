@@ -50,6 +50,17 @@ public struct NetworkAdapter {
     
     // MARK: - Logos
 
+    static func blockInfo(hash: String, completion: @escaping (Block?, APIError?) -> Void) {
+        request(target: .block(hash: hash), success:  { (response) in
+            do {
+                let block = try JSONDecoder().decode(Block.self, from: response.data)
+                completion(block, nil)
+            } catch {
+                completion(nil, .badResponse)
+            }
+        })
+    }
+
     static func blockInfo(hashes: [String], completion: @escaping ([BlockInfo], APIError?) -> Void) {
         request(target: .blockInfo(hashes: hashes), success:  { (response) in
             guard let json = try? response.mapJSON() as? [String: Any],

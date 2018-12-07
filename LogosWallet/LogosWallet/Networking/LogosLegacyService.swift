@@ -30,6 +30,7 @@ enum LogosLegacyService {
     case accountHistory(address: String, count: Int)
     case ledger(address: String, count: Int)
     case blockInfo(hashes: [String])
+    case block(hash: String)
     case pending(accounts: [String], count: Int)
     case createServerAccount(walletID: String, username: String, password: String)
     case accountInfo(account: String)
@@ -64,6 +65,8 @@ extension LogosLegacyService: TargetType {
             return params(for: "account_history", params: ["account": address, "count": count])
         case .blockInfo(let hashes):
             return params(for: "blocks_info", params: ["hashes": hashes, "source": true])
+        case .block(hash: let hash):
+            return params(for: "block", params: ["hash": hash])
         case .generateWork(let hash):
             return params(for: "work_generate", params: ["hash": hash])
         case .ledger(let address, let count):
