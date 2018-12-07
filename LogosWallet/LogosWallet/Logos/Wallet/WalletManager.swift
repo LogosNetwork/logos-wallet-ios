@@ -30,9 +30,13 @@ final class WalletManager {
     // MARK: - Accessors
     
     func keyPair(at index: Int) -> KeyPair? {
-        guard let idx = Keychain.standard.get(key: KeychainKey.walletSeedIndex),
+        guard
+            let idx = Keychain.standard.get(key: KeychainKey.walletSeedIndex),
             index <= idx.uint32,
-            let seed = sd else { return nil }
+            let seed = sd
+        else {
+            return nil
+        }
         // In order for keyPair to return the correct (or any) key pair, the correct secret key MUST be provided. In the event that the device has been jailbroken and is undergoing runtime analysis, the attacker would need to know the user's secret to proceed.
         return WalletUtil.keyPair(seed: seed, index: UInt32(index))
     }

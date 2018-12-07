@@ -107,9 +107,15 @@ class ConfirmTxViewController: UIViewController {
         block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
         // TEMP
         block.work = "0000000000000000"
-        // TEMP
-        block.representative = "lgn_3e3j5tkog48pnny9dmfzj1r16pg8t1e76dz5tmac6iq689wyjfpiij4txtdo"
-        guard block.build(with: keyPair) else { return }
+        block.transactionFee = "10000000000000000000000"
+        block.representative = "lgs_1111111111111111111111111111111111111111111111111111hifc8npp"
+
+        guard
+            block.build(with: keyPair)
+        else {
+            Lincoln.log("Problem building block: \(block.json)")
+            return
+        }
         
         Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
         UIView.animate(withDuration: 0.3) {
