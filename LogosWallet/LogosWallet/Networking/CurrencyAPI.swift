@@ -12,8 +12,7 @@ struct CurrencyAPI {
     static let baseURL = "https://api.coinmarketcap.com/v1/ticker/nano/?convert="
     
     static func getCurrencyInfo(for currency: Currency, completion: @escaping (Double?) -> Void) {
-        let currencyRaw = currency == .lambo ? "usd" : currency.rawValue
-        let url = baseURL + currencyRaw
+        let url = baseURL + currency.rawValue
         Networking.shared.get(url: url) { response in
             guard response.result.isSuccess else {
                 completion(nil)
@@ -23,11 +22,11 @@ struct CurrencyAPI {
                 completion(nil)
                 return
             }
-            guard let stringValue = info["price_\(currencyRaw)"] as? String, let value = Double(stringValue) else {
+            guard let stringValue = info["price_\(currency.rawValue)"] as? String, let value = Double(stringValue) else {
                 completion(nil)
                 return
             }
-            completion(currency == .lambo ? value / LAMBO_PRICE : value)
+            completion(value)
         }
     }
 }

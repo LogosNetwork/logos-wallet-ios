@@ -41,12 +41,12 @@ class AccountViewModel {
         if !isShowingSecondary {
             return self.account.balance.bNumber.toMlgs.trimTrailingZeros()
         } else {
-            let secondary = Currency.secondary
-            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")
-            return secondary.convertToFiat(account.balance.bNumber)
+            currencyValue = Currency.secondary.denomination
+            return Currency.secondary.convertToFiat(account.balance.bNumber)
         }
     }
-    private(set) var currencyValue: String = ""
+    // TODO: clean up currency stuff
+    private(set) var currencyValue: String = Currency.secondary.denomination
     private(set) var refineType: RefineType = .latestFirst
     var onNewBlockBroadcasted: (() -> Void)?
     var updateView: (() -> Void)?
@@ -70,8 +70,7 @@ class AccountViewModel {
         if isShowingSecondary {
             currencyValue = CURRENCY_NAME
         } else {
-            let secondary = Currency.secondary
-            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")            
+            currencyValue = Currency.secondary.denomination
         }
         isShowingSecondary = !isShowingSecondary
     }

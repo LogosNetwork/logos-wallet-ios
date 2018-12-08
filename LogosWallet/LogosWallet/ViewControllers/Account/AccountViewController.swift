@@ -76,7 +76,7 @@ class AccountViewController: UIViewController {
             self?.tableView.reloadData()
             self?.sortButton?.setTitle(self?.viewModel.refineType.title, for: .normal)
         }
-        self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
+        self.totalBalanceLabel?.text = self.viewModel.balanceValue
 
         guard let address = self.viewModel.account.address else {
             return
@@ -94,7 +94,7 @@ class AccountViewController: UIViewController {
                 strongSelf.viewModel.account.frontier = accountInfo.frontier
                 strongSelf.viewModel.account.blockCount = Int(accountInfo.blockCount) ?? 0
             }
-            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue.trimTrailingZeros()
+            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
 
             strongSelf.viewModel.getHistory {
                 strongSelf.tableView.reloadData()
@@ -246,7 +246,7 @@ class AccountViewController: UIViewController {
     @objc fileprivate func currencySwitch() {
         viewModel.toggleCurrency()
         tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue.trimTrailingZeros()
+        totalBalanceLabel?.text = viewModel.balanceValue
         unitsLabel?.text = viewModel.currencyValue
     }
     

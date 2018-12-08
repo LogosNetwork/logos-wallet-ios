@@ -24,12 +24,11 @@ struct AccountsViewModel {
             currencyValue = CURRENCY_NAME
             balanceValue = self.getTotalLGS()
         } else {
-            let secondary = Currency.secondary
-            currencyValue = secondary.rawValue.uppercased() + (secondary == .lambo ? "" : " (\(secondary.symbol))")
+            currencyValue = Currency.secondary.denomination
             let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
                 result + (BDouble(account.balance) ?? 0.0)
             })
-            balanceValue = secondary.convert(total)
+            balanceValue = Currency.secondary.convert(total)
         }
         isShowingSecondary = !isShowingSecondary
     }
