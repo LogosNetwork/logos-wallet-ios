@@ -81,6 +81,7 @@
 		A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C52030239C00C7CEE8 /* Currency.swift */; };
 		A76AC7C82030C59D00C7CEE8 /* CurrencySelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C72030C59D00C7CEE8 /* CurrencySelectViewModel.swift */; };
 		A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2734204E986000615B7A /* LogosWalletTests.swift */; };
+		A77CDF5521BA4679004940A0 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CDF5421BA4679004940A0 /* Block.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A78BCB072186E3710014D72F /* SubscribedTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78BCB062186E3710014D72F /* SubscribedTransaction.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
@@ -266,6 +267,7 @@
 		A76D2732204E986000615B7A /* LogosWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogosWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A76D2734204E986000615B7A /* LogosWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletTests.swift; sourceTree = "<group>"; };
 		A76D2736204E986000615B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A77CDF5421BA4679004940A0 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A78BCB062186E3710014D72F /* SubscribedTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribedTransaction.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
 				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
 				A78BCB062186E3710014D72F /* SubscribedTransaction.swift */,
+				A77CDF5421BA4679004940A0 /* Block.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1139,6 +1142,7 @@
 				A7EF84311FEE43C300C74035 /* UIKit+Extensions.swift in Sources */,
 				A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */,
 				A7B32801200333C500E0E360 /* AppStyle.swift in Sources */,
+				A77CDF5521BA4679004940A0 /* Block.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
 				A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */,
 				A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */,

@@ -40,16 +40,18 @@ enum Currency: String {
     case twd
     case usd
     case zar
-    case lambo
     
     static var all: [Currency] {
-        return [.usd, .eur, .jpy, .krw, .lambo, .aud, .brl, .cad, .chf, .clp, .cny, .czk, .dkk, .gbp, .hkd, .huf, .idr, .ils, .inr, .mxn, .myr, .nok, .nzd, .php, .pkr, . pln, .rub, .sek, .sgd, .thb, .twd, .zar]
+        return [.usd, .eur, .jpy, .krw, .aud, .brl, .cad, .chf, .clp, .cny, .czk, .dkk, .gbp, .hkd, .huf, .idr, .ils, .inr, .mxn, .myr, .nok, .nzd, .php, .pkr, . pln, .rub, .sek, .sgd, .thb, .twd, .zar]
+    }
+
+    var denomination: String {
+        return self.rawValue.uppercased() + " (\(self.symbol))"
     }
     
     var precision: Int {
         switch self {
         case .jpy, .krw: return 0
-        case .lambo: return 6
         default: return 2
         }
     }
@@ -78,7 +80,6 @@ enum Currency: String {
         case .thb: return "฿"
         case .twd: return "NT$"
         case .zar: return "R"
-        case .lambo: return "LAMBO"
         }
     }
     

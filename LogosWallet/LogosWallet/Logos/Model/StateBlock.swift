@@ -42,8 +42,8 @@ struct StateBlock: BlockAdapter {
     var representative: String?
     var account: String?
     var amount: String?
+    var transactionFee: String?
     var previous: String = ZERO_AMT
-    // Base 10 remaining balance as RAW
     var signature: String?
     var work: String?
     let intent: Intent
@@ -64,35 +64,32 @@ struct StateBlock: BlockAdapter {
     /// b.amount = <amount to send>
     /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
-        guard let encodedAccount = signingKeys.lgsAccount,
+        guard
+            let encodedAccount = signingKeys.lgsAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
-            var linkData = self.link?.hexData,
+            let linkData = self.link?.hexData,
             let previousData = self.previous.hexData,
             let representative = self.representative,
             let repData = WalletUtil.derivePublic(from: representative)?.hexData,
             let amount = self.amount,
-            let amountValue = BInt(amount) else {
+            let amountValue = BInt(amount),
+            let transactionFee = self.transactionFee,
+            let transactionFeeValue = BInt(transactionFee)
+        else {
             return false
         }
 
-        var amountData: Data?
-        if self.intent == .send {
-            amountData = amountValue
-                .asString(radix: 16)
-                .leftPadding(toLength: 32, withPad: "0").hexData
-        } else {
-            linkData = repData
-        }
-        
-        // TODO: create correct digest
-        guard let digest = NaCl.digest([
+        guard
+            let digest = NaCl.digest([
             STATEBLOCK_PREAMBLE.hexData!,
             accountData,
             previousData,
             repData,
-            amountData!,
+            self.hexPaddedValue(amountValue)!,
+            self.hexPaddedValue(transactionFeeValue)!,
             linkData
-        ], outputLength: 32) else {
+        ], outputLength: 32)
+        else {
             return false
         }
 
@@ -106,13 +103,24 @@ struct StateBlock: BlockAdapter {
     var json: [String: String] {
         return [
             "type": "state",
-            "account": (self.account ?? "").replacingOccurrences(of: "lgs_", with: "xrb_"),
+            "account": self.account ?? "",
             "previous": self.previous,
             "signature": self.signature ?? "",
             "representative": self.representative ?? "",
             "amount": self.amount ?? "",
             "link": self.link ?? "",
-            "work": self.work ?? ""
+            "work": self.work ?? "",
+            "transaction_fee": self.transactionFee ?? "",
         ]
     }
+}
+
+extension StateBlock {
+
+    fileprivate func hexPaddedValue(_ input: BInt) -> Data? {
+        return input.asString(radix: 16)
+            .leftPadding(toLength: 32, withPad: "0")
+            .hexData
+    }
+
 }
