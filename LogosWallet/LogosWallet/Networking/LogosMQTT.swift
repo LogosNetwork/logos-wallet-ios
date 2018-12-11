@@ -49,9 +49,21 @@ class LogosMQTT: NSObject {
     }
 
     func subscribe(to accounts: [String]) {
+        guard self.status == .connected else {
+            return
+        }
         accounts.forEach {
             self.session.subscribe(toTopic: "account/\($0)", at: .exactlyOnce)
         }
+    }
+
+    func setupSubscriptions() {
+        guard self.status == .connected else {
+            return
+        }
+        self.session.subscribe(toTopic: "batchBlock", at: .exactlyOnce)
+        self.session.subscribe(toTopic: "microEpoch", at: .exactlyOnce)
+        self.session.subscribe(toTopic: "epoch", at: .exactlyOnce)
     }
 
 }
@@ -60,7 +72,9 @@ extension LogosMQTT: MQTTSessionDelegate {
 
     func connected(_ session: MQTTSession!) {
         self.onConnect?()
-        Lincoln.log("Connected!")
+        Lincoln.log("MQTT connection established @ \(self.url.absoluteString)", inConsole: true)
+
+        self.setupSubscriptions()
     }
 
     func connectionError(_ session: MQTTSession!, error: Error!) {
@@ -83,9 +97,9 @@ extension LogosMQTT: MQTTSessionDelegate {
     }
 
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
-        Lincoln.log("MQTT message received from topic: \(topic)")
+        Lincoln.log("MQTT message received from topic: \(topic ?? "")", inConsole: true)
         if let message = String(data: data, encoding: .utf8) {
-            Lincoln.log("Message: \(message)")
+            Lincoln.log("Message: \(message)", inConsole: true)
         }
     }
 }
