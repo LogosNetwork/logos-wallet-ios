@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AppCoordinator.shared.rootViewController.present(alert, animated: true)
         }
 
-        SocketManager.shared.openConnection()
+//        SocketManager.shared.openConnection()
 
         // TEMP
         Currency.usd.setAsSecondaryCurrency(with: 3.4)

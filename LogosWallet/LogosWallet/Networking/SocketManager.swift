@@ -56,12 +56,12 @@ class SocketManager {
     // MARK: - Socket Open/Close
 
     func openConnection(_ completion: (() -> Void)? = nil) {
-        guard !self.webSocket.isConnected else {
-            return
-        }
-
-        Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
-        self.connectAndPerform(completion)
+//        guard !self.webSocket.isConnected else {
+//            return
+//        }
+//
+//        Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
+//        self.connectAndPerform(completion)
     }
 
     func closeConnection() {
@@ -105,8 +105,8 @@ class SocketManager {
     // MARK: - Helpers
 
     private func connectAndPerform(_ completion: (() -> Void)? = nil) {
-        self.webSocket.connect()
-        self.onConnect = completion
+//        self.webSocket.connect()
+//        self.onConnect = completion
     }
 
     private func handle(_ message: String?) {
