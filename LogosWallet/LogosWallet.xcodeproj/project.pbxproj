@@ -14,6 +14,7 @@
 		A71CEB9E2054AE2F00FF6B54 /* LockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71CEB9C2054AE2F00FF6B54 /* LockViewController.swift */; };
 		A71CEB9F2054AE2F00FF6B54 /* LockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A71CEB9D2054AE2F00FF6B54 /* LockViewController.xib */; };
 		A71CEBA42054EB0E00FF6B54 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71CEBA22054EB0E00FF6B54 /* AboutViewController.swift */; };
+		A72699BA21BE2F8A00C0B09B /* LogosMQTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */; };
 		A726C2811FFCD5D400E73C18 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726C27F1FFCD5D400E73C18 /* AccountTableViewCell.swift */; };
 		A726C2821FFCD5D400E73C18 /* AccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A726C2801FFCD5D400E73C18 /* AccountTableViewCell.xib */; };
 		A72BC4ED20A5731000AE3C4A /* BlockHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */; };
@@ -193,6 +194,7 @@
 		A71CEB9C2054AE2F00FF6B54 /* LockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockViewController.swift; sourceTree = "<group>"; };
 		A71CEB9D2054AE2F00FF6B54 /* LockViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockViewController.xib; sourceTree = "<group>"; };
 		A71CEBA22054EB0E00FF6B54 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosMQTT.swift; sourceTree = "<group>"; };
 		A726C27F1FFCD5D400E73C18 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		A726C2801FFCD5D400E73C18 /* AccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountTableViewCell.xib; sourceTree = "<group>"; };
 		A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockHandler.swift; sourceTree = "<group>"; };
@@ -797,6 +799,7 @@
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
 				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
 				A7938298212FA9F80038286C /* SocketManager.swift */,
+				A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1057,6 +1060,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LogosWallet/Pods-LogosWallet-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MQTTClient/MQTTClient.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -1067,6 +1071,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
 				"${BUILT_PRODUCTS_DIR}/Sodium/Sodium.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
@@ -1074,6 +1079,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MQTTClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -1084,6 +1090,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sodium.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
@@ -1217,6 +1224,7 @@
 				A7F88F3A2069F26200CDB7AB /* EnterAddressViewModel.swift in Sources */,
 				A7B327F82002A43500E0E360 /* LeftAlignedIconButton.swift in Sources */,
 				A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */,
+				A72699BA21BE2F8A00C0B09B /* LogosMQTT.swift in Sources */,
 				A79C6D06215C8A49007AEF05 /* AppUrlsViewController.swift in Sources */,
 				A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */,
 				A71CEBA42054EB0E00FF6B54 /* AboutViewController.swift in Sources */,
