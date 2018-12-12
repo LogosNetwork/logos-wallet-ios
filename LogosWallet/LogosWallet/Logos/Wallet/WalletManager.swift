@@ -12,6 +12,7 @@ final class WalletManager {
     
     static let shared: WalletManager = WalletManager()
     private(set) var verifiedReps: [VerifiedAccount] = []
+    var networkDelegates: [String: String] = [:]
     private(set) var accounts: [AccountInfo] = PersistentStore.getAccounts()
     fileprivate var sd: Data?
     

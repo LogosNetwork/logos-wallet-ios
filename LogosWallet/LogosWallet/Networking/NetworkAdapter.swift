@@ -47,7 +47,21 @@ public struct NetworkAdapter {
     }
     static let provider = MoyaProvider<LogosLegacyService>()
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
-    
+    static let delegateProvider = MoyaProvider<LogosDelegateService>()
+
+    // MARK: - Logos Delegate
+
+    static func networkDelegates(_ completion: @escaping ([String: String]?, APIError?) -> Void) {
+        self.request(target: .delegates, success: { (response) in
+            do {
+                let json = try JSONSerialization.jsonObject(with: response.data, options: [])
+                completion(json as? [String: String], nil)
+            } catch {
+                completion(nil, .badResponse)
+            }
+        })
+    }
+
     // MARK: - Logos
 
     static func blockInfo(hash: String, completion: @escaping (Block?, APIError?) -> Void) {
@@ -174,7 +188,13 @@ public struct NetworkAdapter {
         })
     }
     // MARK: - Helper
-    
+
+    static func request(target: LogosDelegateService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
+        delegateProvider.request(target) { (result) in
+            handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)
+        }
+    }
+
     static func request(target: NanoNodeNinjaService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
         ninjaProvider.request(target) { (result) in
             handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)

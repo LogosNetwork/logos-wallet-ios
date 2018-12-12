@@ -121,6 +121,7 @@
 		A7B858FE203408E200698FAE /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B858FC203408E200698FAE /* PasscodeViewController.xib */; };
 		A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */; };
 		A7E216C120DCE5EA003B8FCA /* TitleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */; };
+		A7E2F94A21C0D2C8007D369B /* LogosDelegateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */; };
 		A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */; };
 		A7EAC9D220A2D7E600EE1F14 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */; };
 		A7EB8F5520662C72004463FC /* nano_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = A7EB8F5420662C72004463FC /* nano_loading.json */; };
@@ -312,6 +313,7 @@
 		A7B858FC203408E200698FAE /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
 		A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletSecureTests.swift; sourceTree = "<group>"; };
 		A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewController.swift; sourceTree = "<group>"; };
+		A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosDelegateService.swift; sourceTree = "<group>"; };
 		A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secure.swift; sourceTree = "<group>"; };
 		A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
 		A7EB8F5420662C72004463FC /* nano_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nano_loading.json; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 				A7B858E92032CC6E00698FAE /* CurrencyAPI.swift */,
 				A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */,
 				A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */,
+				A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */,
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
 				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
 				A7938298212FA9F80038286C /* SocketManager.swift */,
@@ -1142,6 +1145,7 @@
 			files = (
 				A74362201FE66DEB00054078 /* WalletUtil.swift in Sources */,
 				A74362231FE734F300054078 /* BitArray.swift in Sources */,
+				A7E2F94A21C0D2C8007D369B /* LogosDelegateService.swift in Sources */,
 				A7EAC9D220A2D7E600EE1F14 /* KeyPair.swift in Sources */,
 				A732982F200ACEB000B21C8D /* PoW.swift in Sources */,
 				A78854DF200F12FA00C9565B /* Networking.swift in Sources */,
