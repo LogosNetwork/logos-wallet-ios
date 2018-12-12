@@ -10,6 +10,11 @@ import Moya
 
 enum LogosDelegateService {
     case delegates
+
+    static func loadBalancedIndex() -> Int {
+
+        return 0
+    }
 }
 
 extension LogosDelegateService: TargetType {
