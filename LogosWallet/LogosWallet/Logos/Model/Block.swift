@@ -52,3 +52,29 @@ struct Block: Codable {
     }
     
 }
+
+struct IncomingBlock: Codable {
+
+    var type: String
+    var account: String
+    var previous: String
+    var representative: String
+    var amount: String
+    var transactionFee: String
+    var link: String
+    var linkAsAccount: String
+    var signature: String
+    var work: String
+    var timestamp: String
+    var batchBlockHash: String
+    var hash: String
+
+    var simpleBlock: SimpleBlockBridge? {
+        let block = SimpleBlock()
+        block.blockHash = self.hash
+        block.type = self.type
+        block.account = self.account
+        block.amount = self.amount
+        return block
+    }
+}

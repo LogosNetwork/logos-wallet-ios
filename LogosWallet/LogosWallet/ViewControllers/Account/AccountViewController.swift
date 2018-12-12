@@ -42,9 +42,6 @@ class AccountViewController: UIViewController {
     init(account: AccountInfo) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.onNewBlockBroadcasted = { [weak self] in
-            self?.onNewBlockBroadcasted()
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,10 +69,7 @@ class AccountViewController: UIViewController {
         self.setupView()
         self.setupTableView()
         self.setupNavBar()
-        self.viewModel.updateView = { [weak self] in
-            self?.tableView.reloadData()
-            self?.sortButton?.setTitle(self?.viewModel.refineType.title, for: .normal)
-        }
+        self.setupViewModel()
         self.totalBalanceLabel?.text = self.viewModel.balanceValue
 
         guard let address = self.viewModel.account.address else {
@@ -101,6 +95,14 @@ class AccountViewController: UIViewController {
             }
         }
 
+        BlockHandler.shared
+            .incomingBlockSubject
+            .subscribe(onNext: { [weak self] (incomingBlock) in
+                guard let strongSelf = self else { return }
+                strongSelf.viewModel = AccountViewModel(with: strongSelf.viewModel.account)
+                strongSelf.setupViewModel()
+                strongSelf.updateView()
+            }).disposed(by: self.disposeBag)
 //        SocketManager.shared.accountInfoSubject
 //            .subscribe(onNext: { [weak self] accountInfo in
 //                guard
@@ -147,7 +149,17 @@ class AccountViewController: UIViewController {
     }
 
     // MARK: - Setup
-    
+
+    func setupViewModel() {
+        self.viewModel.onNewBlockBroadcasted = { [weak self] in
+            self?.onNewBlockBroadcasted()
+        }
+
+        self.viewModel.updateView = { [weak self] in
+            self?.updateView()
+        }
+    }
+
     func setupNavBar() {
         view.viewWithTag(1337)?.removeFromSuperview()
         let stackView = UIStackView(frame: .zero)
@@ -332,7 +344,9 @@ class AccountViewController: UIViewController {
     }
     
     func updateView() {
-        tableView.reloadData()
+        self.totalBalanceLabel?.text = self.viewModel.balanceValue
+        self.sortButton?.setTitle(self.viewModel.refineType.title, for: .normal)
+        self.tableView.reloadData()
     }
     
     func initiateChangeBlock(newRep: String?) {

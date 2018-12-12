@@ -97,9 +97,18 @@ extension LogosMQTT: MQTTSessionDelegate {
     }
 
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
+        guard let topic = topic else {
+            return
+        }
+
         Lincoln.log("MQTT message received from topic: \(topic ?? "")", inConsole: true)
         if let message = String(data: data, encoding: .utf8) {
             Lincoln.log("Message: \(message)", inConsole: true)
+        }
+
+        if topic.contains("account/") {
+            let account = topic.replacingOccurrences(of: "account/", with: "")
+            BlockHandler.shared.handleIncoming(blockData: data, for: account)
         }
     }
 }

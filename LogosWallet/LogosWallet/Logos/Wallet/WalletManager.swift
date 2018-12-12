@@ -222,6 +222,7 @@ final class WalletManager {
     func updateAccounts() {
         accounts = PersistentStore.getAccounts()
     }
+
 }
 
 struct KeychainKey {

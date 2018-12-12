@@ -7,8 +7,13 @@
 //
 
 import Foundation
+import RxSwift
 
-struct BlockHandler {
+class BlockHandler {
+
+    static let shared = BlockHandler()
+    let incomingBlockSubject = PublishSubject<IncomingBlock>()
+
     enum BlockHandlerError: Error {
         case proofOfWork
         case process(String?)
@@ -64,6 +69,31 @@ struct BlockHandler {
                     return
                 }
                 completion(.success(blockHash))
+            }
+        }
+    }
+
+
+    func handleIncoming(blockData: Data, for address: String) {
+        guard
+            let incomingBlock = Decoda.decode(IncomingBlock.self, from: blockData),
+            let account = WalletManager.shared.accounts.first(where: { $0.address == address })
+        else {
+            return
+        }
+
+        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+            guard let accountInfo = info else { return }
+            let blockCount = Int(accountInfo.blockCount) ?? 0
+            PersistentStore.write {
+                account.balance = accountInfo.balance
+                account.frontier = accountInfo.frontier
+                account.blockCount = blockCount
+            }
+            NetworkAdapter.getAccountHistory(account: address, count: blockCount) { chain in
+                PersistentStore.updateBlockHistory(for: account, history: chain)
+                WalletManager.shared.updateAccounts()
+                self?.incomingBlockSubject.onNext(incomingBlock)
             }
         }
     }

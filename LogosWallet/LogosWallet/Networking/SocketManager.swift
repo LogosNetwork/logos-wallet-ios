@@ -12,7 +12,6 @@ import RxSwift
 
 class SocketManager {
 
-    private(set) var transactionSubject = PublishSubject<SubscribedTransaction>()
     private(set) var accountInfoSubject = PublishSubject<AccountInfoResponse>()
     private(set) var webSocket: WebSocket
 
@@ -119,12 +118,6 @@ class SocketManager {
 
         if let accountInfo = Decoda.decode(AccountInfoResponse.self, from: data) {
             self.accountInfoSubject.onNext(accountInfo)
-        } else if let transaction = Decoda.decode(SubscribedTransaction.self, from: data) {
-            // TODO check if outgoing sends are sent back, in which case we can ignore
-            guard transaction.isSend != "true" else {
-                return
-            }
-            self.transactionSubject.onNext(transaction)
         }
 
     }
