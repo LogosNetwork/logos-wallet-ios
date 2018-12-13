@@ -23,7 +23,6 @@ enum LogosDelegateService {
             let publicKey = WalletUtil.derivePublic(from: address),
             accountInfo.frontier.isEmpty == false
         else {
-            // Should never reach this
             return 0
         }
 

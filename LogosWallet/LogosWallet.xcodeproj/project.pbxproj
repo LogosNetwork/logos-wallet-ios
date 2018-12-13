@@ -121,6 +121,7 @@
 		A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */; };
 		A7E216C120DCE5EA003B8FCA /* TitleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */; };
 		A7E2F94A21C0D2C8007D369B /* LogosDelegateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */; };
+		A7E2F94E21C24366007D369B /* LogosDelegateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E2F94D21C24366007D369B /* LogosDelegateServiceTests.swift */; };
 		A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */; };
 		A7EAC9D220A2D7E600EE1F14 /* KeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */; };
 		A7EB8F5520662C72004463FC /* nano_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = A7EB8F5420662C72004463FC /* nano_loading.json */; };
@@ -312,6 +313,7 @@
 		A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletSecureTests.swift; sourceTree = "<group>"; };
 		A7E216C020DCE5EA003B8FCA /* TitleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewController.swift; sourceTree = "<group>"; };
 		A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosDelegateService.swift; sourceTree = "<group>"; };
+		A7E2F94D21C24366007D369B /* LogosDelegateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosDelegateServiceTests.swift; sourceTree = "<group>"; };
 		A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secure.swift; sourceTree = "<group>"; };
 		A7EAC9D120A2D7E600EE1F14 /* KeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPair.swift; sourceTree = "<group>"; };
 		A7EB8F5420662C72004463FC /* nano_loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nano_loading.json; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 				A76D2734204E986000615B7A /* LogosWalletTests.swift */,
 				A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */,
 				A76D2736204E986000615B7A /* Info.plist */,
+				A7E2F94D21C24366007D369B /* LogosDelegateServiceTests.swift */,
 			);
 			path = LogosWalletTests;
 			sourceTree = "<group>";
@@ -1247,6 +1250,7 @@
 			files = (
 				A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */,
 				A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */,
+				A7E2F94E21C24366007D369B /* LogosDelegateServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
