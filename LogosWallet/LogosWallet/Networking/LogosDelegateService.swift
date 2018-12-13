@@ -9,11 +9,31 @@
 import Moya
 
 enum LogosDelegateService {
+
+    static var accountInfo: AccountInfo?
+
     case delegates
 
+    /// Transaction load balancing on 32 delegates. This requires the current
+    /// account in focus to be set to the static prop above.
     static func loadBalancedIndex() -> Int {
+        guard
+            let accountInfo = self.accountInfo,
+            let address = accountInfo.address,
+            let publicKey = WalletUtil.derivePublic(from: address),
+            accountInfo.frontier.isEmpty == false
+        else {
+            // Should never reach this
+            return 0
+        }
 
-        return 0
+        let delegateIndex: Int
+        if accountInfo.frontier == ZERO_AMT {
+            delegateIndex = Int(String(publicKey.suffix(2)), radix: 16) ?? 0
+        } else {
+            delegateIndex = Int(String(accountInfo.frontier.suffix(2)), radix: 16) ?? 0
+        }
+        return delegateIndex % 32
     }
 }
 
