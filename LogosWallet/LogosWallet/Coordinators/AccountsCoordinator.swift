@@ -68,7 +68,11 @@ class AccountsCoordinator: RootViewCoordinator {
 
 extension AccountsCoordinator: AccountsViewControllerDelegate {
     func accountAdded() {
-//        subscribeToAccounts()
+        guard let newAccount = WalletManager.shared.accounts.last?.address else {
+            return
+        }
+
+        LogosMQTT.shared.subscribe(to: [newAccount])
     }
     
     func settingsTapped() {
