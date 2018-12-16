@@ -60,4 +60,14 @@ class AccountInfo: Object {
         self.representative = rpcResponse.representative
         self.pending = rpcResponse.pending
     }
+
+    func copyProperties(from rpcResponse: AccountInfoResponse) {
+        self.openBlock = rpcResponse.openBlock
+        self.frontier = rpcResponse.frontier
+        self.representative = rpcResponse.representativeBlock
+        self.balance = rpcResponse.balance
+        self.modifiedTimestamp = rpcResponse.modifiedTimestamp
+        self.blockCount = Int(rpcResponse.blockCount) ?? 0
+    }
+
 }

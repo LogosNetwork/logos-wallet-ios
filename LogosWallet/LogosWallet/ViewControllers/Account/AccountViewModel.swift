@@ -147,18 +147,19 @@ class AccountViewModel {
 //    }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
-//        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
-//        NetworkAdapter.getLedger(account: acc) { [weak self] (info) in
-//            if let info = info {
-//                PersistentStore.write {
-//                    self?.account.copyProperties(from: info)
-//                }
-//            } else {
-//                // Assume account is not open yet
-//                self?.getPending(shouldOpen: true)
-//            }
-//            completion?()
-//        }
+        guard let address = self.account.address else {
+            return
+        }
+
+        NetworkAdapter.accountInfo(for: address) { [weak self] (accountInfo, _) in
+            defer { completion?() }
+            guard let info = accountInfo else {
+                return
+            }
+            PersistentStore.write {
+                self?.account.copyProperties(from: info)
+            }
+        }
     }
     
     func getHistory(completion: @escaping () -> Void) {

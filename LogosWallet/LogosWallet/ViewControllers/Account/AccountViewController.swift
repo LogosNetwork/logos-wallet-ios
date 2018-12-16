@@ -72,24 +72,9 @@ class AccountViewController: UIViewController {
         self.setupViewModel()
         self.totalBalanceLabel?.text = self.viewModel.balanceValue
 
-        guard let address = self.viewModel.account.address else {
-            return
-        }
-
-        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
-            guard
-                let strongSelf = self,
-                let accountInfo = info
-            else {
-                return
-            }
-            PersistentStore.write {
-                strongSelf.viewModel.account.balance = accountInfo.balance
-                strongSelf.viewModel.account.frontier = accountInfo.frontier
-                strongSelf.viewModel.account.blockCount = Int(accountInfo.blockCount) ?? 0
-            }
+        self.viewModel.getAccountInfo { [weak self] in
+            guard let strongSelf = self else { return }
             strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
-
             strongSelf.viewModel.getHistory {
                 strongSelf.tableView.reloadData()
             }
@@ -103,49 +88,6 @@ class AccountViewController: UIViewController {
                 strongSelf.setupViewModel()
                 strongSelf.updateView()
             }).disposed(by: self.disposeBag)
-//        SocketManager.shared.accountInfoSubject
-//            .subscribe(onNext: { [weak self] accountInfo in
-//                guard
-//                    let strongSelf = self,
-//                    strongSelf.viewIfLoaded != nil,
-//                    strongSelf.viewModel.account.openBlock.isEmpty || accountInfo.openBlock == strongSelf.viewModel.account.openBlock
-//                else {
-//                    return
-//                }
-//                print("GOT Account Info! \(accountInfo)")
-//                strongSelf.totalBalanceLabel?.text = accountInfo.balance
-//                PersistentStore.write {
-//                    strongSelf.viewModel.account.balance = accountInfo.balance
-//                    strongSelf.viewModel.account.frontier = accountInfo.frontier
-//                }
-//
-//                if strongSelf.loadComplete == false {
-//                    strongSelf.loadComplete = true
-//                    strongSelf.pollingTimer = Timer.scheduledTimer(timeInterval: 1.0, target: strongSelf, selector: #selector(strongSelf.pollAccountInfo), userInfo: nil, repeats: true)
-//                }
-//
-////                self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-//        }).disposed(by: self.disposeBag)
-
-//        viewModel.getAccountInfo {
-//            self.viewModel.getHistory {
-//                self.tableView.reloadData()
-//            }
-//            // Case where history count is 0 means this account must first receive a send block to generate its open block. Otherwise, we can assume its a send block
-//            if self.viewModel.history.count > 0 {
-//                self.viewModel.getPending() { (pendingCount) in
-//                    guard pendingCount > 0 else { return }
-//                    var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-//                    if pendingCount < 2 {
-//                        pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-//                    }
-//                    Banner.show(pendingStatus, style: .success)
-//                }
-//            }
-//            self.totalBalanceLabel?.text = self.viewModel.balanceValue.trimTrailingZeros()
-//        }
-
-//        SocketManager.shared.action(.accountInfo(account: self.viewModel.account.address ?? ""))
     }
 
     // MARK: - Setup
@@ -295,39 +237,6 @@ class AccountViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    fileprivate func getPendingAndHistory(_ getPending: Bool = true) {
-//        guard viewModel.account.frontier != ZERO_AMT else {
-//            viewModel.getAccountInfo() {
-//                guard self.viewModel.account.pending > 0 else {
-//                    self.refreshControl?.endRefreshing()
-//                    return
-//                }
-//                self.getPendingAndHistory()
-//            }
-//            return
-//        }
-//        guard getPending else {
-//            viewModel.getHistory { [weak self] in
-//                self?.refreshControl?.endRefreshing()
-//                self?.tableView.reloadData()
-//            }
-//            return
-//        }
-//        viewModel.getPending { [weak self] (pendingCount) in
-//            if pendingCount > 0 {
-//                var pendingStatus: String = .localize("arg-pending-receivables", arg: "\(pendingCount)")
-//                if pendingCount < 2 {
-//                    pendingStatus = .localize("arg-pending-receivable", arg: "\(pendingCount)")
-//                }
-//                Banner.show(pendingStatus, style: .success)
-//            }
-//            self?.viewModel.getHistory {
-//                self?.refreshControl?.endRefreshing()
-//                self?.tableView.reloadData()
-//            }
-//        }
-    }
-    
     @IBAction func sendTapped(_ sender: Any) {
         delegate?.sendTapped(account: viewModel.account)
     }
@@ -337,10 +246,9 @@ class AccountViewController: UIViewController {
     }
     
     func onNewBlockBroadcasted() {
-//        self.viewModel.getAccountInfo { [weak self] in
-//            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-//            self?.getPendingAndHistory(false)
-//        }
+        self.viewModel.getAccountInfo { [weak self] in
+            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+        }
     }
     
     func updateView() {

@@ -82,6 +82,10 @@ class BlockHandler {
             return
         }
 
+        if WalletManager.shared.accounts.filter({ $0.address == incomingBlock.account }).isEmpty {
+            // play receive sound for when sender address is not from this wallet
+            SoundManager.shared.play(.receive)
+        }
         NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
             guard let accountInfo = info else { return }
             let blockCount = Int(accountInfo.blockCount) ?? 0
