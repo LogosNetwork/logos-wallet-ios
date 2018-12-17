@@ -16,6 +16,7 @@ target 'LogosWallet' do
   pod 'Starscream'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'MQTTClient/Websocket'
 end
 
 target 'LogosWalletTests' do

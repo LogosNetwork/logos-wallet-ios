@@ -20,7 +20,7 @@ struct BlockMeta: Codable {
     var signature: String
 }
 
-struct IncomingBlock: Codable {
+struct IncomingBlock2: Codable {
     var account: String
     var hash: String
     var timestamp: Int

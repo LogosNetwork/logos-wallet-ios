@@ -34,7 +34,7 @@ class TransactionTableViewCell: UITableViewCell {
         var stringValue = ""
         let value = tx.amount.bNumber.toMlgsValue
         if useSecondaryCurrency {
-            let converted = secondary.convertToFiat(tx.amount.bNumber)
+            let converted = secondary.convert(tx.amount.bNumber)
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
         } else {
             stringValue = "\(value.decimalExpansion(precisionAfterComma: 6).trimTrailingZeros()) \(CURRENCY_NAME)"

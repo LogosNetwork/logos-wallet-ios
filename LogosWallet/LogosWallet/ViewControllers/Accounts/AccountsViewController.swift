@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol AccountsViewControllerDelegate: class {
     func settingsTapped()
@@ -25,6 +26,7 @@ class AccountsViewController: UIViewController {
     weak var delegate: AccountsViewControllerDelegate?
     private(set) var viewModel: AccountsViewModel = AccountsViewModel()
     fileprivate(set) var customInteractor: CustomInteractor?
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +50,12 @@ class AccountsViewController: UIViewController {
                 }
             }
         }
+
+        BlockHandler.shared
+            .incomingBlockSubject
+            .subscribe(onNext: { [weak self] _ in
+                self?.updateAccounts()
+            }).disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,7 +115,6 @@ class AccountsViewController: UIViewController {
         viewModel = AccountsViewModel()
         totalBalanceLabel?.text = viewModel.balanceValue
         unitsLabel?.text = viewModel.currencyValue
-        self.currencySwitch()
     }
 
     @objc func settingsTapped() {

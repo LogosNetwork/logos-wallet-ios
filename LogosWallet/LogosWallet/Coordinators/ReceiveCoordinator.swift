@@ -22,8 +22,10 @@ class ReceiveCoordinator: RootViewCoordinator {
     
     func start() {
         receiveViewController = ReceiveViewController(with: account)
-        receiveViewController?.onDismiss = {
-            self.onDismiss?(self)
+        receiveViewController?.onDismiss = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.onDismiss?(strongSelf)
+            }
         }
         receiveViewController?.onRequestAmountTapped = { [weak self] in
             guard let me = self else {

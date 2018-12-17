@@ -30,10 +30,16 @@ class AccountsCoordinator: RootViewCoordinator {
         navController.modalTransitionStyle = .crossDissolve
         rootViewController.present(navController, animated: true)
         
-//        setupPubSub()
+        self.setupMQTT()
     }
     
-//    fileprivate func setupPubSub() {
+    fileprivate func setupMQTT() {
+        LogosMQTT.shared.onConnect = {
+            LogosMQTT.shared.subscribe(to: WalletManager.shared.accounts.compactMap { $0.address })
+        }
+
+        LogosMQTT.shared.connect()
+    }
 //        // Client ID
 //        guard let idData = Keychain.standard.get(key: KeychainKey.mqttWalletID),
 //            let walletId = String(data: idData, encoding: .utf8) else { return }
@@ -62,7 +68,11 @@ class AccountsCoordinator: RootViewCoordinator {
 
 extension AccountsCoordinator: AccountsViewControllerDelegate {
     func accountAdded() {
-//        subscribeToAccounts()
+        guard let newAccount = WalletManager.shared.accounts.last?.address else {
+            return
+        }
+
+        LogosMQTT.shared.subscribe(to: [newAccount])
     }
     
     func settingsTapped() {

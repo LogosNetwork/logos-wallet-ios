@@ -66,11 +66,9 @@ extension SendCoordinator: SendViewControllerDelegate {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
             }
-            if let address = me.account.address {
-                SocketManager.shared.action(.accountInfo(account: address))
-            }
+            SoundManager.shared.play(.send)
             me.rootViewController.dismiss(animated: true)
-            me.delegate?.sendComplete(coordinator:  me)
+            me.delegate?.sendComplete(coordinator: me)
         }
         sendViewController.present(UINavigationController(rootViewController: confirmVC), animated: true)
     }

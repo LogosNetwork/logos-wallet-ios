@@ -41,8 +41,14 @@ enum LogosLegacyService {
 
 extension LogosLegacyService: TargetType {
     var baseURL: URL {
-        // TODO: update url
-        return URL(string: NetworkAdapter.baseNodeUrl)!
+        let index = LogosDelegateService.loadBalancedIndex()
+        if !WalletManager.shared.networkDelegates.isEmpty,
+            let delegateIP = WalletManager.shared.networkDelegates["\(index)"],
+            let url = URL(string: "http://" + delegateIP + ":55000") {
+            return url
+        } else {
+            return URL(string: NetworkAdapter.baseNodeUrl)!
+        }
     }
     
     var path: String {

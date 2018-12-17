@@ -60,7 +60,7 @@ class ConfirmTxViewController: UIViewController {
         confirmButton?.backgroundColor = AppStyle.Color.logosBlue
         balanceLabel?.text = "-- \(CURRENCY_NAME)"
         amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) \(CURRENCY_NAME)"
-        let secondaryAmount = Currency.secondary.convertToFiat(amountValue, isRaw: false)
+        let secondaryAmount = Currency.secondary.convert(amountValue, isRaw: false)
         secondaryAmountLabel?.text = "\(secondaryAmount) \(Currency.secondary.rawValue.uppercased())"
         recipientNameLabel?.text = txInfo.recipientName
         recipientAddressLabel?.text = txInfo.recipientAddress

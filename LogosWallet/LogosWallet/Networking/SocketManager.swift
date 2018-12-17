@@ -12,7 +12,6 @@ import RxSwift
 
 class SocketManager {
 
-    private(set) var transactionSubject = PublishSubject<SubscribedTransaction>()
     private(set) var accountInfoSubject = PublishSubject<AccountInfoResponse>()
     private(set) var webSocket: WebSocket
 
@@ -56,12 +55,12 @@ class SocketManager {
     // MARK: - Socket Open/Close
 
     func openConnection(_ completion: (() -> Void)? = nil) {
-        guard !self.webSocket.isConnected else {
-            return
-        }
-
-        Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
-        self.connectAndPerform(completion)
+//        guard !self.webSocket.isConnected else {
+//            return
+//        }
+//
+//        Lincoln.log("Opening socket connection @ \(self.webSocket.currentURL.absoluteString)...")
+//        self.connectAndPerform(completion)
     }
 
     func closeConnection() {
@@ -105,8 +104,8 @@ class SocketManager {
     // MARK: - Helpers
 
     private func connectAndPerform(_ completion: (() -> Void)? = nil) {
-        self.webSocket.connect()
-        self.onConnect = completion
+//        self.webSocket.connect()
+//        self.onConnect = completion
     }
 
     private func handle(_ message: String?) {
@@ -119,12 +118,6 @@ class SocketManager {
 
         if let accountInfo = Decoda.decode(AccountInfoResponse.self, from: data) {
             self.accountInfoSubject.onNext(accountInfo)
-        } else if let transaction = Decoda.decode(SubscribedTransaction.self, from: data) {
-            // TODO check if outgoing sends are sent back, in which case we can ignore
-            guard transaction.isSend != "true" else {
-                return
-            }
-            self.transactionSubject.onNext(transaction)
         }
 
     }

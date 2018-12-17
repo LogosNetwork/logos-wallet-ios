@@ -39,6 +39,15 @@ class AppCoordinator: NSObject, RootViewCoordinator {
             } else {
                 handlePassword()
             }
+            self.fetchDelegates()
+        }
+    }
+
+    fileprivate func fetchDelegates() {
+        NetworkAdapter.networkDelegates { delegates, _ in
+            if let networkDelegates = delegates {
+                WalletManager.shared.networkDelegates = networkDelegates
+            }
         }
     }
     

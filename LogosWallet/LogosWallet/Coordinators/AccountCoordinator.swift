@@ -21,12 +21,17 @@ class AccountCoordinator: RootViewCoordinator {
         self.account = account
         self.navController = navController
     }
-    
+
+    deinit {
+        LogosDelegateService.accountInfo = nil
+    }
+
     func start() {
         accountVC = AccountViewController(account: account)
         accountVC?.delegate = self
         if let accountVC = accountVC {
             navController.pushViewController(accountVC, animated: true)
+            LogosDelegateService.accountInfo = self.account
         }
     }
 }

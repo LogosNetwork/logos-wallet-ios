@@ -7,6 +7,10 @@ PODS:
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
+  - MQTTClient/Min (0.15.2)
+  - MQTTClient/Websocket (0.15.2):
+    - MQTTClient/Min
+    - SocketRocket
   - NotificationBannerSwift (1.6.3):
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
@@ -20,6 +24,7 @@ PODS:
     - RxSwift (~> 4.0)
   - RxSwift (4.3.1)
   - SnapKit (4.2.0)
+  - SocketRocket (0.5.1)
   - Sodium (0.6)
   - SSZipArchive (2.1.4)
   - Starscream (3.0.6)
@@ -28,6 +33,7 @@ DEPENDENCIES:
   - Alamofire
   - lottie-ios
   - Moya (~> 11.0)
+  - MQTTClient/Websocket
   - NotificationBannerSwift (= 1.6.3)
   - RealmSwift
   - RxCocoa
@@ -50,6 +56,7 @@ SPEC CHECKSUMS:
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   Moya: a725035953bc1c0eb1be505ab903984501d82440
+  MQTTClient: 902c7bcac1501595f3d0b15178c7205b40331fb0
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   Realm: 037c5919b9ceb59d6beed5d3b031096856b119b3
   RealmSwift: c9580133e73ef40ed340401af2dbc9a5790dfea7
@@ -57,10 +64,11 @@ SPEC CHECKSUMS:
   RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   Sodium: 3cd000dc8d21be5d448fbb4366a7b1c9392b1ae6
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
 
-PODFILE CHECKSUM: d0ecce584a59812593c27566cd01b948a08ba2ed
+PODFILE CHECKSUM: 5f28d4c83e260a7415dabf35357f289582490a17
 
 COCOAPODS: 1.4.0
