@@ -115,7 +115,6 @@ class AccountsViewController: UIViewController {
         viewModel = AccountsViewModel()
         totalBalanceLabel?.text = viewModel.balanceValue
         unitsLabel?.text = viewModel.currencyValue
-        self.currencySwitch()
     }
 
     @objc func settingsTapped() {

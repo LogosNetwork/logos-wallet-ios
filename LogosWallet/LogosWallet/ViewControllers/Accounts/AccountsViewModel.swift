@@ -10,27 +10,29 @@ import Foundation
 
 struct AccountsViewModel {
     
-    private(set) var balanceValue: String = ""
-    private(set) var currencyValue: String
-    private(set) var isShowingSecondary: Bool = false
-    
-    init() {
-        currencyValue = CURRENCY_NAME
-        balanceValue = self.getTotalLGS()
-    }
-    
-    mutating func toggleCurrency() {
-        if isShowingSecondary {
-            currencyValue = CURRENCY_NAME
-            balanceValue = self.getTotalLGS()
+    var currencyValue: String {
+        if self.isShowingSecondary == true {
+            return Currency.secondary.denomination
         } else {
-            currencyValue = Currency.secondary.denomination
+            return CURRENCY_NAME
+        }
+    }
+    var balanceValue: String {
+        if !isShowingSecondary {
+            return self.getTotalLGS()
+        } else {
             let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
                 result + (BDouble(account.balance) ?? 0.0)
             })
-            balanceValue = Currency.secondary.convert(total)
+            return Currency.secondary.convert(total)
         }
-        isShowingSecondary = !isShowingSecondary
+    }
+    var isShowingSecondary: Bool {
+        return Currency.isSecondarySelected
+    }
+    
+    mutating func toggleCurrency() {
+        Currency.setSecondary(!self.isShowingSecondary)
     }
     
     func getTotalLGS() -> String {

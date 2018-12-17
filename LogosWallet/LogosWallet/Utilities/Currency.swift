@@ -83,7 +83,7 @@ enum Currency: String {
         }
     }
     
-    /// Converts a Nano (either raw or mxrb) amount to the user's selected 'secondary' currency.
+    /// Converts a LGS (either raw or mlgs) amount to the user's selected 'secondary' currency.
     func convert(_ value: BDouble, isRaw: Bool = true) -> String {
         let value = isRaw ? value.toMlgsValue : value
         return (Currency.secondaryConversionRate * value).decimalExpansion(precisionAfterComma: self.precision)
@@ -93,15 +93,22 @@ enum Currency: String {
         let value = isRaw ? value.toMlgs : value.decimalExpansion(precisionAfterComma: 6)
         return ((Double(value) ?? 0.0) * Currency.secondaryConversionRate).chopDecimal(to: Currency.secondary.precision)
     }
+
     func setRate(_ rate: Double) {
         UserDefaults.standard.set(rate, forKey: .kSecondaryConversionRate)
-        UserDefaults.standard.synchronize()
     }
     
     func setAsSecondaryCurrency(with rate: Double) {
         UserDefaults.standard.set(self.rawValue, forKey: .kSecondaryCurrency)
         UserDefaults.standard.set(rate, forKey: .kSecondaryConversionRate)
-        UserDefaults.standard.synchronize()
+    }
+
+    static func setSecondary(_ selected: Bool) {
+        if selected {
+            UserDefaults.standard.set(true, forKey: .kSecondarySelected)
+        } else {
+            UserDefaults.standard.removeObject(forKey: .kSecondarySelected)
+        }
     }
     
     static var secondary: Currency {
@@ -112,9 +119,14 @@ enum Currency: String {
     static var secondaryConversionRate: Double {
         return UserDefaults.standard.value(forKey: .kSecondaryConversionRate) as? Double ?? 1.0
     }
+
+    static var isSecondarySelected: Bool {
+        return UserDefaults.standard.value(forKey: .kSecondarySelected) != nil
+    }
 }
 
 extension String {
     static let kSecondaryCurrency: String = "kSecondaryCurrency"
     static let kSecondaryConversionRate: String = "kSecondaryConversionRate"
+    static let kSecondarySelected: String = "kCurrencySelected"
 }

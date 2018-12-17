@@ -36,17 +36,24 @@ class AccountViewModel {
     private(set) var refined: [SimpleBlockBridge] = []
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
-    private(set) var isShowingSecondary: Bool = true
+    var isShowingSecondary: Bool {
+        return Currency.isSecondarySelected
+    }
     var balanceValue: String {
-        if !isShowingSecondary {
+        if !self.isShowingSecondary {
             return self.account.balance.bNumber.toMlgs.trimTrailingZeros()
         } else {
-            currencyValue = Currency.secondary.denomination
             return Currency.secondary.convertToFiat(account.balance.bNumber)
         }
     }
     // TODO: clean up currency stuff
-    private(set) var currencyValue: String = Currency.secondary.denomination
+    var currencyValue: String {
+        if self.isShowingSecondary {
+            return Currency.secondary.denomination
+        } else {
+            return CURRENCY_NAME
+        }
+    }
     private(set) var refineType: RefineType = .latestFirst
     var onNewBlockBroadcasted: (() -> Void)?
     var updateView: (() -> Void)?
@@ -67,12 +74,7 @@ class AccountViewModel {
     }
     
     func toggleCurrency() {
-        if isShowingSecondary {
-            currencyValue = CURRENCY_NAME
-        } else {
-            currencyValue = Currency.secondary.denomination
-        }
-        isShowingSecondary = !isShowingSecondary
+        Currency.setSecondary(!self.isShowingSecondary)
     }
     
     func initHistory() {
