@@ -89,6 +89,7 @@ enum Currency: String {
         let convertedValue = Currency.secondaryConversionRate * value
         let numberFormatter = NumberFormatter()
         numberFormatter.maximumFractionDigits = self.precision
+        numberFormatter.minimumFractionDigits = self.precision
         numberFormatter.numberStyle = .decimal
 
 
