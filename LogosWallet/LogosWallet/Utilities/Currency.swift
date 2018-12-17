@@ -86,12 +86,14 @@ enum Currency: String {
     /// Converts a LGS (either raw or mlgs) amount to the user's selected 'secondary' currency.
     func convert(_ value: BDouble, isRaw: Bool = true) -> String {
         let value = isRaw ? value.toMlgsValue : value
-        return (Currency.secondaryConversionRate * value).decimalExpansion(precisionAfterComma: self.precision)
-    }
-    
-    func convertToFiat(_ value: BDouble, isRaw: Bool = true) -> String {
-        let value = isRaw ? value.toMlgs : value.decimalExpansion(precisionAfterComma: 6)
-        return ((Double(value) ?? 0.0) * Currency.secondaryConversionRate).chopDecimal(to: Currency.secondary.precision)
+        let convertedValue = Currency.secondaryConversionRate * value
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = self.precision
+        numberFormatter.numberStyle = .decimal
+
+
+        let numberValue = NSNumber(value: Double(convertedValue.decimalDescription)!)
+        return numberFormatter.string(from: numberValue) ?? "--"
     }
 
     func setRate(_ rate: Double) {

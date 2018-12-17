@@ -43,7 +43,7 @@ class AccountViewModel {
         if !self.isShowingSecondary {
             return self.account.balance.bNumber.toMlgs.trimTrailingZeros()
         } else {
-            return Currency.secondary.convertToFiat(account.balance.bNumber)
+            return Currency.secondary.convert(account.balance.bNumber)
         }
     }
     // TODO: clean up currency stuff
