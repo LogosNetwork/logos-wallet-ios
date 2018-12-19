@@ -10,7 +10,9 @@ import RealmSwift
 
 class AppUrl: Object {
 
-    @objc dynamic var nodeUrl: String = "http://107.22.128.62:55000"
-    @objc dynamic var walletServerUrl: String = "ws://18.202.143.35:443"
+    static let defaultNode = "http://107.22.128.62:55000"
+    static let defaultMqtt = "wss://18.235.68.120:8443/mqtt"
+    @objc dynamic var nodeUrl: String = AppUrl.defaultNode
+    @objc dynamic var walletServerUrl: String = AppUrl.defaultMqtt
 
 }

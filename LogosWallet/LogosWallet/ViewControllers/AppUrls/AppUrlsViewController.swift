@@ -59,7 +59,7 @@ class AppUrlsViewController: TransparentNavViewController {
 
         let nodeIpLabel = UILabel()
         nodeIpLabel.font = AppStyle.Font.subtitle
-        nodeIpLabel.text = "NODE IP ADDRESS"
+        nodeIpLabel.text = "NODE URL"
         nodeIpLabel.textColor = AppStyle.Color.lightGrey
         self.view.addSubview(nodeIpLabel)
 
@@ -86,7 +86,7 @@ class AppUrlsViewController: TransparentNavViewController {
 
         let walletServerLabel = UILabel()
         walletServerLabel.font = AppStyle.Font.subtitle
-        walletServerLabel.text = "WALLET SERVER ADDRESS"
+        walletServerLabel.text = "MQTT URL"
         walletServerLabel.textColor = AppStyle.Color.lightGrey
         self.view.addSubview(walletServerLabel)
         walletServerLabel.snp.makeConstraints { (make) in
@@ -117,13 +117,21 @@ class AppUrlsViewController: TransparentNavViewController {
         guard
             let walletUrlString = self.walletServerTextField.text,
             let _ = URL(string: walletUrlString),
-            let nodeUrlString = self.nodeIpTextField.text,
-            let _ = URL(string: nodeUrlString)
+            LogosMQTT.shared.changeMQTTUrl(to: walletUrlString)
         else {
+            Banner.show("Could not save MQTT URL", style: .danger)
             return
         }
 
-        SocketManager.shared.changeSocketUrl(to: walletUrlString)
+        guard
+            let nodeUrlString = self.nodeIpTextField.text,
+            let _ = URL(string: nodeUrlString)
+        else {
+            Banner.show("Could not save Node URL", style: .danger)
+            return
+        }
+
+        PersistentStore.updateWalletServerUrl(to: walletUrlString)
         PersistentStore.updateNodeUrl(to: nodeUrlString)
         self.navigationController?.popViewController(animated: true)
     }

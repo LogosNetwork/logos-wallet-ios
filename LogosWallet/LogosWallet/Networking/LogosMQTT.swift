@@ -13,17 +13,12 @@ class LogosMQTT: NSObject {
 
     static let shared = LogosMQTT()
     let session: MQTTSession
-    let host = "18.235.68.120"
-    let port: UInt32 = 8443
+    private(set) var url = URL(string: PersistentStore.getAppUrls().walletServerUrl)!
     var onConnect: (() -> Void)?
     var onDisconnect: (() -> Void)?
 
     var status: MQTTSessionStatus {
         return self.session.status
-    }
-
-    var url: URL {
-        return URL(string: "wss://\(self.host):\(self.port)/mqtt")!
     }
 
     override init() {
@@ -68,6 +63,24 @@ class LogosMQTT: NSObject {
         self.session.subscribe(toTopic: "batchBlock", at: .exactlyOnce)
         self.session.subscribe(toTopic: "microEpoch", at: .exactlyOnce)
         self.session.subscribe(toTopic: "epoch", at: .exactlyOnce)
+    }
+
+    @discardableResult
+    func changeMQTTUrl(to mqttUrl: String) -> Bool {
+        guard let url = URL(string: mqttUrl) else {
+            return false
+        }
+
+        self.session.disconnect()
+
+        self.url = url
+        let transport = MQTTWebsocketTransport()
+        transport.url = url
+        self.session.transport = transport
+        self.connect()
+        // onConnect should be fired by callback set in AccountsCoordinator
+
+        return true
     }
 
 }

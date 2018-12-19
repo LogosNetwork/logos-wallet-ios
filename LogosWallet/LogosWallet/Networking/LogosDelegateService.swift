@@ -34,6 +34,16 @@ enum LogosDelegateService {
         }
         return delegateIndex % 32
     }
+
+    static func loadBalancedUrl() -> URL {
+        if !WalletManager.shared.networkDelegates.isEmpty,
+            let delegateIP = WalletManager.shared.networkDelegates["\(LogosDelegateService.loadBalancedIndex())"],
+            let url = URL(string: "http://" + delegateIP + ":55000") {
+            return url
+        } else {
+            return URL(string: NetworkAdapter.baseNodeUrl)!
+        }
+    }
 }
 
 extension LogosDelegateService: TargetType {

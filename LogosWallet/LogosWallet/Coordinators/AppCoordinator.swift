@@ -43,12 +43,25 @@ class AppCoordinator: NSObject, RootViewCoordinator {
                 handlePassword()
             }
         }
+
+        // TEMP: adding this to clear out bad persistent MQTT url
+        if PersistentStore.getAppUrls().walletServerUrl == "ws://18.202.143.35:443" {
+            PersistentStore.updateWalletServerUrl(to: AppUrl.defaultMqtt)
+        }
     }
 
     fileprivate func fetchDelegates() {
         NetworkAdapter.networkDelegates { delegates, _ in
             if let networkDelegates = delegates {
                 WalletManager.shared.networkDelegates = networkDelegates
+
+                if WalletManager.shared.accounts.count > 0 {
+                    // default to using first account's info to generate load balanced URL
+                    LogosDelegateService.accountInfo = WalletManager.shared.accounts[0]
+                    let loadBalancedUrl = LogosDelegateService.loadBalancedUrl()
+                    PersistentStore.updateNodeUrl(to: loadBalancedUrl.absoluteString)
+                }
+
             }
         }
     }
