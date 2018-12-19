@@ -31,6 +31,9 @@ class AppCoordinator: NSObject, RootViewCoordinator {
             return
         }
 
+        defer {
+            self.fetchDelegates()
+        }
         if WalletManager.shared.accounts.count < 1 {
             showStart()
         } else {
@@ -39,7 +42,6 @@ class AppCoordinator: NSObject, RootViewCoordinator {
             } else {
                 handlePassword()
             }
-            self.fetchDelegates()
         }
     }
 

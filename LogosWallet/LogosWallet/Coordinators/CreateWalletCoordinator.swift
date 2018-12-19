@@ -31,25 +31,7 @@ class CreateWalletCoordinator: RootViewCoordinator {
         navController.modalTransitionStyle = .crossDissolve
         rootViewController.present(navController, animated: true)
     }
-    
-    func setupMQTT(_ completion: @escaping () -> Void) {
-        guard let uuid = UUID().uuidString.split(separator: "-").last,
-            let uuidData = String(uuid).data(using: .utf8) else { return }
-        Keychain.standard.set(value: uuidData, key: KeychainKey.mqttWalletID)
-        
-        guard let username = NaCl.randomBytes() else { return }
-        Keychain.standard.set(value: username, key: KeychainKey.mqttUsername)
-        
-        guard let password = NaCl.randomBytes() else { return }
-        Keychain.standard.set(value: password, key: KeychainKey.mqttPassword)
 
-        completion()
-//        NetworkAdapter.createAccountForSub(String(uuid), username: username.hexString, password: password.hexString) { (status) in
-//            completion()
-//            guard let status = status, status == "ok" else { return }
-//            Lincoln.log("MQTT account created: \(uuid)")
-//        }
-    }
 }
 
 extension CreateWalletCoordinator: StartViewControllerDelegate {
@@ -97,21 +79,23 @@ extension CreateWalletCoordinator: SeedViewControllerDelegate {
     func imported(seed: Data) {
         let passwordVC = PasswordViewController(action: .create, style: .blue, hideNav: false)
         passwordVC.onAuthenticated = { [weak self] (pw) in
-            guard WalletManager.shared.setWalletSeed(seed, password: pw) else {
+            guard
+                WalletManager.shared.setWalletSeed(seed, password: pw),
+                let strongSelf = self
+            else {
                 Banner.show("An error occurred while setting your wallet's seed", style: .danger)
                 return
             }
             WalletManager.shared.createWallet()
             LoadingView.startAnimating(in: passwordVC)
             // Set up MQTT subscription credentials
-            self?.setupMQTT() { [weak self] in
-                guard let me = self else {
-                    return
-                }
-                LoadingView.stopAnimating()
-                me.navController.dismiss(animated: true) {
-                    me.delegate?.walletCreated(coordinator: me)
-                }
+            if let address = WalletManager.shared.accounts.first?.address {
+                LogosMQTT.shared.subscribe(to: [address])
+            }
+
+            LoadingView.stopAnimating()
+            strongSelf.navController.dismiss(animated: true) {
+                strongSelf.delegate?.walletCreated(coordinator: strongSelf)
             }
         }
         navController.pushViewController(passwordVC, animated: true)

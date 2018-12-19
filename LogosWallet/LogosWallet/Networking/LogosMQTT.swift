@@ -41,6 +41,10 @@ class LogosMQTT: NSObject {
     }
 
     func connect() {
+        guard self.session.status != .connected else {
+            return
+        }
+
         self.session.connect()
     }
 
