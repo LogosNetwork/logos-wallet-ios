@@ -66,7 +66,6 @@ class AppUrlsViewController: TransparentNavViewController {
         nodeIpLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom).offset(AppStyle.Size.padding)
             make.left.equalTo(view.snp.left).offset(AppStyle.Size.padding)
-            make.right.equalTo(view.snp.right).offset(-AppStyle.Size.padding)
         }
 
         self.view.addSubview(self.nodeIpTextField)
@@ -81,7 +80,8 @@ class AppUrlsViewController: TransparentNavViewController {
         divider.snp.makeConstraints { (make) in
             make.top.equalTo(self.nodeIpTextField.snp.bottom).offset(4.0)
             make.left.equalTo(self.nodeIpTextField.snp.left)
-            make.right.equalTo(self.nodeIpTextField.snp.right)
+            make.right.equalTo(view.snp.right).offset(-AppStyle.Size.padding)
+
         }
 
         let walletServerLabel = UILabel()
@@ -92,14 +92,23 @@ class AppUrlsViewController: TransparentNavViewController {
         walletServerLabel.snp.makeConstraints { (make) in
             make.top.equalTo(divider.snp.bottom).offset(AppStyle.Size.padding)
             make.left.equalTo(nodeIpLabel.snp.left)
-            make.right.equalTo(nodeIpLabel.snp.right)
+        }
+
+        let statusView = UIView()
+        statusView.backgroundColor = LogosMQTT.shared.status == .connected ? .green : .red
+        statusView.layer.cornerRadius = AppStyle.Size.extraSmallControl / 2
+        self.view.addSubview(statusView)
+        statusView.snp.makeConstraints { (make) in
+            make.height.width.equalTo(AppStyle.Size.extraSmallControl)
+            make.left.equalTo(walletServerLabel.snp.right).offset(AppStyle.Size.extraSmallPadding)
+            make.centerY.equalTo(walletServerLabel.snp.centerY)
         }
 
         self.view.addSubview(self.walletServerTextField)
         self.walletServerTextField.snp.makeConstraints { (make) in
             make.top.equalTo(walletServerLabel.snp.bottom).offset(AppStyle.Size.smallPadding)
             make.left.equalTo(walletServerLabel.snp.left)
-            make.right.equalTo(walletServerLabel.snp.right)
+            make.right.equalTo(divider.snp.right)
         }
 
         let divider2 = UIView.line()
@@ -107,7 +116,7 @@ class AppUrlsViewController: TransparentNavViewController {
         divider2.snp.makeConstraints { (make) in
             make.top.equalTo(self.walletServerTextField.snp.bottom).offset(4.0)
             make.left.equalTo(self.walletServerTextField.snp.left)
-            make.right.equalTo(self.walletServerTextField.snp.right)
+            make.right.equalTo(divider.snp.right)
         }
     }
 

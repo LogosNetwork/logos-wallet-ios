@@ -19,9 +19,15 @@ struct AppStyle {
         static var padding: CGFloat = 20.0
         /// 8.0
         static var smallPadding: CGFloat = 8.0
+        /// 4.0
+        static var extraSmallPadding: CGFloat = 4.0
 
         /// 45.0
         static var control: CGFloat = 45.0
+        /// 22.0
+        static var smallControl: CGFloat = 22.0
+        /// 10.0
+        static var extraSmallControl: CGFloat = 10.0
     }
 
     struct Font {
