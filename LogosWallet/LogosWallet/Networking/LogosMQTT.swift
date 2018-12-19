@@ -52,6 +52,7 @@ class LogosMQTT: NSObject {
             return
         }
         accounts.forEach {
+            Lincoln.log("Subscribing to \($0)", inConsole: true)
             self.session.subscribe(toTopic: "account/\($0)", at: .exactlyOnce)
         }
     }
@@ -110,7 +111,7 @@ extension LogosMQTT: MQTTSessionDelegate {
     }
 
     func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
-        Lincoln.log("Subscription acknowledged: \(msgID)")
+        Lincoln.log("Subscription acknowledged: \(msgID)", inConsole: true)
     }
 
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
