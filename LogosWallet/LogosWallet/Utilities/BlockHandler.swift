@@ -94,7 +94,7 @@ class BlockHandler {
                 account.frontier = accountInfo.frontier
                 account.blockCount = blockCount
             }
-            NetworkAdapter.getAccountHistory(account: address, count: blockCount) { chain in
+            NetworkAdapter.getAccountHistory(account: address, count: blockCount) { chain, _ in
                 PersistentStore.updateBlockHistory(for: account, history: chain)
                 WalletManager.shared.updateAccounts()
                 self?.incomingBlockSubject.onNext(incomingBlock)

@@ -143,17 +143,23 @@ public struct NetworkAdapter {
         })
     }
     
-    static func getAccountHistory(account: String, count: Int, completion: @escaping ([SimpleBlock]) -> Void) {
+    static func getAccountHistory(account: String, count: Int, completion: @escaping ([SimpleBlock], Error?) -> Void) {
         request(target: .accountHistory(address: account, count: count), success: { (response) in
             let history: [SimpleBlock]
+            var error: Error?
             if let json = try? response.mapJSON() as? [String: Any],
                 let blocks = json?["history"] as? [[String: String]] {
                 let accountHistory = blocks.map { SimpleBlock.fromJSON($0) }
                 history = accountHistory
             } else {
+                if let errorJson = try? response.mapJSON() as? [String: String],
+                    let errorString = errorJson?["error"] {
+                    error = NSError(domain: "NetworkAdapter", code: 1337, userInfo: [NSLocalizedDescriptionKey: errorString])
+                }
                 history = []
+
             }
-            completion(history)
+            completion(history, error)
         })
     }
     

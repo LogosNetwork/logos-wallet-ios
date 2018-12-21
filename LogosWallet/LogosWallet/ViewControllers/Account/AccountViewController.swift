@@ -75,8 +75,12 @@ class AccountViewController: UIViewController {
         self.viewModel.getAccountInfo { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
-            strongSelf.viewModel.getHistory {
-                strongSelf.tableView.reloadData()
+            strongSelf.viewModel.getHistory { error in
+                if let _ = error {
+                    strongSelf.showWalletResetDialogue()
+                } else {
+                    strongSelf.tableView.reloadData()
+                }
             }
         }
 
@@ -91,6 +95,22 @@ class AccountViewController: UIViewController {
     }
 
     // MARK: - Setup
+
+    // TEMP
+    func showWalletResetDialogue() {
+        let alertController = UIAlertController(title: "TestNet Reset Detected", message: "This account returned with an 'Account not found' error despite previously having an account history. Reset all wallet accounts?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            PersistentStore.write {
+                WalletManager.shared.accounts.forEach {
+                    PersistentStore.removeBlockHistory(for: $0.address)
+                    $0.repair()
+                }
+            }
+            self.navigationController?.popViewController(animated: true)
+        }))
+        alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        self.present(alertController, animated: true)
+    }
 
     func setupViewModel() {
         self.viewModel.onNewBlockBroadcasted = { [weak self] in
@@ -226,7 +246,9 @@ class AccountViewController: UIViewController {
             self.delegate?.editRepTapped(account: self.viewModel.account)
         }
         let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] _ in
+            LoadingView.startAnimating(in: self, dimView: true)
             self.viewModel.repair { [weak self] in
+                LoadingView.stopAnimating()
                 self?.updateView()
 
             }
