@@ -74,4 +74,13 @@ class AccountInfo: Object {
         self.blockCount = Int(rpcResponse.blockCount) ?? 0
     }
 
+    func repair() {
+        self.openBlock = ""
+        self.frontier = ""
+        self.representative = ""
+        self.balance = "0"
+        self.modifiedTimestamp = ""
+        self.blockCount = 0
+    }
+
 }

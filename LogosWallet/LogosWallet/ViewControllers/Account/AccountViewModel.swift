@@ -179,6 +179,10 @@ class AccountViewModel {
         refined = []
         history = []
         blockCheck.removeAll()
+
+        PersistentStore.write {
+            self.account.repair()
+        }
         getHistory {
             completion()
         }

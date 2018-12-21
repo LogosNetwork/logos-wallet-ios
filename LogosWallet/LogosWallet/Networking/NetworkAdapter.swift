@@ -145,11 +145,15 @@ public struct NetworkAdapter {
     
     static func getAccountHistory(account: String, count: Int, completion: @escaping ([SimpleBlock]) -> Void) {
         request(target: .accountHistory(address: account, count: count), success: { (response) in
+            let history: [SimpleBlock]
             if let json = try? response.mapJSON() as? [String: Any],
                 let blocks = json?["history"] as? [[String: String]] {
                 let accountHistory = blocks.map { SimpleBlock.fromJSON($0) }
-                completion(accountHistory)
+                history = accountHistory
+            } else {
+                history = []
             }
+            completion(history)
         })
     }
     

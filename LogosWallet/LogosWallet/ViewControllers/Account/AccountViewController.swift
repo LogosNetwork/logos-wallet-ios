@@ -226,8 +226,9 @@ class AccountViewController: UIViewController {
             self.delegate?.editRepTapped(account: self.viewModel.account)
         }
         let repair = UIAlertAction(title: .localize("repair-account"), style: .default) { [unowned self] _ in
-            self.viewModel.repair() { [weak self] in
-                self?.tableView.reloadData()
+            self.viewModel.repair { [weak self] in
+                self?.updateView()
+
             }
         }
         alertController.addAction(editName)
