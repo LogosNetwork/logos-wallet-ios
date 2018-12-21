@@ -120,7 +120,8 @@ enum Currency: String {
     }
     
     static var secondaryConversionRate: Double {
-        return UserDefaults.standard.value(forKey: .kSecondaryConversionRate) as? Double ?? 1.0
+        let rate = UserDefaults.standard.value(forKey: .kSecondaryConversionRate) as? Double ?? 1.0
+        return Currency.secondary == .usd ? rate * 3.14 : rate
     }
 
     static var isSecondarySelected: Bool {
