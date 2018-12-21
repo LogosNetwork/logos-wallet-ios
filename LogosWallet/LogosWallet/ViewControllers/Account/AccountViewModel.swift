@@ -41,7 +41,7 @@ class AccountViewModel {
     }
     var balanceValue: String {
         if !self.isShowingSecondary {
-            return self.account.balance.bNumber.toMlgs.trimTrailingZeros()
+            return self.account.formattedBalance
         } else {
             return Currency.secondary.convert(account.balance.bNumber)
         }

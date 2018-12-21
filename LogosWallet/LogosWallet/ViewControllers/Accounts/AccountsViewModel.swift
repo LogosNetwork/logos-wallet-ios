@@ -37,8 +37,8 @@ struct AccountsViewModel {
     
     func getTotalLGS() -> String {
         let total = WalletManager.shared.accounts.reduce(Double(0.0), { (result, account) in
-            result + (Double(account.balance.bNumber.toMlgs) ?? 0.0)
+            result + (Double(account.mlgsBalance) ?? 0.0)
         })
-        return String(total).trimTrailingZeros()
+        return String(total).formattedBalance
     }
 }

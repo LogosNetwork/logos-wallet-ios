@@ -32,14 +32,14 @@ class AccountTableViewCell: UITableViewCell {
         
         addressLabel?.text = account?.address
         accountNameLabel?.text = account?.name
-        let accountValue = account?.balance.bNumber.toMlgs ?? "0"
-        var valueString = ""
+        let formattedValue = account?.formattedBalance ?? "0"
+        let valueString: String
         if useSecondaryCurrency {
             let secondary = Currency.secondary
-            valueString = secondary.convert(accountValue.bNumber, isRaw: false)
+            valueString = secondary.convert(account?.mlgsBalance.bNumber ?? 0, isRaw: false)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
-            valueString = accountValue.trimTrailingZeros()
+            valueString = formattedValue
             unitLabel?.text = CURRENCY_NAME
         }
         balanceLabel?.text = valueString

@@ -21,7 +21,11 @@ class AccountInfo: Object {
     @objc dynamic var address: String?
     @objc dynamic var name: String?
     let blockHistory = List<SimpleBlock>()
-    
+
+    var formattedBalance: String {
+        return self.mlgsBalance.formattedBalance
+    }
+
     var mlgsBalance: String {
         return balance.bNumber.toMlgs
     }

@@ -71,6 +71,21 @@ extension Data {
 }
 
 extension String {
+
+    var formattedBalance: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 6
+        formatter.minimumFractionDigits = 0
+        formatter.minimumIntegerDigits = 1
+
+        guard let value = Double(self) else {
+            return "--"
+        }
+
+        return formatter.string(from: NSNumber(value: value)) ?? "--"
+    }
+
     // Trims trailing zeros on a price string.
     func trimTrailingZeros() -> String {
         var result = self

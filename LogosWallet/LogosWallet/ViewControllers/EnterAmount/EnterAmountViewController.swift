@@ -53,7 +53,7 @@ class EnterAmountViewController: UIViewController {
         continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
-        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgsBalance)".trimTrailingZeros()).uppercased()
+        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.formattedBalance)").uppercased()
         balanceLabel?.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(balanceTapped))
         balanceLabel?.addGestureRecognizer(gesture)
@@ -96,7 +96,7 @@ class EnterAmountViewController: UIViewController {
     // MARK: - Actions
     
     @objc fileprivate func balanceTapped() {
-        amountLabel?.text = account.mlgsBalance.trimTrailingZeros()
+        amountLabel?.text = account.formattedBalance
         amount = account.mlgsBalance.bNumber
     }
     
@@ -117,7 +117,7 @@ class EnterAmountViewController: UIViewController {
             currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
             amountLabel?.text = amountText
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.mlgsBalance.trimTrailingZeros())").uppercased()
+            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.formattedBalance)").uppercased()
         }
     }
     
