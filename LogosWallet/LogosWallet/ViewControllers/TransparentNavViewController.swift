@@ -24,6 +24,10 @@ class TransparentNavViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view.
     }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -37,14 +41,12 @@ class TransparentNavViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.shared.statusBarStyle = .default
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.statusBarStyle = .lightContent
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.isHidden = true
     }

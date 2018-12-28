@@ -15,6 +15,7 @@ protocol SettingsViewControllerDelegate: class {
     func securityTapped()
     func addressBookTapped()
     func clearWalletTapped()
+    func resetAccountsTapped()
     func aboutTapped()
     func nodeAddressTapped()
 }
@@ -27,8 +28,9 @@ class SettingsViewController: TitleTableViewController {
         case security
         case about
         case nodeAddress
+        case resetAccounts
         case clearData
-        
+
         var title: String {
             switch self {
             case .clearData: return .localize("clear-wallet-data")
@@ -37,6 +39,7 @@ class SettingsViewController: TitleTableViewController {
             case .currency: return .localize("currency")
             case .security: return .localize("security")
             case .nodeAddress: return "Server URLs"
+            case .resetAccounts: return "Reset Account Data"
             case .about: return .localize("about")
             }
         }
@@ -50,22 +53,23 @@ class SettingsViewController: TitleTableViewController {
         self.setupNavBar()
         self.setupTableView()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isHidden = false
+
         self.tableView.reloadData()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.isHidden = true
     }
-    
+
     // MARK: - Setup
 
     override func setupNavBar() {
@@ -114,19 +118,21 @@ extension SettingsViewController: UITableViewDelegate {
         guard let row = Rows(rawValue: indexPath.row) else { return }
         switch row {
         case .currency:
-            delegate?.currencyTapped()
+            self.delegate?.currencyTapped()
         case .addressBook:
-            delegate?.addressBookTapped()
+            self.delegate?.addressBookTapped()
         case .console:
-            delegate?.consoleTapped()
+            self.delegate?.consoleTapped()
         case .clearData:
-            handleClearWalletData()
+            self.handleClearWalletData()
         case .security:
-            delegate?.securityTapped()
+            self.delegate?.securityTapped()
         case .about:
-            delegate?.aboutTapped()
+            self.delegate?.aboutTapped()
         case .nodeAddress:
-            delegate?.nodeAddressTapped()
+            self.delegate?.nodeAddressTapped()
+        case .resetAccounts:
+            self.delegate?.resetAccountsTapped()
         }
     }
 }

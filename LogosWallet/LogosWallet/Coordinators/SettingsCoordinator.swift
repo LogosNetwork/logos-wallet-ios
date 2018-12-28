@@ -11,7 +11,7 @@ import UIKit
 class SettingsCoordinator: RootViewCoordinator {
     var childCoordinators: [Coordinator] = []
     var rootViewController: UIViewController
-    fileprivate var navController: UINavigationController = UINavigationController()
+    fileprivate var navController = UINavigationController()
     
     /// Bool prop is whether or not the dismiss should also clear app data
     var onDismiss: ((Coordinator, Bool) -> Void)?
@@ -120,6 +120,12 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         alertController.addAction(noAction)
         self.navController.present(alertController, animated: true)
     }
+
+    func resetAccountsTapped() {
+        WalletManager.shared.resetAllAccounts()
+        self.closeTapped()
+    }
+
 }
 
 extension SettingsCoordinator: AddressBookCoordinatorDelegate {
