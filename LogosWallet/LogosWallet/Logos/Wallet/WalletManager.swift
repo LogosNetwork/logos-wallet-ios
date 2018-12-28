@@ -223,6 +223,15 @@ final class WalletManager {
         accounts = PersistentStore.getAccounts()
     }
 
+    func resetAllAccounts() {
+        self.accounts.forEach { account in
+            PersistentStore.removeBlockHistory(for: account.address)
+            PersistentStore.write {
+                account.repair()
+            }
+        }
+    }
+
 }
 
 struct KeychainKey {

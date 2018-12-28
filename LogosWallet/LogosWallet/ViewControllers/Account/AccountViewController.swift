@@ -100,12 +100,7 @@ class AccountViewController: UIViewController {
     func showWalletResetDialogue() {
         let alertController = UIAlertController(title: "TestNet Reset Detected", message: "This account returned with an 'Account not found' error despite previously having an account history. Reset all wallet accounts?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-            PersistentStore.write {
-                WalletManager.shared.accounts.forEach {
-                    PersistentStore.removeBlockHistory(for: $0.address)
-                    $0.repair()
-                }
-            }
+            WalletManager.shared.resetAllAccounts()
             self.navigationController?.popViewController(animated: true)
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
