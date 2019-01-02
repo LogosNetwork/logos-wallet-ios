@@ -41,8 +41,10 @@ struct StateBlock: BlockAdapter {
     var link: String?
     var representative: String?
     var account: String?
-    var amount: String?
-    var transactionFee: String?
+    /// RAW amount
+    var amount: NSDecimalNumber?
+    /// RAW transaction fee
+    var transactionFee: NSDecimalNumber?
     var previous: String = ZERO_AMT
     var signature: String?
     var work: String?
@@ -71,29 +73,31 @@ struct StateBlock: BlockAdapter {
             let previousData = self.previous.hexData,
             let representative = self.representative,
             let repData = WalletUtil.derivePublic(from: representative)?.hexData,
-            let amount = self.amount,
-            let amountValue = BInt(amount),
-            let transactionFee = self.transactionFee,
-            let transactionFeeValue = BInt(transactionFee)
+            let hexAmount = self.amount?.hexString,
+            let hexTransactionFee = self.transactionFee?.hexString,
+            let amountData = hexAmount.leftPadding(toLength: 32, withPad: "0").hexData,
+            let transactionFeeData = hexTransactionFee.leftPadding(toLength: 32, withPad: "0").hexData
         else {
             return false
         }
 
-        guard
-            let digest = NaCl.digest([
+        let items: [Data] = [
             STATEBLOCK_PREAMBLE.hexData!,
             accountData,
             previousData,
             repData,
-            self.hexPaddedValue(amountValue)!,
-            self.hexPaddedValue(transactionFeeValue)!,
+            amountData,
+            transactionFeeData,
             linkData
-        ], outputLength: 32)
+        ]
+
+        guard
+            let digest = NaCl.digest(items, outputLength: 32),
+            let sig = NaCl.sign(digest, secret: signingKeys.secretKey)
         else {
             return false
         }
 
-        guard let sig = NaCl.sign(digest, secret: signingKeys.secretKey) else { return false }
         self.account = encodedAccount
         self.signature = sig.hexString.uppercased()
 
@@ -107,20 +111,10 @@ struct StateBlock: BlockAdapter {
             "previous": self.previous,
             "signature": self.signature ?? "",
             "representative": self.representative ?? "",
-            "amount": self.amount ?? "",
+            "amount": self.amount?.stringValue ?? "",
             "link": self.link ?? "",
             "work": self.work ?? "",
-            "transaction_fee": self.transactionFee ?? "",
+            "transaction_fee": self.transactionFee?.stringValue ?? "",
         ]
     }
-}
-
-extension StateBlock {
-
-    fileprivate func hexPaddedValue(_ input: BInt) -> Data? {
-        return input.asString(radix: 16)
-            .leftPadding(toLength: 32, withPad: "0")
-            .hexData
-    }
-
 }

@@ -118,7 +118,8 @@ class BlockInfoViewController: TransparentNavViewController {
         }
         
         // Amount
-        let amountStack = buildSubStack("AMOUNT", value: viewModel.info.amount.bNumber.toMlgs.trimTrailingZeros() + " \(CURRENCY_NAME)")
+        let amount = viewModel.info.amount.decimalNumber.mlgsString.formattedAmount
+        let amountStack = buildSubStack("AMOUNT", value: amount + " \(CURRENCY_NAME)")
         mainStack.addArrangedSubview(amountStack)
         
         dateLabel.text = viewModel.localizedDate

@@ -43,7 +43,7 @@ class AccountViewModel {
         if !self.isShowingSecondary {
             return self.account.formattedBalance
         } else {
-            return Currency.secondary.convert(account.balance.bNumber)
+            return Currency.secondary.convert(account.balance.decimalNumber)
         }
     }
     // TODO: clean up currency stuff

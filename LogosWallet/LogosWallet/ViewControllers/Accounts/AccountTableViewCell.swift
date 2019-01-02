@@ -36,7 +36,7 @@ class AccountTableViewCell: UITableViewCell {
         let valueString: String
         if useSecondaryCurrency {
             let secondary = Currency.secondary
-            valueString = secondary.convert(account?.mlgsBalance.bNumber ?? 0, isRaw: false)
+            valueString = secondary.convert(account?.mlgsBalance.decimalNumber ?? 0, isRaw: false)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
             valueString = formattedValue

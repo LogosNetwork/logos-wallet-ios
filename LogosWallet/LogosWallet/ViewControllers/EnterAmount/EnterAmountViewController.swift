@@ -17,7 +17,7 @@ class EnterAmountViewController: UIViewController {
     @IBOutlet weak var amountLabel: UILabel?
     @IBOutlet weak var collectionView: UICollectionView?
     @IBOutlet weak var balanceLabel: UILabel?
-    fileprivate var amount: BDouble = 0.0
+    fileprivate var amount: NSDecimalNumber = 0.0
     fileprivate var isShowingSecondary: Bool = false
     fileprivate let rows: CGFloat = 4
     fileprivate let cols: CGFloat = 3
@@ -96,8 +96,8 @@ class EnterAmountViewController: UIViewController {
     // MARK: - Actions
     
     @objc fileprivate func balanceTapped() {
-        amountLabel?.text = account.formattedBalance
-        amount = account.mlgsBalance.bNumber
+        self.amountLabel?.text = self.account.formattedBalance
+        self.amount = self.account.mlgsBalance.decimalNumber
     }
     
     @objc fileprivate func closeTapped() {
@@ -108,21 +108,20 @@ class EnterAmountViewController: UIViewController {
         isShowingSecondary = !isShowingSecondary
         if isShowingSecondary {
             let secondary = Currency.secondary
-            let converted = amount * Currency.secondaryConversionRate
-            let convertedBalance = account.mlgsBalance.bNumber * Currency.secondaryConversionRate
-            currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
-            amountLabel?.text = converted.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros()
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(convertedBalance.decimalExpansion(precisionAfterComma: secondary.precision).trimTrailingZeros())").uppercased()
+            let converted = secondary.convert(self.amount, isRaw: false)
+            self.balanceLabel?.text = String.localize("available-balance-arg", arg: converted).uppercased()
+            self.currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
+            self.amountLabel?.text = converted
         } else {
-            currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
-            let amountText = "\(amount.decimalExpansion(precisionAfterComma: 6))".trimTrailingZeros()
-            amountLabel?.text = amountText
-            balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.formattedBalance)").uppercased()
+            self.currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
+            let amountText = amount.stringValue
+            self.amountLabel?.text = amountText
+            self.balanceLabel?.text = String.localize("available-balance-arg", arg: self.account.formattedBalance).uppercased()
         }
     }
     
     @IBAction func continueTapped(_ sender: Any) {
-        guard amount > 0.0 else {
+        guard amount.decimalValue > 0.0 else {
             feedback.notificationOccurred(.error)
             return
         }
@@ -133,7 +132,7 @@ class EnterAmountViewController: UIViewController {
 //        }
         dismiss(animated: true)
         // Return value in Nano
-        enteredAmount?(amount.decimalExpansion(precisionAfterComma: 6))
+        enteredAmount?(amount.stringValue)
     }
 }
 
@@ -193,9 +192,8 @@ extension EnterAmountViewController: UICollectionViewDelegate {
         if amountLabel?.text == "" {
             amountLabel?.text = "0"
         }
-        if let value = Double(amountLabel?.text ?? "0") {
-            amount = isShowingSecondary ? BDouble(value) / Currency.secondaryConversionRate : BDouble(value)
-        }
+        let value = NSDecimalNumber(string: amountLabel?.text ?? "0")
+        amount = isShowingSecondary ? value.dividing(by: NSDecimalNumber(decimal: Decimal(Currency.secondaryConversionRate))) : value
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {

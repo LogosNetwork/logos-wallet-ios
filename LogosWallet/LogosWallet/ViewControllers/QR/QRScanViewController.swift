@@ -15,8 +15,9 @@ struct PaymentInfo {
     let address: String?
     // Non-RAW amount
     var lgsAmount: String? {
-        guard let amt = amount, let amtVal = Double(amt)?.toMlgs else { return nil }
-        return amtVal
+        guard let amount = self.amount else { return nil }
+        let mlgs = amount.decimalNumber.mlgsAmount
+        return lgsFormatter(12).string(from: mlgs) ?? "0"
     }
 }
 
