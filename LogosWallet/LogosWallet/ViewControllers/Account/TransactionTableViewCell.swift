@@ -31,13 +31,12 @@ class TransactionTableViewCell: UITableViewCell {
         guard let tx = tx, let type = StateBlock.Intent(rawValue: tx.type) else { return }
         typeLabel?.text = type == .send ? .localize("sent-filter") : .localize("received-filter")
         let secondary = Currency.secondary
-        var stringValue = ""
-        let value = tx.amount.bNumber.toMlgsValue
+        let stringValue: String
         if useSecondaryCurrency {
-            let converted = secondary.convert(tx.amount.bNumber)
+            let converted = secondary.convert(tx.amount.decimalNumber)
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
         } else {
-            stringValue = "\(value.decimalExpansion(precisionAfterComma: 6).trimTrailingZeros()) \(CURRENCY_NAME)"
+            stringValue = "\(tx.amount.decimalNumber.mlgsString.formattedAmount) \(CURRENCY_NAME)"
         }
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name

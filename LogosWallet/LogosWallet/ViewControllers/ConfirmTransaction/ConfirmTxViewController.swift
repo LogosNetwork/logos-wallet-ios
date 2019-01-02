@@ -54,13 +54,12 @@ class ConfirmTxViewController: UIViewController {
     }
     
     fileprivate func setupView() {
-        guard let amountValue = BDouble(txInfo.amount) else { return }
         contentView?.layer.cornerRadius = 10.0
         contentView?.clipsToBounds = true
         confirmButton?.backgroundColor = AppStyle.Color.logosBlue
         balanceLabel?.text = "-- \(CURRENCY_NAME)"
-        amountLabel?.text = "\(txInfo.amount.trimTrailingZeros()) \(CURRENCY_NAME)"
-        let secondaryAmount = Currency.secondary.convert(amountValue, isRaw: false)
+        amountLabel?.text = "\(txInfo.amount.formattedAmount) \(CURRENCY_NAME)"
+        let secondaryAmount = Currency.secondary.convert(txInfo.amount.decimalNumber, isRaw: false)
         secondaryAmountLabel?.text = "\(secondaryAmount) \(Currency.secondary.rawValue.uppercased())"
         recipientNameLabel?.text = txInfo.recipientName
         recipientAddressLabel?.text = txInfo.recipientAddress
@@ -96,18 +95,22 @@ class ConfirmTxViewController: UIViewController {
     }
     
     fileprivate func handleSend() {
-        guard let amountValue = BDouble(txInfo.amount), amountValue > 0.0,
-            let keyPair = WalletManager.shared.keyPair(at: txInfo.accountInfo.index),
-            let _ = keyPair.lgsAccount else { return }
+        guard
+            self.txInfo.amount.decimalNumber.decimalValue > 0.0,
+            let keyPair = WalletManager.shared.keyPair(at: self.txInfo.accountInfo.index),
+            let _ = keyPair.lgsAccount
+        else {
+            return
+        }
 
         // Generate block
         var block = StateBlock(intent: .send)
         block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.amount = Double(txInfo.amount)?.toRaw
+        block.amount = self.txInfo.amount.decimalNumber.rawValue
         block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
         // TEMP
         block.work = "0000000000000000"
-        block.transactionFee = "10000000000000000000000"
+        block.transactionFee = NSDecimalNumber(string: "10000000000000000000000")
         block.representative = "lgs_1111111111111111111111111111111111111111111111111111hifc8npp"
 
         guard

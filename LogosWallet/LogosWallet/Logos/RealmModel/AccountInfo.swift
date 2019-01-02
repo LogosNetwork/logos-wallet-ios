@@ -22,12 +22,12 @@ class AccountInfo: Object {
     @objc dynamic var name: String?
     let blockHistory = List<SimpleBlock>()
 
-    var formattedBalance: String {
-        return self.mlgsBalance.formattedBalance
+    var mlgsBalance: String {
+        return balance.decimalNumber.mlgsString
     }
 
-    var mlgsBalance: String {
-        return balance.bNumber.toMlgs
+    var formattedBalance: String {
+        return self.mlgsBalance.formattedAmount
     }
     
     static func fromJSON(_ json: [String: Any]?, account: String) -> AccountInfo? {

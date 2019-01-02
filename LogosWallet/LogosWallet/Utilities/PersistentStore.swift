@@ -17,11 +17,16 @@ struct PersistentStore {
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 3 {
                     migration.enumerateObjects(ofType: AccountInfo.className(), { (old, new) in
-                        guard let old = old,
+                        guard
+                            let old = old,
                             let new = new,
-                            let oldBalance = old["balance"] as? Double else { return }
+                            let oldBalance = old["balance"] as? Double
+                        else {
+                            return
+                        }
                         // new balance is stored as string
-                        new["balance"] = oldBalance.toMlgs.bNumber.toRaw.decimalDescription
+                        let oldBalanceNumber = NSDecimalNumber(decimal: Decimal(oldBalance))
+                        new["balance"] = oldBalanceNumber.mlgsAmount.rawString
                     })
                 }
         })

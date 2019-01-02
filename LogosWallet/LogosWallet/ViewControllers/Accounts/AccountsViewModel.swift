@@ -9,7 +9,14 @@
 import Foundation
 
 struct AccountsViewModel {
-    
+
+    fileprivate var totalLGS: NSDecimalNumber {
+        let total = WalletManager.shared.accounts.reduce(NSDecimalNumber(decimal: 0.0), { (result, account) in
+            result.adding(account.balance.decimalNumber)
+        })
+        return total
+    }
+
     var currencyValue: String {
         if self.isShowingSecondary == true {
             return Currency.secondary.denomination
@@ -19,12 +26,9 @@ struct AccountsViewModel {
     }
     var balanceValue: String {
         if !isShowingSecondary {
-            return self.getTotalLGS()
+            return self.totalLGS.mlgsString.formattedAmount
         } else {
-            let total = WalletManager.shared.accounts.reduce(BDouble(0.0), { (result, account) in
-                result + (BDouble(account.balance) ?? 0.0)
-            })
-            return Currency.secondary.convert(total)
+            return Currency.secondary.convert(self.totalLGS)
         }
     }
     var isShowingSecondary: Bool {
@@ -34,11 +38,5 @@ struct AccountsViewModel {
     mutating func toggleCurrency() {
         Currency.setSecondary(!self.isShowingSecondary)
     }
-    
-    func getTotalLGS() -> String {
-        let total = WalletManager.shared.accounts.reduce(Double(0.0), { (result, account) in
-            result + (Double(account.mlgsBalance) ?? 0.0)
-        })
-        return String(total).formattedBalance
-    }
+
 }
