@@ -10,13 +10,11 @@ import UIKit
 
 class AppUrlsViewController: TransparentNavViewController {
 
-    private let urls = PersistentStore.getAppUrls()
-
     lazy var nodeIpTextField: UITextField = {
         let textField = UITextField()
         textField.font = AppStyle.Font.body
         textField.textColor = AppStyle.Color.offBlack
-        textField.text = urls.nodeUrl
+        textField.text = NetworkAdapter.baseNodeUrl.absoluteString
         return textField
     }()
 
@@ -24,7 +22,7 @@ class AppUrlsViewController: TransparentNavViewController {
         let textField = UITextField()
         textField.font = AppStyle.Font.body
         textField.textColor = AppStyle.Color.offBlack
-        textField.text = urls.walletServerUrl
+        textField.text = LogosMQTT.shared.url.absoluteString
         return textField
     }()
 
@@ -134,14 +132,13 @@ class AppUrlsViewController: TransparentNavViewController {
 
         guard
             let nodeUrlString = self.nodeIpTextField.text,
-            let _ = URL(string: nodeUrlString)
+            let nodeUrl = URL(string: nodeUrlString)
         else {
             Banner.show("Could not save Node URL", style: .danger)
             return
         }
 
-        PersistentStore.updateWalletServerUrl(to: walletUrlString)
-        PersistentStore.updateNodeUrl(to: nodeUrlString)
+        NetworkAdapter.baseNodeUrl = nodeUrl
         self.navigationController?.popViewController(animated: true)
     }
 

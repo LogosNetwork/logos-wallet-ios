@@ -23,7 +23,7 @@ class SocketManager {
     // MARK: - Object Lifeycle
 
     init() {
-        let url = URL(string: PersistentStore.getAppUrls().walletServerUrl)!
+        let url = LogosMQTT.shared.url
         self.webSocket = WebSocket(url: url)
         self.setupWebSocket()
     }
@@ -79,7 +79,7 @@ class SocketManager {
         guard let newUrl = URL(string: url) else {
             return false
         }
-        PersistentStore.updateWalletServerUrl(to: url)
+        NetworkAdapter.baseNodeUrl = newUrl
         self.webSocket.disconnect()
         self.webSocket = WebSocket(url: newUrl)
         self.setupWebSocket()

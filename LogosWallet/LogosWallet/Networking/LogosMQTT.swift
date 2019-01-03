@@ -13,7 +13,18 @@ class LogosMQTT: NSObject {
 
     static let shared = LogosMQTT()
     let session: MQTTSession
-    private(set) var url = URL(string: PersistentStore.getAppUrls().walletServerUrl)!
+    private(set) var url: URL {
+        get {
+            if let url = UserDefaults.standard.url(forKey: "mqttUrl") {
+                return url
+            } else {
+                return URL(string: "wss://pla.bs:8443/mqtt")!
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "mqttUrl")
+        }
+    }
     var onConnect: (() -> Void)?
     var onDisconnect: (() -> Void)?
 
@@ -119,7 +130,7 @@ extension LogosMQTT: MQTTSessionDelegate {
             return
         }
 
-        Lincoln.log("MQTT message received from topic: \(topic ?? "")", inConsole: true)
+        Lincoln.log("MQTT message received from topic: \(topic)", inConsole: true)
         if let message = String(data: data, encoding: .utf8) {
             Lincoln.log("Message: \(message)", inConsole: true)
         }
