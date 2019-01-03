@@ -47,7 +47,7 @@ extension LogosLegacyService: TargetType {
             let url = URL(string: "http://" + delegateIP + ":55000") {
             return url
         } else {
-            return URL(string: NetworkAdapter.baseNodeUrl)!
+            return NetworkAdapter.baseNodeUrl
         }
     }
     

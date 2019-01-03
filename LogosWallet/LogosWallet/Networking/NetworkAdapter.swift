@@ -42,8 +42,17 @@ public struct NetworkAdapter {
         // TODO: get other error messages
     }
 
-    static var baseNodeUrl: String {
-        return PersistentStore.getAppUrls().nodeUrl
+    static var baseNodeUrl: URL {
+        get {
+            if let url = UserDefaults.standard.url(forKey: "baseNodeUrl") {
+                return url
+            } else {
+                return URL(string: "http://107.22.128.62:55000")!
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "baseNodeUrl")
+        }
     }
     static let provider = MoyaProvider<LogosLegacyService>()
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
