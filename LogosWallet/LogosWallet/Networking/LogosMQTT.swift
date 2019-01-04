@@ -11,6 +11,7 @@ import MQTTClient
 
 class LogosMQTT: NSObject {
 
+    private var reconnectInterval: TimeInterval = 10.0
     static let shared = LogosMQTT()
     let session: MQTTSession
     private(set) var url: URL {
@@ -27,6 +28,7 @@ class LogosMQTT: NSObject {
     }
     var onConnect: (() -> Void)?
     var onDisconnect: (() -> Void)?
+    weak var reconnectTimer: Timer?
 
     var status: MQTTSessionStatus {
         return self.session.status
@@ -95,13 +97,29 @@ class LogosMQTT: NSObject {
         return true
     }
 
+    func startReconnect() {
+        guard self.reconnectTimer == nil else {
+            return
+        }
+
+        Lincoln.log("MQTT Connection was closed--will attempt to reconnect every \(self.reconnectInterval) seconds.", inConsole: true)
+        self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: self.reconnectInterval, repeats: true) { [weak self] _ in
+            if self?.session.status == .connected {
+                self?.reconnectTimer?.invalidate()
+                self?.reconnectTimer = nil
+            } else {
+                Lincoln.log("Attempting reconnect to \(self?.url.absoluteString ?? "<no url>")...", inConsole: true)
+                self?.connect()
+            }
+        }
+    }
 }
 
 extension LogosMQTT: MQTTSessionDelegate {
 
     func connected(_ session: MQTTSession!) {
-        self.onConnect?()
         Lincoln.log("MQTT connection established @ \(self.url.absoluteString)", inConsole: true)
+        self.onConnect?()
 
         self.setupSubscriptions()
     }
@@ -117,8 +135,10 @@ extension LogosMQTT: MQTTSessionDelegate {
     }
 
     func connectionClosed(_ session: MQTTSession!) {
+        Lincoln.log("Connection closed", inConsole: true)
         self.onDisconnect?()
-        Lincoln.log("Connection closed")
+
+        self.startReconnect()
     }
 
     func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
