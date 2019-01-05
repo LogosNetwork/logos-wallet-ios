@@ -26,6 +26,13 @@ class AppUrlsViewController: TransparentNavViewController {
         return textField
     }()
 
+    lazy var statusView: UIView = {
+        let view = UIView()
+        view.backgroundColor = LogosMQTT.shared.status == .connected ? .green : .red
+        view.layer.cornerRadius = AppStyle.Size.extraSmallControl / 2
+        return view
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,10 +99,7 @@ class AppUrlsViewController: TransparentNavViewController {
             make.left.equalTo(nodeIpLabel.snp.left)
         }
 
-        let statusView = UIView()
-        statusView.backgroundColor = LogosMQTT.shared.status == .connected ? .green : .red
-        statusView.layer.cornerRadius = AppStyle.Size.extraSmallControl / 2
-        self.view.addSubview(statusView)
+        self.view.addSubview(self.statusView)
         statusView.snp.makeConstraints { (make) in
             make.height.width.equalTo(AppStyle.Size.extraSmallControl)
             make.left.equalTo(walletServerLabel.snp.right).offset(AppStyle.Size.extraSmallPadding)
@@ -122,24 +126,33 @@ class AppUrlsViewController: TransparentNavViewController {
 
     @objc func saveUrls() {
         guard
-            let walletUrlString = self.walletServerTextField.text,
-            let _ = URL(string: walletUrlString),
-            LogosMQTT.shared.changeMQTTUrl(to: walletUrlString)
-        else {
-            Banner.show("Could not save MQTT URL", style: .danger)
-            return
-        }
-
-        guard
             let nodeUrlString = self.nodeIpTextField.text,
             let nodeUrl = URL(string: nodeUrlString)
         else {
             Banner.show("Could not save Node URL", style: .danger)
             return
         }
-
         NetworkAdapter.baseNodeUrl = nodeUrl
-        self.navigationController?.popViewController(animated: true)
+
+        guard
+            let walletUrlString = self.walletServerTextField.text,
+            let _ = URL(string: walletUrlString)
+        else {
+            Banner.show("Could not save MQTT URL", style: .danger)
+            return
+        }
+
+        LoadingView.startAnimating(in: self.navigationController, dimView: true)
+        LogosMQTT.shared.changeMQTTUrl(to: walletUrlString) { [weak self] success in
+            if success {
+                self?.navigationController?.popViewController(animated: true)
+            } else {
+                Banner.show("Could not establish MQTT connection", style: .danger)
+            }
+            self?.statusView.backgroundColor = success ? .green : .red
+            LoadingView.stopAnimating()
+        }
+
     }
 
 }
