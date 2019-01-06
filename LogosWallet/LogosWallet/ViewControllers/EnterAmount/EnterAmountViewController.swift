@@ -125,14 +125,15 @@ class EnterAmountViewController: UIViewController {
             feedback.notificationOccurred(.error)
             return
         }
-        // TEMP remove check
-//        if amount > account.mlgnBalance.bNumber {
-//            Banner.show(.localize("insufficient-funds"), style: .danger)
-//            return
-//        }
-        dismiss(animated: true)
-        // Return value in Nano
-        enteredAmount?(amount.stringValue)
+
+        if self.amount.decimalValue > self.account.mlgsBalance.decimalNumber.decimalValue {
+            Banner.show(.localize("insufficient-funds"), style: .danger)
+            return
+        }
+
+        self.dismiss(animated: true)
+        // Return value in LGS
+        self.enteredAmount?(amount.stringValue)
     }
 }
 
