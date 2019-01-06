@@ -11,7 +11,7 @@ import MQTTClient
 
 class LogosMQTT: NSObject {
 
-    private var reconnectInterval: TimeInterval = 10.0
+    private var reconnectInterval: TimeInterval = 20.0
     static let shared = LogosMQTT()
     let session: MQTTSession
     private(set) var url: URL {
@@ -50,7 +50,7 @@ class LogosMQTT: NSObject {
     private func setupTransport(using url: URL) {
         let transport = MQTTWebsocketTransport()
         transport.url = url
-        transport.timeoutInterval = self.reconnectInterval
+        transport.timeoutInterval = 10.0
         self.session.transport = transport
     }
 
