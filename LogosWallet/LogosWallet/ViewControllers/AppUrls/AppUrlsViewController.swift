@@ -125,6 +125,8 @@ class AppUrlsViewController: TransparentNavViewController {
     // MARK: - Actions
 
     @objc func saveUrls() {
+        self.view.endEditing(true)
+
         guard
             let nodeUrlString = self.nodeIpTextField.text,
             let nodeUrl = URL(string: nodeUrlString)
@@ -143,14 +145,16 @@ class AppUrlsViewController: TransparentNavViewController {
         }
 
         LoadingView.startAnimating(in: self.navigationController, dimView: true)
+        self.view.isUserInteractionEnabled = false
         LogosMQTT.shared.changeMQTTUrl(to: walletUrlString) { [weak self] success in
+            self?.view.isUserInteractionEnabled = true
+            LoadingView.stopAnimating()
             if success {
                 self?.navigationController?.popViewController(animated: true)
             } else {
                 Banner.show("Could not establish MQTT connection", style: .danger)
             }
             self?.statusView.backgroundColor = success ? .green : .red
-            LoadingView.stopAnimating()
         }
 
     }
