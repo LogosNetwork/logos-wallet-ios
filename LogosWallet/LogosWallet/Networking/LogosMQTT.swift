@@ -50,6 +50,7 @@ class LogosMQTT: NSObject {
     private func setupTransport(using url: URL) {
         let transport = MQTTWebsocketTransport()
         transport.url = url
+        transport.timeoutInterval = self.reconnectInterval
         self.session.transport = transport
     }
 
