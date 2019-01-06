@@ -127,7 +127,10 @@ class ConfirmTxViewController: UIViewController {
         LoadingView.startAnimating(in: self.navigationController)
         NetworkAdapter.process(block: block) { [weak self] (hash, error) in
             if let error = error {
-                Banner.show("Send error: \(error.message)", style: .danger)
+                Banner.show("\(error.message)", style: .danger)
+                LoadingView.stopAnimating(true) {
+                    self?.dismiss(animated: true)
+                }
             } else {
                 LoadingView.stopAnimating(true) {
                     self?.onSendComplete?()

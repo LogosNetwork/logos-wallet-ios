@@ -33,7 +33,7 @@ DEPENDENCIES:
   - Alamofire
   - lottie-ios
   - Moya (~> 11.0)
-  - MQTTClient/Websocket
+  - MQTTClient/Websocket (from `https://github.com/nebyark/MQTT-Client-Framework`)
   - NotificationBannerSwift (= 1.6.3)
   - RealmSwift
   - RxCocoa
@@ -43,10 +43,15 @@ DEPENDENCIES:
   - Starscream
 
 EXTERNAL SOURCES:
+  MQTTClient:
+    :git: https://github.com/nebyark/MQTT-Client-Framework
   Sodium:
     :git: https://github.com/nebyark/swift-sodium
 
 CHECKOUT OPTIONS:
+  MQTTClient:
+    :commit: 9484b28f18c03e99ef1705ca4a2a6bb9b65d33b6
+    :git: https://github.com/nebyark/MQTT-Client-Framework
   Sodium:
     :commit: 4b32f5d12c587e4252e039d60f9a1498526ece5b
     :git: https://github.com/nebyark/swift-sodium
@@ -69,6 +74,6 @@ SPEC CHECKSUMS:
   SSZipArchive: 41455d4b8d2b6ab93990820b50dc697c2554a322
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
 
-PODFILE CHECKSUM: 5f28d4c83e260a7415dabf35357f289582490a17
+PODFILE CHECKSUM: 777a4c262037f7938a57861ba39bff275c84a30a
 
 COCOAPODS: 1.4.0

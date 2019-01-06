@@ -11,6 +11,7 @@ import MQTTClient
 
 class LogosMQTT: NSObject {
 
+    private var reconnectInterval: TimeInterval = 20.0
     static let shared = LogosMQTT()
     let session: MQTTSession
     private(set) var url: URL {
@@ -27,6 +28,9 @@ class LogosMQTT: NSObject {
     }
     var onConnect: (() -> Void)?
     var onDisconnect: (() -> Void)?
+    var onConnectError: ((Error?) -> Void)?
+    weak var reconnectTimer: Timer?
+    private var userInitiatedDisconnect = false
 
     var status: MQTTSessionStatus {
         return self.session.status
@@ -36,14 +40,18 @@ class LogosMQTT: NSObject {
         self.session = MQTTSession()
         super.init()
 
-        let transport = MQTTWebsocketTransport()
-        transport.url = self.url
-
-        self.session.transport = transport
+        self.setupTransport(using: self.url)
         self.session.delegate = self
         self.session.cleanSessionFlag = true
 
         MQTTLog.setLogLevel(.error)
+    }
+
+    private func setupTransport(using url: URL) {
+        let transport = MQTTWebsocketTransport()
+        transport.url = url
+        transport.timeoutInterval = 10.0
+        self.session.transport = transport
     }
 
     func connect() {
@@ -77,31 +85,62 @@ class LogosMQTT: NSObject {
         self.session.subscribe(toTopic: "epoch", at: .exactlyOnce)
     }
 
-    @discardableResult
-    func changeMQTTUrl(to mqttUrl: String) -> Bool {
+    func changeMQTTUrl(to mqttUrl: String, completion: ((Bool) -> Void)? = nil) {
         guard let url = URL(string: mqttUrl) else {
-            return false
+            completion?(false)
+            return
         }
 
-        self.session.disconnect()
+        self.userInitiatedDisconnect = true
+        self.session.close { [unowned self] (error) in
+            if let _ = error {
+                completion?(false)
+            } else {
+                self.setupTransport(using: url)
 
-        self.url = url
-        let transport = MQTTWebsocketTransport()
-        transport.url = url
-        self.session.transport = transport
-        self.connect()
-        // onConnect should be fired by callback set in AccountsCoordinator
+                self.session.connectionHandler = { [unowned self] event in
+                    if event == MQTTSessionEvent.connected {
+                        self.url = url
+                        self.session.connectionHandler = nil
+                        completion?(true)
+                    } else {
+                        self.userInitiatedDisconnect = false
+                        self.session.connectionHandler = nil
+                        self.setupTransport(using: self.url)
+                        self.connect()
+                        completion?(false)
+                    }
+                }
 
-        return true
+                self.connect()
+            }
+        }
+
     }
 
+    func startReconnect() {
+        guard self.reconnectTimer == nil else {
+            return
+        }
+
+        Lincoln.log("MQTT Connection was closed--will attempt to reconnect every \(self.reconnectInterval) seconds.", inConsole: true)
+        self.reconnectTimer = Timer.scheduledTimer(withTimeInterval: self.reconnectInterval, repeats: true) { [weak self] _ in
+            if self?.session.status == .connected {
+                self?.reconnectTimer?.invalidate()
+                self?.reconnectTimer = nil
+            } else {
+                Lincoln.log("Attempting reconnect to \(self?.url.absoluteString ?? "<no url>")...", inConsole: true)
+                self?.connect()
+            }
+        }
+    }
 }
 
 extension LogosMQTT: MQTTSessionDelegate {
 
     func connected(_ session: MQTTSession!) {
-        self.onConnect?()
         Lincoln.log("MQTT connection established @ \(self.url.absoluteString)", inConsole: true)
+        self.onConnect?()
 
         self.setupSubscriptions()
     }
@@ -117,8 +156,12 @@ extension LogosMQTT: MQTTSessionDelegate {
     }
 
     func connectionClosed(_ session: MQTTSession!) {
+        Lincoln.log("Connection closed", inConsole: true)
         self.onDisconnect?()
-        Lincoln.log("Connection closed")
+
+        if !self.userInitiatedDisconnect {
+            self.startReconnect()
+        }
     }
 
     func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
