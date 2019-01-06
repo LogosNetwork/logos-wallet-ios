@@ -16,7 +16,7 @@ target 'LogosWallet' do
   pod 'Starscream'
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'MQTTClient/Websocket'
+  pod 'MQTTClient/Websocket', :git => 'https://github.com/nebyark/MQTT-Client-Framework'
 end
 
 target 'LogosWalletTests' do
