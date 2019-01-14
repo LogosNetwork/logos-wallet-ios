@@ -24,6 +24,7 @@ func lgsFormatter(_ digits: Int) -> NumberFormatter {
     numberFormatter.maximumFractionDigits = digits
     numberFormatter.minimumFractionDigits = 0
     numberFormatter.minimumIntegerDigits = 1
+    numberFormatter.locale = Locale(identifier: "en_US")
 
     return numberFormatter
 }
@@ -40,6 +41,7 @@ extension String {
         formatter.maximumFractionDigits = FORMATTED_POINTS_OF_PRECISION
         formatter.minimumFractionDigits = 0
         formatter.minimumIntegerDigits = 1
+        formatter.locale = Locale(identifier: "en_US")
 
         guard let value = Double(self) else {
             return "--"
