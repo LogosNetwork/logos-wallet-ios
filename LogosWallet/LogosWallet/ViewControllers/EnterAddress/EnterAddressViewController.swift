@@ -24,6 +24,7 @@ class EnterAddressViewController: TransparentNavViewController {
         setupView()
         reloadView()
         setupTableView()
+        self.searchTextField?.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,20 +33,6 @@ class EnterAddressViewController: TransparentNavViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if view.viewWithTag(420420) == nil {
-            super.setupContinueButton(.white)
-            continueButton?.tag = 420420
-            continueButton?.addTarget(self, action: #selector(continuePressed), for: .touchDown)
-            continueButton?.setBackgroundImage(#imageLiteral(resourceName: "check_round").withRenderingMode(.alwaysTemplate), for: .normal)
-            continueButton?.isEnabled = false
-            view.addSubview(continueButton!)
-            continueButton?.isHidden = false
-            searchTextField?.becomeFirstResponder()
-        }
     }
     
     // MARK: - Setup
@@ -109,8 +96,11 @@ class EnterAddressViewController: TransparentNavViewController {
         nameLabel?.isHidden = isEmpty || !(tableView?.isHidden ?? false)
         textView?.isHidden = !(tableView?.isHidden ?? false)
         if let address = textView?.text {
-            continueButton?.isEnabled = WalletUtil.derivePublic(from: address) != nil
+            let validChecksum = WalletUtil.derivePublic(from: address) != nil
             nameLabel?.text = viewModel.addressMap[address] ?? .localize("unknown")
+            if validChecksum {
+                self.dismissWithAddress()
+            }
         }
     }
     
@@ -119,13 +109,13 @@ class EnterAddressViewController: TransparentNavViewController {
         reloadView()
     }
     
-    @objc fileprivate func continuePressed() {
+    @objc fileprivate func dismissWithAddress() {
         guard let address = textView?.text, let name = nameLabel?.text else { return }
         let entry = AddressEntry()
         entry.address = address
         entry.name = name
         onSelect?(entry)
-        dismiss(animated: true)
+        self.dismiss(animated: true)
     }
     
     @objc fileprivate func pasteTapped() {
@@ -164,8 +154,7 @@ extension EnterAddressViewController: UITableViewDelegate {
         nameLabel?.text = addressEntry.name
         textView?.text = addressEntry.address
         searchTextField?.text = ""
-        guard let tf = searchTextField else { return }
-        textFieldDidChange(tf)
+        self.dismissWithAddress()
     }
 }
 
