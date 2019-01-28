@@ -138,14 +138,22 @@ class SendViewController: UIViewController {
     
     @IBAction func sendTapped(_ sender: Any) {
         // Validate balance, address, etc
-        guard let amount = amountLabel?.text, amount.decimalNumber.decimalValue > 0.0 else {
+        guard
+            let amount = amountLabel?.text,
+            amount.decimalNumber.decimalValue > 0.0
+        else {
             Banner.show(.localize("please-enter-amount"), style: .warning)
             return
         }
-        guard let recipientAddress = addressLabel?.text, WalletUtil.derivePublic(from: recipientAddress) != nil, let recipientName = nameButton?.titleLabel?.text else {
+
+        guard
+            let recipientAddress = addressLabel?.text, WalletUtil.derivePublic(from: recipientAddress) != nil,
+            let recipientName = nameButton?.titleLabel?.text
+        else {
             Banner.show(.localize("enter-recipient-address"), style: .warning)
             return
         }
+
 //        let remaining = account.mlgnBalance.bNumber - amountValue
 //        guard remaining >= 0.0 else {
 //            Banner.show(.localize("insufficient-funds"), style: .danger)
@@ -181,6 +189,10 @@ class SendViewController: UIViewController {
         amountLabel?.isHidden = false
         currencyLabel?.isHidden = false
         enterAmountButton?.isHidden = true
+
+        if let address = self.addressLabel?.text, WalletUtil.derivePublic(from: address) != nil {
+            self.sendTapped(UIButton())
+        }
     }
     
     func apply(entry: AddressEntry) {
@@ -193,6 +205,10 @@ class SendViewController: UIViewController {
             .getAddressEntries()
             .filter({ $0.address == entry.address })
             .isEmpty
+
+        if self.amountLabel?.isHidden == false {
+            self.sendTapped(UIButton())
+        }
     }
     
     func apply(scanResult: PaymentInfo) {
