@@ -114,8 +114,8 @@ class EnterAddressViewController: TransparentNavViewController {
         let entry = AddressEntry()
         entry.address = address
         entry.name = name
-        onSelect?(entry)
         self.dismiss(animated: true)
+        self.onSelect?(entry)
     }
     
     @objc fileprivate func pasteTapped() {
