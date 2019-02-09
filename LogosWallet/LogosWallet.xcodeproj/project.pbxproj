@@ -23,6 +23,7 @@
 		A730652220438B8400A49C03 /* EnterAddressEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */; };
 		A73065242045321E00A49C03 /* URLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73065232045321E00A49C03 /* URLHandler.swift */; };
 		A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */; };
+		A7322675220EA2EB00B2EA69 /* MultiSendBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322674220EA2EB00B2EA69 /* MultiSendBlock.swift */; };
 		A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */; };
 		A7329814200756A300B21C8D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329812200756A300B21C8D /* AccountViewController.swift */; };
 		A732981720075B7100B21C8D /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981620075B7100B21C8D /* AccountViewController.xib */; };
@@ -202,6 +203,7 @@
 		A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAddressEntryViewModel.swift; sourceTree = "<group>"; };
 		A73065232045321E00A49C03 /* URLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHandler.swift; sourceTree = "<group>"; };
 		A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookCoordinator.swift; sourceTree = "<group>"; };
+		A7322674220EA2EB00B2EA69 /* MultiSendBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSendBlock.swift; sourceTree = "<group>"; };
 		A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		A73229CF20B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A73229D120B623B400CACB3A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
 				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
 				A77CDF5421BA4679004940A0 /* Block.swift */,
+				A7322674220EA2EB00B2EA69 /* MultiSendBlock.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1166,6 +1169,7 @@
 				A76AC7C220301D8500C7CEE8 /* CurrencySelectViewController.swift in Sources */,
 				A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */,
 				A79116FA20172FB100890432 /* AddressItemTableViewCell.swift in Sources */,
+				A7322675220EA2EB00B2EA69 /* MultiSendBlock.swift in Sources */,
 				A76AC7AF202AC0CA00C7CEE8 /* EnterAddressEntryViewController.swift in Sources */,
 				A79116F020157A4800890432 /* SendCoordinator.swift in Sources */,
 				A7EF841E1FED915000C74035 /* WalletManager.swift in Sources */,
