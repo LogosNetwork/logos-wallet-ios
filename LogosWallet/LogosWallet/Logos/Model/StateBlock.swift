@@ -1,120 +1,143 @@
 //
-//  UtxBlock.swift
+//  StateBlock.swift
 //  LogosWallet
 //
-//  Created by Ben Kray on 3/28/18.
-//  Copyright © 2018 Promethean Labs. All rights reserved.
+//  Created by Ben Kray on 2/8/19.
+//  Copyright © 2019 Planar Form. All rights reserved.
 //
 
 import Foundation
 
+// https://github.com/LogosNetwork/logos-core/blob/d00ac73ea5ff59d8cd819ab2d4e91f8372fa3b49/logos/consensus/messages/state_block.hpp
+
 struct StateBlock: BlockAdapter {
 
-    enum Intent: String {
+    enum RequestType: UInt8 {
         case send
-        // temporary case
-        case receive
         case change
+        case unknown = 0xff
+
+        var data: Data {
+            return Data(bytes: [self.rawValue])
+        }
+
+        var string: String {
+            switch self {
+            case .send:
+                return "send"
+            case .change:
+                return "change"
+            case .unknown:
+                return "unknown"
+            }
+        }
+
+        static func from(string: String) -> RequestType? {
+            switch string {
+            case RequestType.send.string:
+                return .send
+            case RequestType.change.string:
+                return .change
+            case RequestType.unknown.string:
+                return .unknown
+            default:
+                return nil
+            }
+        }
     }
 
-    enum MessageType: UInt8 {
-        case prePrepare = 0
-        case prepare
-        case postPrepare
-        case commit
-        case postCommit
-        case prePrepareReject
-        case postPrepareReject
-        case singleStateBlock
+    var hash = ""
+    var account = ""
+    var previous = ""
+    var sequence: NSDecimalNumber = 0
+    var transactionType: RequestType = .unknown
+    var transactionFee: NSDecimalNumber = 0
+    var signature = ""
+    var work = ""
+    var transactions: [MultiSendTransaction] = []
+    var transactionCount: NSDecimalNumber {
+        return NSDecimalNumber(integerLiteral: self.transactions.count)
     }
 
-    var version: UInt8?
-    // client should only be sending single state block
-    let messageType: MessageType = .singleStateBlock
-    // hardcoded for now since we're only sending to 1 target
-//    var targets: UInt8 = 1
-    /// Either send recipient or representative address to change to. Must match transactionAmounts size
-//    var targetAddresses: [String]?
-//    var transactionAmounts: [String]?
-//    var transactionFee: UInt8?
-//    var additionalSignatures: UInt8?
-    var link: String?
-    var representative: String?
-    var account: String?
-    /// RAW amount
-    var amount: NSDecimalNumber?
-    /// RAW transaction fee
-    var transactionFee: NSDecimalNumber?
-    var previous: String = ZERO_AMT
-    var signature: String?
-    var work: String?
-    let intent: Intent
-
-    init(intent: Intent) {
-        self.intent = intent
-    }
-    
-    /// Builds and signs a state block.
-    /// - Parameter signingKeys: The keys to sign the block with.
-    /// Note: The target addresses, amounts, and tx fee are required to be set before calling this function.
-    /// An example of a state block with the intent to send would be as follows:
-    /// let b = StateBlock(.send)
-    /// b.targetAddresses = [<destination address>]
-    /// b.transactionAmounts = [<transaction amount>]
-    /// b.account = <block creator's address>
-    /// b.previous = <current account's head block>
-    /// b.amount = <amount to send>
-    /// b.build(with: <account keyPair>
     mutating func build(with signingKeys: KeyPair) -> Bool {
         guard
             let encodedAccount = signingKeys.lgsAccount,
             let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
-            let linkData = self.link?.hexData,
             let previousData = self.previous.hexData,
-            let representative = self.representative,
-            let repData = WalletUtil.derivePublic(from: representative)?.hexData,
-            let hexAmount = self.amount?.hexString,
-            let hexTransactionFee = self.transactionFee?.hexString,
-            let amountData = hexAmount.leftPadding(toLength: 32, withPad: "0").hexData,
+            let hexTransactionFee = self.transactionFee.hexString,
+            let sequenceData = self.sequence.hexString?.leftPadding(toLength: 8, withPad: "0").hexData,
+            let transactionCountData = self.transactionCount.hexString?.leftPadding(toLength: 4, withPad: "0").hexData,
             let transactionFeeData = hexTransactionFee.leftPadding(toLength: 32, withPad: "0").hexData
         else {
             return false
         }
 
-        let items: [Data] = [
-            STATEBLOCK_PREAMBLE.hexData!,
+        // sequence and trans count are little endian
+        var hashItems: [Data] = [
             accountData,
             previousData,
-            repData,
-            amountData,
-            transactionFeeData,
-            linkData
+            sequenceData.byteSwap(),
+            self.transactionType.data,
+            transactionCountData.byteSwap(),
         ]
 
+        self.transactions.forEach {
+            if let targetData = WalletUtil.derivePublic(from: $0.target)?.hexData {
+                hashItems.append(targetData)
+            }
+            if let amountData = $0.amount.hexString?.leftPadding(toLength: 32, withPad: "0").hexData {
+                hashItems.append(amountData)
+            }
+        }
+        hashItems.append(transactionFeeData)
+
         guard
-            let digest = NaCl.digest(items, outputLength: 32),
+            let digest = NaCl.digest(hashItems, outputLength: 32),
             let sig = NaCl.sign(digest, secret: signingKeys.secretKey)
         else {
             return false
         }
 
+        self.hash = digest.hexString.uppercased()
         self.account = encodedAccount
         self.signature = sig.hexString.uppercased()
 
         return true
     }
-    
+
+    var json: [String: Any] {
+        return [
+            "hash": self.hash,
+            "transaction_type": "send",
+            "account": self.account,
+            "previous": self.previous,
+            "signature": self.signature,
+            "work": self.work,
+            "transaction_fee": self.transactionFee.stringValue,
+            "transactions": self.transactions.map { $0.json },
+            "number_transactions": self.transactionCount.intValue,
+            "sequence": self.sequence.stringValue
+        ]
+    }
+}
+
+extension StateBlock {
+
+    init(type: RequestType) {
+        self.transactionType = type
+    }
+
+}
+
+struct MultiSendTransaction {
+
+    var target: String
+    var amount: NSDecimalNumber
+
     var json: [String: String] {
         return [
-            "type": "state",
-            "account": self.account ?? "",
-            "previous": self.previous,
-            "signature": self.signature ?? "",
-            "representative": self.representative ?? "",
-            "amount": self.amount?.stringValue ?? "",
-            "link": self.link ?? "",
-            "work": self.work ?? "",
-            "transaction_fee": self.transactionFee?.stringValue ?? "",
+            "target": self.target,
+            "amount": self.amount.stringValue,
         ]
     }
 }
