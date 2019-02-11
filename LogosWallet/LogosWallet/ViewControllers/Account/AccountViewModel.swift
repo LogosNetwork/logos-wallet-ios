@@ -212,7 +212,7 @@ class AccountViewModel {
         case .received:
             refined = history.filter { $0.type == "receive" }
         case .sent:
-            refined = history.filter { $0.type == StateBlock.Intent.send.rawValue }
+            refined = history.filter { $0.type == StateBlock.RequestType.send.string }
         case .largestFirst:
             refined = history.sorted(by: { (blockA, blockB) -> Bool in
                 return Double(blockA.amount) ?? 0.0 > Double(blockB.amount) ?? 0.0

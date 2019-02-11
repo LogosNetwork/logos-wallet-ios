@@ -28,7 +28,7 @@ class TransactionTableViewCell: UITableViewCell {
         contentView.backgroundColor = .clear
         layer.cornerRadius = 10.0
 
-        guard let tx = tx, let type = StateBlock.Intent(rawValue: tx.type) else { return }
+        guard let tx = tx, let type = StateBlock.RequestType.from(string: tx.type) else { return }
         typeLabel?.text = type == .send ? .localize("sent-filter") : .localize("received-filter")
         let secondary = Currency.secondary
         let stringValue: String
@@ -41,7 +41,7 @@ class TransactionTableViewCell: UITableViewCell {
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name
         sourceDestLabel?.text = alias ?? tx.account
-        typeIndicatorLabel?.text = type.rawValue == "receive" ? "+" : "-"
+        typeIndicatorLabel?.text = type.string == "receive" ? "+" : "-"
     }
     
 }

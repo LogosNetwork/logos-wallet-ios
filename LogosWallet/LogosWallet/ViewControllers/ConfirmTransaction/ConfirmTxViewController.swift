@@ -98,20 +98,26 @@ class ConfirmTxViewController: UIViewController {
         guard
             self.txInfo.amount.decimalNumber.decimalValue > 0.0,
             let keyPair = WalletManager.shared.keyPair(at: self.txInfo.accountInfo.index),
-            let _ = keyPair.lgsAccount
+            let _ = keyPair.lgsAccount,
+            let target = WalletUtil.derivePublic(from: self.txInfo.recipientAddress)
         else {
             return
         }
 
         // Generate block
-        var block = StateBlock(intent: .send)
-        block.previous = txInfo.accountInfo.frontier.uppercased()
-        block.amount = self.txInfo.amount.decimalNumber.rawValue
-        block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
-        // TEMP
+//        var block = StateBlock(intent: .send)
+//        block.previous = txInfo.accountInfo.frontier.uppercased()
+//        block.amount = self.txInfo.amount.decimalNumber.rawValue
+//        block.link = WalletUtil.derivePublic(from: txInfo.recipientAddress)
+        var block = StateBlock(type: .send)
         block.work = "0000000000000000"
+        block.previous = self.txInfo.accountInfo.frontier.uppercased()
+        block.sequence = NSDecimalNumber(integerLiteral: self.txInfo.accountInfo.blockCount)
         block.transactionFee = NSDecimalNumber(string: "10000000000000000000000")
-        block.representative = "lgs_1111111111111111111111111111111111111111111111111111hifc8npp"
+        block.transactions = [
+            MultiSendTransaction(target: target, amount: self.txInfo.amount.decimalNumber.rawValue)
+        ]
+//        block.representative = "lgs_1111111111111111111111111111111111111111111111111111hifc8npp"
 
         guard
             block.build(with: keyPair)
