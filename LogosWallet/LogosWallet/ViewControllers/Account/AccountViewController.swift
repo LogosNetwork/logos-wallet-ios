@@ -276,39 +276,42 @@ class AccountViewController: UIViewController {
     }
     
     func initiateChangeBlock(newRep: String?) {
-//        guard let rep = newRep,
-//            let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
-//            let account = keyPair.lgsAccount else { return }
-//        if rep == viewModel.account.representative {
-//            Banner.show(.localize("no-rep-change"), style: .warning)
-//            return
-//        }
-//        guard viewModel.account.frontier != ZERO_AMT else {
-//            // No blocks have been made yet, store the rep for later
-//            PersistentStore.write { [weak self] in
-//                self?.viewModel.account.representative = rep
-//            }
-//            Banner.show(.localize("rep-changed"), style: .success)
-//            return
-//        }
-//        
-//        var block = StateBlock(intent: .change)
-//        block.previous = viewModel.account.frontier
-//        block.amount = NSDecimalNumber(string: ZERO_AMT)
-//        block.link = rep
-//        guard block.build(with: keyPair) else { return }
-//        Banner.show("Waiting for work on change block...", style: .success)
-//        BlockHandler.handle(block, for: account) { [weak self] (result) in
-//            switch result {
-//            case .success(_):
-//                Banner.show(.localize("rep-changed"), style: .success)
-//                self?.viewModel.getAccountInfo() {
-//                    self?.tableView.reloadData()
-//                }
-//            case .failure(let error):
-//                Banner.show(.localize("change-rep-error-arg", arg: error.description), style: .danger)
-//            }
-//        }
+        guard let rep = newRep,
+            let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
+            let account = keyPair.lgsAccount else { return }
+        if rep == viewModel.account.representative {
+            Banner.show(.localize("no-rep-change"), style: .warning)
+            return
+        }
+        guard viewModel.account.frontier != ZERO_AMT else {
+            // No blocks have been made yet, store the rep for later
+            PersistentStore.write { [weak self] in
+                self?.viewModel.account.representative = rep
+            }
+            Banner.show(.localize("rep-changed"), style: .success)
+            return
+        }
+
+        // TEMP
+        var block = StateBlock(type: .change)
+        block.sequence = NSDecimalNumber(integerLiteral: self.viewModel.account.blockCount)
+        block.previous = viewModel.account.frontier
+        block.transactions = [
+            MultiSendTransaction.init(target: rep, amount: NSDecimalNumber(string: ZERO_AMT))
+        ]
+        guard block.build(with: keyPair) else { return }
+        Banner.show("Waiting for work on change block...", style: .success)
+        BlockHandler.handle(block, for: account) { [weak self] (result) in
+            switch result {
+            case .success(_):
+                Banner.show(.localize("rep-changed"), style: .success)
+                self?.viewModel.getAccountInfo() {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                Banner.show(.localize("change-rep-error-arg", arg: error.description), style: .danger)
+            }
+        }
     }
 }
 
