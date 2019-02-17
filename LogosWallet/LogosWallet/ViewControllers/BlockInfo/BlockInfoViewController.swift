@@ -113,7 +113,7 @@ class BlockInfoViewController: TransparentNavViewController {
     fileprivate func buildStackView() {
         // Source
         if viewModel.info.type == "send" {
-            let sourceStack = buildSubStack("RECIPIENT", value: viewModel.model?.linkAsAccount)
+            let sourceStack = buildSubStack("RECIPIENT", value: viewModel.model?.transactions.first?.target ?? "")
             mainStack.addArrangedSubview(sourceStack)
         }
         

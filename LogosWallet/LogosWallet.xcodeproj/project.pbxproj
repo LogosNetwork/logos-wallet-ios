@@ -49,14 +49,12 @@
 		A74361FB1FE6572800054078 /* Foundaton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74361FA1FE6572800054078 /* Foundaton+Extensions.swift */; };
 		A74362201FE66DEB00054078 /* WalletUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A743621F1FE66DEB00054078 /* WalletUtil.swift */; };
 		A74362231FE734F300054078 /* BitArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74362221FE734F300054078 /* BitArray.swift */; };
-		A7463AAB2071E9E3008A8197 /* IncomingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */; };
 		A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FCEF2089980000AB7D9C /* BlockInfo.swift */; };
 		A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */; };
 		A749FD19208EE4AF00AB7D9C /* BlockInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */; };
 		A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */; };
 		A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */; };
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
-		A74FCD88206CB846001C9725 /* StateBlockOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlockOld.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
 		A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
@@ -234,13 +232,11 @@
 		A74361FA1FE6572800054078 /* Foundaton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundaton+Extensions.swift"; sourceTree = "<group>"; };
 		A743621F1FE66DEB00054078 /* WalletUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUtil.swift; sourceTree = "<group>"; };
 		A74362221FE734F300054078 /* BitArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitArray.swift; sourceTree = "<group>"; };
-		A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingBlock.swift; sourceTree = "<group>"; };
 		A749FCEF2089980000AB7D9C /* BlockInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfo.swift; sourceTree = "<group>"; };
 		A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewController.swift; sourceTree = "<group>"; };
 		A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewModel.swift; sourceTree = "<group>"; };
 		A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoNodeNinjaService.swift; sourceTree = "<group>"; };
 		A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedAccount.swift; sourceTree = "<group>"; };
-		A74FCD87206CB846001C9725 /* StateBlockOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlockOld.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosLegacyService.swift; sourceTree = "<group>"; };
@@ -419,8 +415,6 @@
 			children = (
 				A768B9A620225DAC00620B62 /* TxInfo.swift */,
 				A73298252009F29B00B21C8D /* AccountHistory.swift */,
-				A74FCD87206CB846001C9725 /* StateBlockOld.swift */,
-				A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */,
 				A749FCEF2089980000AB7D9C /* BlockInfo.swift */,
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
 				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
@@ -1156,7 +1150,6 @@
 				A77CDF5521BA4679004940A0 /* TransactionBlock.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
 				A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */,
-				A74FCD88206CB846001C9725 /* StateBlockOld.swift in Sources */,
 				A7EB8F5D20664BA1004463FC /* PasswordChecker.swift in Sources */,
 				A7EF84351FEE453700C74035 /* ReceiveViewController.swift in Sources */,
 				A7B3280620033C1300E0E360 /* SeedViewController.swift in Sources */,
@@ -1211,7 +1204,6 @@
 				A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */,
 				A749FD19208EE4AF00AB7D9C /* BlockInfoViewModel.swift in Sources */,
 				A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */,
-				A7463AAB2071E9E3008A8197 /* IncomingBlock.swift in Sources */,
 				A76AC7C82030C59D00C7CEE8 /* CurrencySelectViewModel.swift in Sources */,
 				A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */,
 				A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */,
