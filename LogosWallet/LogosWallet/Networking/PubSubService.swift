@@ -73,7 +73,7 @@ extension PubSubService: CocoaMQTTDelegate {
         switch message.topic {
         case "wallet/\(clientID)/block/state":
             guard let data = msg.data(using: .utf8) else { return }
-            guard let incomingBlock = try? JSONDecoder().decode(IncomingBlock.self, from: data) else { return }
+            guard let incomingBlock = try? JSONDecoder().decode(TransactionBlock.self, from: data) else { return }
             DispatchQueue.main.async {
                 self.onIncomingBlock?(incomingBlock)
             }

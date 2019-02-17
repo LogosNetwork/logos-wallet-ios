@@ -51,6 +51,7 @@ struct TransactionBlock: Codable {
         block.type = self.transactionType
         block.account = self.account
         block.amount = self.transactions.first?.amount ?? "0"
+        block.target = self.transactions.first?.target ?? ""
         return block
     }
 }

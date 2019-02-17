@@ -13,6 +13,7 @@ protocol SimpleBlockBridge {
     var account: String { get set }
     var amount: String { get set }
     var owner: String { get set }
+    var target: String { get set }
     var blockHash: String { get set }
 }
 
@@ -22,7 +23,8 @@ class SimpleBlock: Object, SimpleBlockBridge {
     @objc dynamic var amount: String = ""
     @objc dynamic var blockHash: String = ""
     @objc dynamic var owner: String = ""
-    
+    @objc dynamic var target: String = ""
+
     static func fromJSON(_ json: [String: String]) -> SimpleBlock {
         let block = SimpleBlock()
         block.blockHash = json["hash"] ?? ""

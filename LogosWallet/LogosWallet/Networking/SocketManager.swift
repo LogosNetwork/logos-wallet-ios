@@ -125,10 +125,16 @@ class SocketManager {
 
 struct Decoda {
 
-    static func decode<T: Decodable>(_ type: T.Type, from data: Data) -> T? {
+    static func decode<T: Decodable>(_ type: T.Type, strategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, from data: Data) -> T? {
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return try? decoder.decode(type, from: data)
+        decoder.keyDecodingStrategy = strategy
+        do {
+            let decoded = try decoder.decode(type, from: data)
+            return decoded
+        } catch {
+            Lincoln.log(error.localizedDescription)
+        }
+        return nil
     }
 
 }
