@@ -182,7 +182,16 @@ class AccountViewModel {
                     completion(nil)
                 }
             } else {
+                self.updateSequenceIfNeeded(chain)
                 completion(nil)
+            }
+        }
+    }
+
+    private func updateSequenceIfNeeded(_ chain: [TransactionBlock]) {
+        if self.account.blockCount > 0 && self.account.sequence == 0 {
+            PersistentStore.write {
+                self.account.sequence = chain.filter { $0.account == self.account.address }.count
             }
         }
     }
