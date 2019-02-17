@@ -67,6 +67,9 @@ extension SendCoordinator: SendViewControllerDelegate {
                 SKStoreReviewController.requestReview()
             }
             SoundManager.shared.play(.send)
+            PersistentStore.write {
+                txInfo.accountInfo.sequence += 1
+            }
             me.rootViewController.dismiss(animated: true)
             me.delegate?.sendComplete(coordinator: me)
         }

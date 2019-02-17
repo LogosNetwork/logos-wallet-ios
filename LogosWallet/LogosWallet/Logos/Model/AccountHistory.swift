@@ -16,35 +16,3 @@ struct AccountBalance {
     }
 }
 
-struct AccountHistory {
-    
-    // MARK: - Properties
-    
-    var hash: String?
-    var type: StateBlock.Intent?
-    var account: String?
-    var amount: String?
-    
-    // MARK: - Initializers
-    
-    public init(json: [String: Any]) {
-        hash = json["hash"] as? String
-        if let raw = json["type"] as? String {
-            type = StateBlock.Intent(rawValue: raw)
-        }
-        account = json["account"] as? String
-        amount = json["amount"] as? String
-    }
-    
-    // MARK: - Methods
-    
-    public func toDictionary() -> [String: Any] {
-        var dictionary: [String: Any] = [:]
-        if let value = hash { dictionary["hash"] = value }
-        if let value = type { dictionary["type"] = value }
-        if let value = account { dictionary["account"] = value }
-        if let value = amount { dictionary["amount"] = value }
-        return dictionary
-    }
-}
-

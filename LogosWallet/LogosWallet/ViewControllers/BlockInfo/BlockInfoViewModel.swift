@@ -10,7 +10,7 @@ import Foundation
 
 class BlockInfoViewModel {
     let info: SimpleBlockBridge
-    private(set) var model: Block?
+    private(set) var model: TransactionBlock?
     var localizedDate: String? {
         guard
             let timestamp = model?.timestamp,

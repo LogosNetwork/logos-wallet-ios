@@ -291,11 +291,14 @@ class AccountViewController: UIViewController {
             Banner.show(.localize("rep-changed"), style: .success)
             return
         }
-        
-        var block = StateBlock(intent: .change)
+
+        // TEMP
+        var block = StateBlock(type: .change)
+        block.sequence = NSDecimalNumber(integerLiteral: self.viewModel.account.blockCount)
         block.previous = viewModel.account.frontier
-        block.amount = NSDecimalNumber(string: ZERO_AMT)
-        block.link = rep
+        block.transactions = [
+            MultiSendTransaction.init(target: rep, amount: NSDecimalNumber(string: ZERO_AMT))
+        ]
         guard block.build(with: keyPair) else { return }
         Banner.show("Waiting for work on change block...", style: .success)
         BlockHandler.handle(block, for: account) { [weak self] (result) in

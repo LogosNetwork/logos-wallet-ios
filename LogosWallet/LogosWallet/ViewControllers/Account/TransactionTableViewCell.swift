@@ -24,12 +24,25 @@ class TransactionTableViewCell: UITableViewCell {
     }
     
     func prepare(with tx: SimpleBlockBridge?, useSecondaryCurrency: Bool) {
+        guard let tx = tx else {
+            return
+        }
         backgroundColor = UIColor.white.withAlphaComponent(0.04)
         contentView.backgroundColor = .clear
         layer.cornerRadius = 10.0
 
-        guard let tx = tx, let type = StateBlock.Intent(rawValue: tx.type) else { return }
-        typeLabel?.text = type == .send ? .localize("sent-filter") : .localize("received-filter")
+        let sourceDestination: String
+        if tx.owner == tx.account {
+            // send
+            self.typeIndicatorLabel?.text = "+"
+            self.typeLabel?.text = .localize("sent-filter")
+            sourceDestination = tx.target
+        } else {
+            // receive
+            self.typeIndicatorLabel?.text = "-"
+            self.typeLabel?.text = .localize("received-filter")
+            sourceDestination = tx.account
+        }
         let secondary = Currency.secondary
         let stringValue: String
         if useSecondaryCurrency {
@@ -39,9 +52,8 @@ class TransactionTableViewCell: UITableViewCell {
             stringValue = "\(tx.amount.decimalNumber.mlgsString.formattedAmount) \(CURRENCY_NAME)"
         }
         amountLabel?.text = stringValue
-        let alias = PersistentStore.getAddressEntries().first(where: { $0.address == tx.account })?.name
-        sourceDestLabel?.text = alias ?? tx.account
-        typeIndicatorLabel?.text = type.rawValue == "receive" ? "+" : "-"
+        let alias = PersistentStore.getAddressEntries().first(where: { $0.address == sourceDestination })?.name
+        sourceDestLabel?.text = alias ?? tx.target
     }
     
 }

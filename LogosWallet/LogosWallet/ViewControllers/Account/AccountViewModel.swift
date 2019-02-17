@@ -167,9 +167,13 @@ class AccountViewModel {
     func getHistory(completion: @escaping (Error?) -> Void) {
         guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
         NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount + 1) { (chain, error) in
-            self.history = chain
-            self.refined = chain
-            PersistentStore.updateBlockHistory(for: self.account, history: chain)
+            let transformed = chain.compactMap { $0.simpleBlock }
+            for var item in transformed {
+                item.owner = acc
+            }
+            self.history = transformed
+            self.refined = transformed
+            PersistentStore.updateBlockHistory(for: self.account, history: transformed)
             if let error = error {
                 // TEMP: ignore error if no previous block history exists, otherwise assume that the testnet as been reset
                 if self.account.blockCount > 0, (error as NSError).code == 1337, chain.isEmpty {
@@ -178,7 +182,16 @@ class AccountViewModel {
                     completion(nil)
                 }
             } else {
+                self.updateSequenceIfNeeded(chain)
                 completion(nil)
+            }
+        }
+    }
+
+    private func updateSequenceIfNeeded(_ chain: [TransactionBlock]) {
+        if self.account.blockCount > 0 && self.account.sequence == 0 {
+            PersistentStore.write {
+                self.account.sequence = chain.filter { $0.account == self.account.address }.count
             }
         }
     }
@@ -212,7 +225,7 @@ class AccountViewModel {
         case .received:
             refined = history.filter { $0.type == "receive" }
         case .sent:
-            refined = history.filter { $0.type == StateBlock.Intent.send.rawValue }
+            refined = history.filter { $0.type == StateBlock.RequestType.send.string }
         case .largestFirst:
             refined = history.sorted(by: { (blockA, blockB) -> Bool in
                 return Double(blockA.amount) ?? 0.0 > Double(blockB.amount) ?? 0.0

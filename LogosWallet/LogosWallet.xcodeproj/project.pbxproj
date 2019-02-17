@@ -23,6 +23,8 @@
 		A730652220438B8400A49C03 /* EnterAddressEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */; };
 		A73065242045321E00A49C03 /* URLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73065232045321E00A49C03 /* URLHandler.swift */; };
 		A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */; };
+		A7322675220EA2EB00B2EA69 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322674220EA2EB00B2EA69 /* StateBlock.swift */; };
+		A7322677220F87AA00B2EA69 /* StateBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322676220F87AA00B2EA69 /* StateBlockTests.swift */; };
 		A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */; };
 		A7329814200756A300B21C8D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329812200756A300B21C8D /* AccountViewController.swift */; };
 		A732981720075B7100B21C8D /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981620075B7100B21C8D /* AccountViewController.xib */; };
@@ -47,14 +49,12 @@
 		A74361FB1FE6572800054078 /* Foundaton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74361FA1FE6572800054078 /* Foundaton+Extensions.swift */; };
 		A74362201FE66DEB00054078 /* WalletUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A743621F1FE66DEB00054078 /* WalletUtil.swift */; };
 		A74362231FE734F300054078 /* BitArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74362221FE734F300054078 /* BitArray.swift */; };
-		A7463AAB2071E9E3008A8197 /* IncomingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */; };
 		A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FCEF2089980000AB7D9C /* BlockInfo.swift */; };
 		A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */; };
 		A749FD19208EE4AF00AB7D9C /* BlockInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */; };
 		A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */; };
 		A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */; };
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
-		A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74FCD87206CB846001C9725 /* StateBlock.swift */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
 		A753FBD4206104EC00E88B77 /* LogosLegacyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */; };
 		A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */; };
@@ -81,7 +81,7 @@
 		A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C52030239C00C7CEE8 /* Currency.swift */; };
 		A76AC7C82030C59D00C7CEE8 /* CurrencySelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76AC7C72030C59D00C7CEE8 /* CurrencySelectViewModel.swift */; };
 		A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2734204E986000615B7A /* LogosWalletTests.swift */; };
-		A77CDF5521BA4679004940A0 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CDF5421BA4679004940A0 /* Block.swift */; };
+		A77CDF5521BA4679004940A0 /* TransactionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CDF5421BA4679004940A0 /* TransactionBlock.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -202,6 +202,8 @@
 		A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAddressEntryViewModel.swift; sourceTree = "<group>"; };
 		A73065232045321E00A49C03 /* URLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHandler.swift; sourceTree = "<group>"; };
 		A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookCoordinator.swift; sourceTree = "<group>"; };
+		A7322674220EA2EB00B2EA69 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
+		A7322676220F87AA00B2EA69 /* StateBlockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlockTests.swift; sourceTree = "<group>"; };
 		A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		A73229CF20B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A73229D120B623B400CACB3A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -230,13 +232,11 @@
 		A74361FA1FE6572800054078 /* Foundaton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundaton+Extensions.swift"; sourceTree = "<group>"; };
 		A743621F1FE66DEB00054078 /* WalletUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletUtil.swift; sourceTree = "<group>"; };
 		A74362221FE734F300054078 /* BitArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitArray.swift; sourceTree = "<group>"; };
-		A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingBlock.swift; sourceTree = "<group>"; };
 		A749FCEF2089980000AB7D9C /* BlockInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfo.swift; sourceTree = "<group>"; };
 		A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewController.swift; sourceTree = "<group>"; };
 		A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewModel.swift; sourceTree = "<group>"; };
 		A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoNodeNinjaService.swift; sourceTree = "<group>"; };
 		A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedAccount.swift; sourceTree = "<group>"; };
-		A74FCD87206CB846001C9725 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		A753FBD3206104EC00E88B77 /* LogosLegacyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosLegacyService.swift; sourceTree = "<group>"; };
@@ -267,7 +267,7 @@
 		A76D2732204E986000615B7A /* LogosWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LogosWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A76D2734204E986000615B7A /* LogosWalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosWalletTests.swift; sourceTree = "<group>"; };
 		A76D2736204E986000615B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A77CDF5421BA4679004940A0 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		A77CDF5421BA4679004940A0 /* TransactionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionBlock.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -415,12 +415,11 @@
 			children = (
 				A768B9A620225DAC00620B62 /* TxInfo.swift */,
 				A73298252009F29B00B21C8D /* AccountHistory.swift */,
-				A74FCD87206CB846001C9725 /* StateBlock.swift */,
-				A7463AAA2071E9E3008A8197 /* IncomingBlock.swift */,
 				A749FCEF2089980000AB7D9C /* BlockInfo.swift */,
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
 				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
-				A77CDF5421BA4679004940A0 /* Block.swift */,
+				A77CDF5421BA4679004940A0 /* TransactionBlock.swift */,
+				A7322674220EA2EB00B2EA69 /* StateBlock.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -577,6 +576,7 @@
 				A7BC508620A2DD12006B2810 /* LogosWalletSecureTests.swift */,
 				A76D2736204E986000615B7A /* Info.plist */,
 				A7E2F94D21C24366007D369B /* LogosDelegateServiceTests.swift */,
+				A7322676220F87AA00B2EA69 /* StateBlockTests.swift */,
 			);
 			path = LogosWalletTests;
 			sourceTree = "<group>";
@@ -1147,10 +1147,9 @@
 				A7EF84311FEE43C300C74035 /* UIKit+Extensions.swift in Sources */,
 				A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */,
 				A7B32801200333C500E0E360 /* AppStyle.swift in Sources */,
-				A77CDF5521BA4679004940A0 /* Block.swift in Sources */,
+				A77CDF5521BA4679004940A0 /* TransactionBlock.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
 				A7EAC9D0209B9CDA00EE1F14 /* Secure.swift in Sources */,
-				A74FCD88206CB846001C9725 /* StateBlock.swift in Sources */,
 				A7EB8F5D20664BA1004463FC /* PasswordChecker.swift in Sources */,
 				A7EF84351FEE453700C74035 /* ReceiveViewController.swift in Sources */,
 				A7B3280620033C1300E0E360 /* SeedViewController.swift in Sources */,
@@ -1166,6 +1165,7 @@
 				A76AC7C220301D8500C7CEE8 /* CurrencySelectViewController.swift in Sources */,
 				A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */,
 				A79116FA20172FB100890432 /* AddressItemTableViewCell.swift in Sources */,
+				A7322675220EA2EB00B2EA69 /* StateBlock.swift in Sources */,
 				A76AC7AF202AC0CA00C7CEE8 /* EnterAddressEntryViewController.swift in Sources */,
 				A79116F020157A4800890432 /* SendCoordinator.swift in Sources */,
 				A7EF841E1FED915000C74035 /* WalletManager.swift in Sources */,
@@ -1204,7 +1204,6 @@
 				A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */,
 				A749FD19208EE4AF00AB7D9C /* BlockInfoViewModel.swift in Sources */,
 				A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */,
-				A7463AAB2071E9E3008A8197 /* IncomingBlock.swift in Sources */,
 				A76AC7C82030C59D00C7CEE8 /* CurrencySelectViewModel.swift in Sources */,
 				A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */,
 				A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */,
@@ -1243,6 +1242,7 @@
 				A7BC508720A2DD12006B2810 /* LogosWalletSecureTests.swift in Sources */,
 				A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */,
 				A7E2F94E21C24366007D369B /* LogosDelegateServiceTests.swift in Sources */,
+				A7322677220F87AA00B2EA69 /* StateBlockTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

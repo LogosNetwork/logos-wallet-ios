@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 protocol BlockAdapter {
-    var json: [String: String] { get }
+    var json: [String: Any] { get }
 }
 
 struct BlockCreateParameters {

@@ -120,6 +120,7 @@ struct PersistentStore {
             .filter { !blockSet.contains($0.blockHash) }
             .map {
                 let b = SimpleBlock()
+                b.target = $0.target
                 b.account = $0.account
                 b.amount = $0.amount
                 b.blockHash = $0.blockHash
@@ -141,6 +142,7 @@ struct PersistentStore {
         let results = getBlockHistory(for: owner)
         guard !results.contains(where: { block.blockHash == $0.blockHash }) else { return }
         let b = SimpleBlock()
+        b.target = block.target
         b.account = block.account
         b.amount = block.amount
         b.blockHash = block.blockHash
@@ -153,7 +155,7 @@ struct PersistentStore {
         guard let account = account else { return [] }
         do {
             let realm = try Realm()
-            let results = realm.objects(SimpleBlock.self).filter("owner == %@", account)//.sorted(byKeyPath: "date", ascending: false)
+            let results = realm.objects(SimpleBlock.self).filter("owner == %@", account)
             return Array(results)
         } catch {
             return []
