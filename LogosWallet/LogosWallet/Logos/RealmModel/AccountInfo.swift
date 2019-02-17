@@ -18,6 +18,7 @@ class AccountInfo: Object {
     @objc dynamic var representative: String = ""
     @objc dynamic var index: Int = 0
     @objc dynamic var pending: Int = 0
+    @objc dynamic var sequence: Int = 0
     @objc dynamic var address: String?
     @objc dynamic var name: String?
     let blockHistory = List<SimpleBlock>()
@@ -44,12 +45,6 @@ class AccountInfo: Object {
         accountInfo.pending = Int(infoJSON["pending"] as? String ?? "0") ?? 0
         return accountInfo
     }
-//    required init() {
-//
-//    }
-//
-//    init(json: [String: Any]) {
-//    }
     
     /// Copies relevant properties from one AccountInfo obj to another. All other properties not copied below are locally generated, and should already be in memory.
     ///
@@ -81,6 +76,7 @@ class AccountInfo: Object {
         self.balance = "0"
         self.modifiedTimestamp = ""
         self.blockCount = 0
+        self.sequence = 0
     }
 
 }
