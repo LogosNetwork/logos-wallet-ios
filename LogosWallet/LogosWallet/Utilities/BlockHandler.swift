@@ -12,7 +12,7 @@ import RxSwift
 class BlockHandler {
 
     static let shared = BlockHandler()
-    let incomingBlockSubject = PublishSubject<IncomingBlock>()
+    let incomingBlockSubject = PublishSubject<TransactionBlock>()
 
     enum BlockHandlerError: Error {
         case proofOfWork
@@ -76,13 +76,13 @@ class BlockHandler {
 
     func handleIncoming(blockData: Data, for address: String) {
         guard
-            let incomingBlock = Decoda.decode(IncomingBlock.self, from: blockData),
+            let transactionBlock = Decoda.decode(TransactionBlock.self, from: blockData),
             let account = WalletManager.shared.accounts.first(where: { $0.address == address })
         else {
             return
         }
 
-        if WalletManager.shared.accounts.filter({ $0.address == incomingBlock.account }).isEmpty {
+        if WalletManager.shared.accounts.filter({ $0.address == transactionBlock.account }).isEmpty {
             // play receive sound for when sender address is not from this wallet
             SoundManager.shared.play(.receive)
         }
@@ -95,9 +95,9 @@ class BlockHandler {
                 account.blockCount = blockCount
             }
             NetworkAdapter.getAccountHistory(account: address, count: blockCount) { chain, _ in
-                PersistentStore.updateBlockHistory(for: account, history: chain)
+                PersistentStore.updateBlockHistory(for: account, history: chain.compactMap({ $0.simpleBlock }))
                 WalletManager.shared.updateAccounts()
-                self?.incomingBlockSubject.onNext(incomingBlock)
+                self?.incomingBlockSubject.onNext(transactionBlock)
             }
         }
     }
