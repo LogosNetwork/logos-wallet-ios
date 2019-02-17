@@ -76,7 +76,7 @@ class BlockHandler {
 
     func handleIncoming(blockData: Data, for address: String) {
         guard
-            let transactionBlock = Decoda.decode(TransactionBlock.self, from: blockData),
+            let transactionBlock = Decoda.decode(TransactionBlock.self, strategy: .useDefaultKeys, from: blockData),
             let account = WalletManager.shared.accounts.first(where: { $0.address == address })
         else {
             return
