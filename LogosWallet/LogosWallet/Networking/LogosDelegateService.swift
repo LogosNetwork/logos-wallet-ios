@@ -3,7 +3,7 @@
 //  LogosWallet
 //
 //  Created by Ben Kray on 12/11/18.
-//  Copyright © 2018 Planar Form. All rights reserved.
+//  Copyright © 2018 Promethean Labs. All rights reserved.
 //
 
 import Moya

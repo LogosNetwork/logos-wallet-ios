@@ -3,7 +3,7 @@
 //  LogosWalletTests
 //
 //  Created by Ben Kray on 2/9/19.
-//  Copyright © 2019 Planar Form. All rights reserved.
+//  Copyright © 2019 Promethean Labs. All rights reserved.
 //
 
 import XCTest
