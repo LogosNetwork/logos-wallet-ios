@@ -57,7 +57,7 @@ extension AccountCoordinator: AccountViewControllerDelegate {
     
     func transactionTapped(txInfo: SimpleBlockBridge) {
         Lincoln.log()
-        let blockInfoVC = BlockInfoViewController(viewModel: BlockInfoViewModel(with: txInfo))
+        let blockInfoVC = BlockInfoViewController(viewModel: BlockInfoViewModel(with: txInfo), account: self.account)
         navController.pushViewController(blockInfoVC, animated: true)
     }
     

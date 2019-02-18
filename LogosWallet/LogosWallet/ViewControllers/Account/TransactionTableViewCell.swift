@@ -53,7 +53,7 @@ class TransactionTableViewCell: UITableViewCell {
         }
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == sourceDestination })?.name
-        sourceDestLabel?.text = alias ?? tx.target
+        sourceDestLabel?.text = alias ?? sourceDestination
     }
     
 }

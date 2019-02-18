@@ -12,6 +12,7 @@ import SnapKit
 class BlockInfoViewController: TransparentNavViewController {
 
     let viewModel: BlockInfoViewModel
+    let account: AccountInfo
 
     lazy var mainStack: UIStackView = {
         let stackView = UIStackView()
@@ -29,9 +30,13 @@ class BlockInfoViewController: TransparentNavViewController {
     }()
 
     lazy var scrollView: UIScrollView = UIScrollView()
+    private var isSend: Bool {
+        return self.account.address == self.viewModel.info.account
+    }
     
-    init(viewModel: BlockInfoViewModel) {
+    init(viewModel: BlockInfoViewModel, account: AccountInfo) {
         self.viewModel = viewModel
+        self.account = account
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -73,7 +78,8 @@ class BlockInfoViewController: TransparentNavViewController {
         let typeLabel = UILabel()
         typeLabel.font = AppStyle.Font.title
         typeLabel.textColor = .white
-        typeLabel.text = viewModel.info.type.capitalized(with: .current)
+
+        typeLabel.text = self.isSend ? "Send" : "Receive"
         view.addSubview(typeLabel)
         view.addSubview(dateLabel)
         view.addSubview(scrollView)
@@ -111,11 +117,13 @@ class BlockInfoViewController: TransparentNavViewController {
     }
     
     fileprivate func buildStackView() {
-        // Source
-        if viewModel.info.type == "send" {
-            let sourceStack = buildSubStack("RECIPIENT", value: viewModel.model?.transactions.first?.target ?? "")
-            mainStack.addArrangedSubview(sourceStack)
+        if self.isSend == false {
+            let originStack = self.buildSubStack("ORIGIN", value: self.viewModel.model?.account ?? "")
+            self.mainStack.addArrangedSubview(originStack)
         }
+
+        let targetStack = buildSubStack("RECIPIENT", value: viewModel.model?.transactions.first?.target ?? "")
+        mainStack.addArrangedSubview(targetStack)
         
         // Amount
         let amount = viewModel.info.amount.decimalNumber.mlgsString.formattedAmount
