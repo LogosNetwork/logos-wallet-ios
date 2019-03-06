@@ -50,10 +50,10 @@ class BlockInfoViewController: TransparentNavViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
-        buildView()
+        self.setupNavBar()
+        self.buildView()
         LoadingView.startAnimating(in: self.navigationController, dimView: true)
-        viewModel.fetch { [weak self] in
+        self.viewModel.fetch { [weak self] in
             self?.buildStackView()
             LoadingView.stopAnimating()
         }
@@ -69,7 +69,7 @@ class BlockInfoViewController: TransparentNavViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentInset = UIEdgeInsetsMake(0, 0, AppStyle.Size.padding, 0)
+        self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, AppStyle.Size.padding, 0)
     }
 
     // MARK: - Setup
@@ -79,7 +79,14 @@ class BlockInfoViewController: TransparentNavViewController {
         typeLabel.font = AppStyle.Font.title
         typeLabel.textColor = .white
 
-        typeLabel.text = self.isSend ? "Send" : "Receive"
+        let type: String
+        if self.viewModel.isMultiTx {
+            type = self.isSend ? "MultiSend" : "Receive"
+        } else {
+            type = self.isSend ? "Send" : "Receive"
+        }
+
+        typeLabel.text = type
         view.addSubview(typeLabel)
         view.addSubview(dateLabel)
         view.addSubview(scrollView)
@@ -117,27 +124,34 @@ class BlockInfoViewController: TransparentNavViewController {
     }
     
     fileprivate func buildStackView() {
+        guard let model = self.viewModel.model else {
+            return
+        }
+
         if self.isSend == false {
             let originStack = self.buildSubStack("ORIGIN", value: self.viewModel.model?.account ?? "")
             self.mainStack.addArrangedSubview(originStack)
         }
-
-        let targetStack = buildSubStack("RECIPIENT", value: viewModel.model?.transactions.first?.target ?? "")
-        mainStack.addArrangedSubview(targetStack)
-        
-        // Amount
-        let amount = viewModel.info.amount.decimalNumber.mlgsString.formattedAmount
-        let amountStack = buildSubStack("AMOUNT", value: amount + " \(CURRENCY_NAME)")
-        mainStack.addArrangedSubview(amountStack)
         
         dateLabel.text = viewModel.localizedDate
 
         mainStack.addArrangedSubview(buildSubStack("PREVIOUS", value: self.viewModel.model?.previous))
-        mainStack.addArrangedSubview(buildSubStack("SIGNATURE", value: viewModel.model?.signature))
-//        contents.sorted { $0.key < $1.key }.forEach {
-//            let value = $0.key == "balance" ? $0.value.bNumber.toMlgs + " \(CURRENCY_NAME)" : $0.value
-//            mainStack.addArrangedSubview(buildSubStack($0.key, value: value))
-//        }
+        mainStack.addArrangedSubview(buildSubStack("SIGNATURE", value: self.viewModel.model?.signature))
+        if self.viewModel.isMultiTx {
+            model.transactions.enumerated().forEach { (index, tx) in
+                let targetStack = self.buildSubStack("RECIPIENT \(index + 1)", value: tx.target)
+                self.mainStack.addArrangedSubview(targetStack)
+                let amountStack = self.buildSubStack("AMOUNT \(index + 1)", value: tx.amount.decimalNumber.mlgsString.formattedAmount)
+                self.mainStack.addArrangedSubview(amountStack)
+            }
+        } else {
+            let targetStack = buildSubStack("RECIPIENT", value: model.transactions.first?.target ?? "")
+            mainStack.addArrangedSubview(targetStack)
+
+            let amount = viewModel.info.amount.decimalNumber.mlgsString.formattedAmount
+            let amountStack = buildSubStack("AMOUNT", value: amount + " \(CURRENCY_NAME)")
+            mainStack.addArrangedSubview(amountStack)
+        }
     }
     
     override func setupNavBar() {
@@ -163,7 +177,7 @@ class BlockInfoViewController: TransparentNavViewController {
     }
     
     // MARK: - Helpers
-    
+
     fileprivate func buildSubStack(_ title: String, value: String?) -> UIStackView {
         let value = value ?? "---"
         let stack = UIStackView()
