@@ -117,10 +117,12 @@ struct StateBlock: BlockAdapter {
             "previous": self.previous,
             "signature": self.signature,
             "work": self.work,
-            "transaction_fee": self.transactionFee.stringValue,
+            "fee": self.transactionFee.stringValue,
             "transactions": self.transactions.map { $0.json },
             "number_transactions": self.transactionCount.intValue,
-            "sequence": self.sequence.stringValue
+            "sequence": self.sequence.stringValue,
+            // TEMP
+            "next": "0000000000000000000000000000000000000000000000000000000000000000",
         ]
     }
 }
