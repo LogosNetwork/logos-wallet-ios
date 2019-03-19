@@ -45,13 +45,20 @@ struct TransactionBlock: Codable {
         self.prevHash = try container.decodeIfPresent(String.self, forKey: .prevHash) ?? ""
     }
 
-    var simpleBlock: SimpleBlockBridge? {
+    func simpleBlock(account: String) -> SimpleBlockBridge {
         let block = SimpleBlock()
         block.blockHash = self.hash
         block.type = self.transactionType
         block.account = self.account
-        block.amount = self.transactions.first?.amount ?? "0"
-        block.target = self.transactions.first?.target ?? ""
+        let transaction: Transaction?
+        if account != self.account {
+            // receive transaction
+            transaction = self.transactions.first { $0.target == account }
+        } else {
+            transaction = transactions.first
+        }
+        block.amount = transaction?.amount ?? "--"
+        block.target = transaction?.target ?? "--"
         return block
     }
 }

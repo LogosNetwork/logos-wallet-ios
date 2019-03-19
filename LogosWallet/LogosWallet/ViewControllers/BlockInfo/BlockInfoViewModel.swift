@@ -21,6 +21,9 @@ class BlockInfoViewModel {
         let date = Date(timeIntervalSince1970: TimeInterval(epoch / 1000.0))
         return DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .short)
     }
+    var isMultiTx: Bool {
+        return self.model?.transactions.count ?? 0 > 1
+    }
 
     init(with info: SimpleBlockBridge) {
         self.info = info
