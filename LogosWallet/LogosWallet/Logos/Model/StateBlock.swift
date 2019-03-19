@@ -15,6 +15,7 @@ struct StateBlock: BlockAdapter {
     enum RequestType: UInt8 {
         case send
         case change
+        case tokenSend = 14
         case unknown = 0xff
 
         var data: Data {
@@ -27,8 +28,11 @@ struct StateBlock: BlockAdapter {
                 return "send"
             case .change:
                 return "change"
+            case .tokenSend:
+                return "token_send"
             case .unknown:
                 return "unknown"
+
             }
         }
 
@@ -108,7 +112,7 @@ struct StateBlock: BlockAdapter {
     var json: [String: Any] {
         return [
             "hash": self.hash,
-            "transaction_type": "send",
+            "transaction_type": self.transactionType.string,
             "account": self.account,
             "previous": self.previous,
             "signature": self.signature,
