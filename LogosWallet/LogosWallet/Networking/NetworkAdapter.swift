@@ -109,6 +109,16 @@ public struct NetworkAdapter {
         })
     }
 
+    static func accountInfo2(for account: String, completion: ((LogosAccountInfo?, APIError?) -> Void)? = nil) {
+        request(target: .accountInfo2(account: account), success: { (response) in
+            if let accountInfo = Decoda.decode(LogosAccountInfo.self, strategy: .useDefaultKeys, from: response.data) {
+                completion?(accountInfo, nil)
+            } else {
+                completion?(nil, .badResponse)
+            }
+        })
+    }
+
     static func accountInfo(for account: String, completion: ((AccountInfoResponse?, APIError?) -> Void)? = nil) {
         request(target: .accountInfo(account: account), success: { (response) in
             let decoder = JSONDecoder()

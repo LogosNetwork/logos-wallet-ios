@@ -23,7 +23,7 @@ struct BlockCreateParameters {
     var representative: String
 }
 
-enum LogosLegacyService {
+enum LogosService {
     case serverStatus
     case process(block: BlockAdapter)
     case generateWork(hash: String)
@@ -34,13 +34,19 @@ enum LogosLegacyService {
     case pending(accounts: [String], count: Int)
     case createServerAccount(walletID: String, username: String, password: String)
     case accountInfo(account: String)
+    // TEMP
+    case accountInfo2(account: String)
 
     // Temp RPC calls
     case blockCreate(parameters: BlockCreateParameters)
 }
 
-extension LogosLegacyService: TargetType {
+extension LogosService: TargetType {
     var baseURL: URL {
+        // TEMP
+        if case .accountInfo2(_) = self {
+            return URL(string: "https://pla.bs/rpc")!
+        }
         let index = LogosDelegateService.loadBalancedIndex()
         if !WalletManager.shared.networkDelegates.isEmpty,
             let delegateIP = WalletManager.shared.networkDelegates["\(index)"],
@@ -97,6 +103,13 @@ extension LogosLegacyService: TargetType {
             ])
         case .accountInfo(let account):
             return params(for: "account_info", params: ["account": account])
+        // TEMP
+        case .accountInfo2(let account):
+            return .requestParameters(parameters: [
+                "account": account,
+                "targetURL": "http://172.1.1.100:55000",
+                "rpc_action": "account_info",
+            ], encoding: JSONEncoding.default)
         }
     }
     
