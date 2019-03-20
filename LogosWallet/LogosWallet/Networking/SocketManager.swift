@@ -87,7 +87,7 @@ class SocketManager {
         return true
     }
 
-    func action(_ action: LogosService) {
+    func action(_ action: LogosRPCService) {
         guard self.webSocket.isConnected else {
             self.connectAndPerform { [weak self] in
                 self?.action(action)
@@ -139,7 +139,7 @@ struct Decoda {
 
 }
 
-enum LogosService {
+enum LogosRPCService {
 
     case accountInfo(account: String)
     case process(block: BlockAdapter)
