@@ -51,8 +51,7 @@ struct TransactionBlock: Codable {
         block.type = self.transactionType
         block.account = self.account
         let transaction: Transaction?
-        if account != self.account {
-            // receive transaction
+        if self.isReceive(of: account) {
             transaction = self.transactions.first { $0.target == account }
         } else {
             transaction = transactions.first
@@ -61,6 +60,14 @@ struct TransactionBlock: Codable {
         block.target = transaction?.target ?? "--"
         return block
     }
+}
+
+extension TransactionBlock {
+
+    func isReceive(of owner: String) -> Bool {
+        return self.account != owner
+    }
+
 }
 
 struct Transaction: Codable {
