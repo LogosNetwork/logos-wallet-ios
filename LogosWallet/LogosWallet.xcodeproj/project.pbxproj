@@ -84,6 +84,7 @@
 		A76D2735204E986000615B7A /* LogosWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76D2734204E986000615B7A /* LogosWalletTests.swift */; };
 		A77CDF5521BA4679004940A0 /* TransactionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CDF5421BA4679004940A0 /* TransactionBlock.swift */; };
 		A78085602244A7AB00A8B1E6 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780855F2244A7AB00A8B1E6 /* Storage.swift */; };
+		A78085622244AEFF00A8B1E6 /* LogosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78085612244AEFF00A8B1E6 /* LogosStore.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -272,6 +273,7 @@
 		A76D2736204E986000615B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A77CDF5421BA4679004940A0 /* TransactionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionBlock.swift; sourceTree = "<group>"; };
 		A780855F2244A7AB00A8B1E6 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		A78085612244AEFF00A8B1E6 /* LogosStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosStore.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 		A732982D200ACE9000B21C8D /* Logos */ = {
 			isa = PBXGroup;
 			children = (
+				A78085612244AEFF00A8B1E6 /* LogosStore.swift */,
 				A74362241FE75F1E00054078 /* Wallet */,
 				A76AC7AA2029819700C7CEE8 /* RealmModel */,
 				A73298202009AF9800B21C8D /* Model */,
@@ -1237,6 +1240,7 @@
 				A73298262009F29B00B21C8D /* AccountHistory.swift in Sources */,
 				A726C2811FFCD5D400E73C18 /* AccountTableViewCell.swift in Sources */,
 				A7EF84271FEDCC8300C74035 /* Coordinator.swift in Sources */,
+				A78085622244AEFF00A8B1E6 /* LogosStore.swift in Sources */,
 				A70E8E032094F91B00372394 /* EnterAddressViewController.swift in Sources */,
 				A732982A200A0A6D00B21C8D /* AccountsViewModel.swift in Sources */,
 				A7E216C120DCE5EA003B8FCA /* TitleTableViewController.swift in Sources */,
