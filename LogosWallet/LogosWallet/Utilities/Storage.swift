@@ -20,11 +20,21 @@ class Storage {
 
     fileprivate init() { }
 
-    static func store<T: Encodable>(_ object: T, as fileName: String) {
+    static func store<T: Encodable>(_ object: T, as fileName: String, directoryPath: String? = nil) {
         DispatchQueue.global(qos: .userInitiated).async {
-            let url = self.documentsUrl.appendingPathComponent(fileName, isDirectory: false)
             let encoder = JSONEncoder()
             do {
+                let filePath: String
+                if let directoryPath = directoryPath {
+                    let path = self.documentsUrl.path + "/\(directoryPath)"
+                    if !FileManager.default.fileExists(atPath: path) {
+                        try FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false)
+                    }
+                    filePath = directoryPath + "/\(fileName)"
+                } else {
+                    filePath = fileName
+                }
+                let url = self.documentsUrl.appendingPathComponent(filePath, isDirectory: false)
                 let data = try encoder.encode(object)
                 if FileManager.default.fileExists(atPath: url.path) {
                     try FileManager.default.removeItem(at: url)
@@ -53,6 +63,13 @@ class Storage {
         } else {
             return nil
         }
+    }
+
+    static func clearAll() {
+        let contents = try? FileManager.default.contentsOfDirectory(at: self.documentsUrl, includingPropertiesForKeys: nil, options: [])
+        contents?
+            .compactMap { $0 }
+            .forEach { try? FileManager.default.removeItem(at: $0) }
     }
 
 }
