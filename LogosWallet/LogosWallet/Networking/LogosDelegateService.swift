@@ -10,7 +10,7 @@ import Moya
 
 enum LogosDelegateService {
 
-    static var accountInfo: AccountInfo?
+    static var account: LogosAccount?
 
     case delegates
 
@@ -18,19 +18,19 @@ enum LogosDelegateService {
     /// account in focus to be set to the static prop above.
     static func loadBalancedIndex() -> Int {
         guard
-            let accountInfo = self.accountInfo,
-            let address = accountInfo.address,
+            let account = self.account,
+            let address = account.address,
             let publicKey = WalletUtil.derivePublic(from: address),
-            accountInfo.frontier.isEmpty == false
+            account.info.frontier.isEmpty == false
         else {
             return 0
         }
 
         let delegateIndex: Int
-        if accountInfo.frontier == ZERO_AMT {
+        if account.info.frontier == ZERO_AMT || account.info.frontier == "" {
             delegateIndex = Int(String(publicKey.suffix(2)), radix: 16) ?? 0
         } else {
-            delegateIndex = Int(String(accountInfo.frontier.suffix(2)), radix: 16) ?? 0
+            delegateIndex = Int(String(account.info.frontier.suffix(2)), radix: 16) ?? 0
         }
         return delegateIndex % 32
     }

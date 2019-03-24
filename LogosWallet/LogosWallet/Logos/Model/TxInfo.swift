@@ -12,5 +12,5 @@ struct TxInfo {
     var recipientName: String
     var recipientAddress: String
     var amount: String
-    var accountInfo: AccountInfo
+    var account: LogosAccount
 }

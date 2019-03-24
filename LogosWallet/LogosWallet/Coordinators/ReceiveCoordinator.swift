@@ -12,10 +12,10 @@ class ReceiveCoordinator: RootViewCoordinator {
     var childCoordinators: [Coordinator] = []
     var rootViewController: UIViewController
     fileprivate var receiveViewController: ReceiveViewController?
-    let account: AccountInfo
+    let account: LogosAccount
     var onDismiss: ((Coordinator) -> Void)?
     
-    init(root: UIViewController, account: AccountInfo) {
+    init(root: UIViewController, account: LogosAccount) {
         self.rootViewController = root
         self.account = account
     }

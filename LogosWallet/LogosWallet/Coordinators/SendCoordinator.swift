@@ -19,10 +19,10 @@ class SendCoordinator: RootViewCoordinator {
     var childCoordinators: [Coordinator] = []
     var rootViewController: UIViewController
     fileprivate var sendViewController: SendViewController
-    private(set) var account: AccountInfo
+    private(set) var account: LogosAccount
     weak var delegate: SendCoordinatorDelegate?
     
-    init(root: UIViewController, account: AccountInfo) {
+    init(root: UIViewController, account: LogosAccount) {
         self.rootViewController = root
         self.sendViewController = SendViewController(account: account)
         self.account = account
@@ -48,7 +48,7 @@ extension SendCoordinator: SendViewControllerDelegate {
     }
     
     func enterAmountTapped() {
-        let enterAmountVC = EnterAmountViewController(with: account)
+        let enterAmountVC = EnterAmountViewController(with: self.account)
         enterAmountVC.enteredAmount = { [weak self] (amount) in
             self?.sendViewController.apply(amount: amount)
         }
@@ -67,9 +67,6 @@ extension SendCoordinator: SendViewControllerDelegate {
                 SKStoreReviewController.requestReview()
             }
             SoundManager.shared.play(.send)
-            PersistentStore.write {
-                txInfo.accountInfo.sequence += 1
-            }
             me.rootViewController.dismiss(animated: true)
             me.delegate?.sendComplete(coordinator: me)
         }

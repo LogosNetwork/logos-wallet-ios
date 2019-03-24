@@ -14,30 +14,30 @@ class AccountCoordinator: RootViewCoordinator {
     private(set) var navController: UINavigationController
     fileprivate var accountVC: AccountViewController?
     var onDismiss: ((AccountCoordinator) -> Void)?
-    let account: AccountInfo
+    let account: LogosAccount
     
-    init(in navController: UINavigationController, account: AccountInfo) {
+    init(in navController: UINavigationController, account: LogosAccount) {
         self.rootViewController = navController
         self.account = account
         self.navController = navController
     }
 
     deinit {
-        LogosDelegateService.accountInfo = nil
+        LogosDelegateService.account = nil
     }
 
     func start() {
-        accountVC = AccountViewController(account: account)
-        accountVC?.delegate = self
+        accountVC = AccountViewController(account: self.account)
+        self.accountVC?.delegate = self
         if let accountVC = accountVC {
             navController.pushViewController(accountVC, animated: true)
-            LogosDelegateService.accountInfo = self.account
+            LogosDelegateService.account = self.account
         }
     }
 }
 
 extension AccountCoordinator: AccountViewControllerDelegate {
-    func sendTapped(account: AccountInfo) {
+    func sendTapped(account: LogosAccount) {
         Lincoln.log()
         let sendCoordinator = SendCoordinator(root: rootViewController, account: account)
         sendCoordinator.delegate = self
@@ -45,7 +45,7 @@ extension AccountCoordinator: AccountViewControllerDelegate {
         sendCoordinator.start()
     }
     
-    func receiveTapped(account: AccountInfo) {
+    func receiveTapped(account: LogosAccount) {
         Lincoln.log()
         let receiveCoordinator = ReceiveCoordinator(root: rootViewController, account: account)
         childCoordinators.append(receiveCoordinator)
@@ -61,9 +61,10 @@ extension AccountCoordinator: AccountViewControllerDelegate {
         navController.pushViewController(blockInfoVC, animated: true)
     }
     
-    func editRepTapped(account: AccountInfo) {
+    func editRepTapped(account: LogosAccount) {
         Lincoln.log()
-        let viewModel = EnterAddressEntryViewModel(title: .localize("edit-representative"), address: account.representative, isEditing: true, addressOnly: true)
+        // TODO
+        let viewModel = EnterAddressEntryViewModel(title: .localize("edit-representative"), address: "", isEditing: true, addressOnly: true)
         let editRepVC = EnterAddressEntryViewController(with: viewModel)
         editRepVC.onAddressSaved = { [weak self] (address) in
             self?.accountVC?.initiateChangeBlock(newRep: address)

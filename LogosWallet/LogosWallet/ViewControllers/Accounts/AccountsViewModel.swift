@@ -12,7 +12,7 @@ struct AccountsViewModel {
 
     fileprivate var totalLGS: NSDecimalNumber {
         let total = WalletManager.shared.accounts.reduce(NSDecimalNumber(decimal: 0.0), { (result, account) in
-            result.adding(account.balance.decimalNumber)
+            result.adding(account.info.balance.decimalNumber)
         })
         return total
     }

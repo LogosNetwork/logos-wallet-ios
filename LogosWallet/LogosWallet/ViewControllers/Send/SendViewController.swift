@@ -36,9 +36,9 @@ class SendViewController: UIViewController {
     @IBOutlet weak var scanButton: UIButton?
     @IBOutlet weak var bgView: UIView?
     weak var delegate: SendViewControllerDelegate?
-    private(set) var account: AccountInfo
+    private(set) var account: LogosAccount
     
-    init(account: AccountInfo) {
+    init(account: LogosAccount) {
         self.account = account
         super.init(nibName: nil, bundle: nil)
     }
@@ -159,7 +159,7 @@ class SendViewController: UIViewController {
 //            Banner.show(.localize("insufficient-funds"), style: .danger)
 //            return
 //        }
-        let txInfo = TxInfo(recipientName: recipientName, recipientAddress: recipientAddress, amount: amount, accountInfo: account)
+        let txInfo = TxInfo(recipientName: recipientName, recipientAddress: recipientAddress, amount: amount, account: account)
         delegate?.sendTapped(txInfo: txInfo)
     }
     

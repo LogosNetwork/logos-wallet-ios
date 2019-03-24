@@ -21,9 +21,9 @@ class RequestAmountViewController: UIViewController {
     fileprivate var amount: NSDecimalNumber = 0.0
     fileprivate let rows: CGFloat = 4
     fileprivate let cols: CGFloat = 3
-    let account: AccountInfo
+    let account: LogosAccount
     
-    init(with account: AccountInfo) {
+    init(with account: LogosAccount) {
         self.account = account
         super.init(nibName: nil, bundle: nil)
     }

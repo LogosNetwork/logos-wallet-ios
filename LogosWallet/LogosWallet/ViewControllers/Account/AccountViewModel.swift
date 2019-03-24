@@ -31,7 +31,7 @@ class AccountViewModel {
     }
     
     private(set) var isFetching: Bool = false
-    private(set) var account: AccountInfo
+    private(set) var account: LogosAccount
     private(set) var history: [SimpleBlockBridge] = []
     private(set) var refined: [SimpleBlockBridge] = []
     private(set) var blockCheck: Set<String> = []
@@ -41,9 +41,9 @@ class AccountViewModel {
     }
     var balanceValue: String {
         if !self.isShowingSecondary {
-            return self.account.formattedBalance
+            return self.account.info.formattedBalance
         } else {
-            return Currency.secondary.convert(account.balance.decimalNumber)
+            return Currency.secondary.convert(self.account.info.balance.decimalNumber)
         }
     }
     // TODO: clean up currency stuff
@@ -62,7 +62,7 @@ class AccountViewModel {
         return refined.count
     }
     
-    init(with account: AccountInfo) {
+    init(with account: LogosAccount) {
         self.account = account
         self.history = account.blockHistory.compactMap { $0 as SimpleBlockBridge }
         self.refined = self.history
@@ -153,14 +153,13 @@ class AccountViewModel {
             return
         }
 
-        NetworkAdapter.accountInfo(for: address) { [weak self] (accountInfo, _) in
+        NetworkAdapter.accountInfo2(for: address) { [weak self] (accountInfo, _) in
             defer { completion?() }
             guard let info = accountInfo else {
                 return
             }
-            PersistentStore.write {
-                self?.account.copyProperties(from: info)
-            }
+            self?.account.info = info
+            LogosStore.update(account: address, info: info)
         }
     }
     
@@ -182,38 +181,38 @@ class AccountViewModel {
                     completion(nil)
                 }
             } else {
-                self.updateSequenceIfNeeded(chain)
+//                self.updateSequenceIfNeeded(chain)
                 completion(nil)
             }
         }
     }
 
-    private func updateSequenceIfNeeded(_ chain: [TransactionBlock]) {
-        if self.account.blockCount > 0 && self.account.sequence == 0 {
-            PersistentStore.write {
-                self.account.sequence = chain.filter { $0.account == self.account.address }.count
-            }
-        }
-    }
-    
-    func repair(_ completion: @escaping () -> Void) {
-        PersistentStore.removeBlockHistory(for: account.address)
-        refined = []
-        history = []
-        blockCheck.removeAll()
+//    private func updateSequenceIfNeeded(_ chain: [TransactionBlock]) {
+//        if self.account.blockCount > 0 && self.account.sequence == 0 {
+//            PersistentStore.write {
+//                self.account.sequence = chain.filter { $0.account == self.account.address }.count
+//            }
+//        }
+//    }
 
-        PersistentStore.write {
-            self.account.repair()
-        }
-        getHistory { _ in
-            if !self.history.isEmpty {
-                self.getAccountInfo {
-                    completion()
-                }
-            } else {
-                completion()
-            }
-        }
+    func repair(_ completion: @escaping () -> Void) {
+//        PersistentStore.removeBlockHistory(for: account.address)
+//        refined = []
+//        history = []
+//        blockCheck.removeAll()
+//
+//        PersistentStore.write {
+//            self.account.repair()
+//        }
+//        getHistory { _ in
+//            if !self.history.isEmpty {
+//                self.getAccountInfo {
+//                    completion()
+//                }
+//            } else {
+//                completion()
+//            }
+//        }
     }
     
     func refine(_ type: RefineType) {

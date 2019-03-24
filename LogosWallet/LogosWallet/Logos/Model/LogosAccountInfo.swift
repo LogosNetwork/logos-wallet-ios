@@ -29,3 +29,13 @@ struct LogosAccountInfo: Codable {
 struct Token: Codable {
     let whitelisted, frozen, balance: String
 }
+
+extension LogosAccountInfo {
+    var mlgsBalance: String {
+        return self.balance.decimalNumber.mlgsString
+    }
+
+    var formattedBalance: String {
+        return self.mlgsBalance.formattedAmount
+    }
+}

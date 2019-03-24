@@ -86,16 +86,12 @@ class BlockHandler {
             // play receive sound for when sender address is not from this wallet
             SoundManager.shared.play(.receive)
         }
-        NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+        NetworkAdapter.accountInfo2(for: address) { [weak self] (info, error) in
             guard let accountInfo = info else { return }
-            let blockCount = Int(accountInfo.blockCount) ?? 0
-            PersistentStore.write {
-                account.balance = accountInfo.balance
-                account.frontier = accountInfo.frontier
-                account.blockCount = blockCount
-            }
-            NetworkAdapter.getAccountHistory(account: address, count: blockCount) { chain, _ in
-                PersistentStore.updateBlockHistory(for: account, history: chain.compactMap({ $0.simpleBlock(account: address) }))
+            LogosStore.update(account: address, info: accountInfo)
+            NetworkAdapter.getAccountHistory(account: address, count: 10) { chain, _ in
+                // TODO
+//                PersistentStore.updateBlockHistory(for: account, history: chain.compactMap({ $0.simpleBlock(account: address) }))
                 WalletManager.shared.updateAccounts()
                 self?.incomingBlockSubject.onNext(transactionBlock)
             }

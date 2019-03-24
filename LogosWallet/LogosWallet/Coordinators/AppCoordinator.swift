@@ -52,7 +52,7 @@ class AppCoordinator: NSObject, RootViewCoordinator {
 
                 if WalletManager.shared.accounts.count > 0 {
                     // default to using first account's info to generate load balanced URL
-                    LogosDelegateService.accountInfo = WalletManager.shared.accounts[0]
+                    LogosDelegateService.account = WalletManager.shared.accounts[0]
                     let loadBalancedUrl = LogosDelegateService.loadBalancedUrl()
                     NetworkAdapter.baseNodeUrl = loadBalancedUrl
                 }

@@ -13,7 +13,7 @@ final class WalletManager {
     static let shared: WalletManager = WalletManager()
     private(set) var verifiedReps: [VerifiedAccount] = []
     var networkDelegates: [String: String] = [:]
-    private(set) var accounts: [AccountInfo] = PersistentStore.getAccounts()
+    private(set) lazy var accounts = self.bootstrapAccounts()
     fileprivate var sd: Data?
     
     var isLocked: Bool {
@@ -42,7 +42,7 @@ final class WalletManager {
         return WalletUtil.keyPair(seed: seed, index: UInt32(index))
     }
     
-    func account(at index: Int) -> AccountInfo? {
+    func account(at index: Int) -> LogosAccount? {
         guard index < accounts.count else { return nil }
         return accounts[index]
     }
@@ -220,16 +220,28 @@ final class WalletManager {
     }
     
     func updateAccounts() {
-        accounts = PersistentStore.getAccounts()
+//        accounts = PersistentStore.getAccounts()
     }
 
     func resetAllAccounts() {
-        self.accounts.forEach { account in
-            PersistentStore.removeBlockHistory(for: account.address)
-            PersistentStore.write {
-                account.repair()
+//        self.accounts.forEach { account in
+//            PersistentStore.removeBlockHistory(for: account.address)
+//            PersistentStore.write {
+//                account.repair()
+//            }
+//        }
+    }
+
+    private func bootstrapAccounts() -> [LogosAccount] {
+        let accounts = PersistentStore.getAccounts()
+
+        let allAccountInfo = LogosStore.getAllWalletAccountInfo()
+        for i in 0..<accounts.count {
+            if i < allAccountInfo.count {
+                accounts[i].info = allAccountInfo[0]
             }
         }
+        return accounts
     }
 
 }

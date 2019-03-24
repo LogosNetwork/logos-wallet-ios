@@ -21,10 +21,10 @@ class EnterAmountViewController: UIViewController {
     fileprivate var isShowingSecondary: Bool = false
     fileprivate let rows: CGFloat = 4
     fileprivate let cols: CGFloat = 3
-    let account: AccountInfo
+    let account: LogosAccount
     var enteredAmount: ((String) -> Void)?
 
-    init(with account: AccountInfo) {
+    init(with account: LogosAccount) {
         self.account = account
         super.init(nibName: nil, bundle: nil)
     }
@@ -53,7 +53,7 @@ class EnterAmountViewController: UIViewController {
         continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
-        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.formattedBalance)").uppercased()
+        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(account.info.formattedBalance)").uppercased()
         balanceLabel?.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(balanceTapped))
         balanceLabel?.addGestureRecognizer(gesture)
@@ -96,8 +96,8 @@ class EnterAmountViewController: UIViewController {
     // MARK: - Actions
     
     @objc fileprivate func balanceTapped() {
-        self.amountLabel?.text = self.account.formattedBalance
-        self.amount = self.account.mlgsBalance.decimalNumber
+        self.amountLabel?.text = self.account.info.formattedBalance
+        self.amount = self.account.info.mlgsBalance.decimalNumber
     }
     
     @objc fileprivate func closeTapped() {
@@ -116,7 +116,7 @@ class EnterAmountViewController: UIViewController {
             self.currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             let amountText = amount.stringValue
             self.amountLabel?.text = amountText
-            self.balanceLabel?.text = String.localize("available-balance-arg", arg: self.account.formattedBalance).uppercased()
+            self.balanceLabel?.text = String.localize("available-balance-arg", arg: self.account.info.formattedBalance).uppercased()
         }
     }
     
@@ -126,7 +126,7 @@ class EnterAmountViewController: UIViewController {
             return
         }
 
-        if self.amount.decimalValue > self.account.mlgsBalance.decimalNumber.decimalValue {
+        if self.amount.decimalValue > self.account.info.mlgsBalance.decimalNumber.decimalValue {
             Banner.show(.localize("insufficient-funds"), style: .danger)
             return
         }

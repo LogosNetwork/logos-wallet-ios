@@ -91,7 +91,7 @@ extension AccountsCoordinator: AccountsViewControllerDelegate {
         childCoordinators.append(settingsCoordinator)
     }
     
-    func accountTapped(_ account: AccountInfo) {
+    func accountTapped(_ account: LogosAccount) {
         Lincoln.log("Account at index \(account.index) tapped")
         let accountCoordinator = AccountCoordinator(in: navController, account: account)
         accountCoordinator.onDismiss = { [weak self] coordinator in

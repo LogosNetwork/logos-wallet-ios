@@ -12,7 +12,7 @@ import SnapKit
 class BlockInfoViewController: TransparentNavViewController {
 
     let viewModel: BlockInfoViewModel
-    let account: AccountInfo
+    let account: LogosAccount
 
     lazy var mainStack: UIStackView = {
         let stackView = UIStackView()
@@ -34,7 +34,7 @@ class BlockInfoViewController: TransparentNavViewController {
         return self.account.address == self.viewModel.info.account
     }
     
-    init(viewModel: BlockInfoViewModel, account: AccountInfo) {
+    init(viewModel: BlockInfoViewModel, account: LogosAccount) {
         self.viewModel = viewModel
         self.account = account
         super.init(nibName: nil, bundle: nil)

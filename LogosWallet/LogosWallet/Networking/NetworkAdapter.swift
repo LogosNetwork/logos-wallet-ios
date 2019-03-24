@@ -153,14 +153,14 @@ public struct NetworkAdapter {
         })
     }
     
-    static func getLedger(account: String, count: Int = 1, completion: @escaping (AccountInfo?) -> Void) {
-        request(target: .ledger(address: account, count: 1), success: { (response) in
-            // Funky response here, if the account doesn't exist yet, a random (perhaps adjacent in DB?) account is returned. Ensure that the requesting account is equal to the account in the response
-            guard let json = try? response.mapJSON() as? [String: Any] else { completion(nil); return }
-            let info = AccountInfo.fromJSON(json, account: account)
-            completion(info)
-        })
-    }
+//    static func getLedger(account: String, count: Int = 1, completion: @escaping (AccountInfo?) -> Void) {
+//        request(target: .ledger(address: account, count: 1), success: { (response) in
+//            // Funky response here, if the account doesn't exist yet, a random (perhaps adjacent in DB?) account is returned. Ensure that the requesting account is equal to the account in the response
+//            guard let json = try? response.mapJSON() as? [String: Any] else { completion(nil); return }
+//            let info = AccountInfo.fromJSON(json, account: account)
+//            completion(info)
+//        })
+//    }
     
     static func getAccountHistory(account: String, count: Int, completion: @escaping ([TransactionBlock], Error?) -> Void) {
         request(target: .accountHistory(address: account, count: count), success: { (response) in

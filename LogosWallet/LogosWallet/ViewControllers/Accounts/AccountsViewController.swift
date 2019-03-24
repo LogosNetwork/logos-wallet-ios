@@ -11,7 +11,7 @@ import RxSwift
 
 protocol AccountsViewControllerDelegate: class {
     func settingsTapped()
-    func accountTapped(_ account: AccountInfo)
+    func accountTapped(_ account: LogosAccount)
     func accountAdded()
 }
 
@@ -42,10 +42,10 @@ class AccountsViewController: UIViewController {
             SocketManager.shared.action(.subscribe(account: address))
             NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
                 if let info = info {
-                    PersistentStore.write {
-                        account.balance = info.balance
-                        account.frontier = info.frontier
-                    }
+//                    PersistentStore.write {
+//                        account.balance = info.balance
+//                        account.frontier = info.frontier
+//                    }
                     self?.updateAccounts()
                 }
             }

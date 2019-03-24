@@ -29,10 +29,10 @@ class ReceiveViewController: UIViewController {
     var onRequestAmountTapped: (() -> Void)?
     var onDismiss: (() -> Void)?
     
-    let account: AccountInfo
+    let account: LogosAccount
     fileprivate let minAddressWidth: CGFloat = 150.0
     
-    init(with accountInfo: AccountInfo) {
+    init(with accountInfo: LogosAccount) {
         self.account = accountInfo
         super.init(nibName: nil, bundle: nil)
     }

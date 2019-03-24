@@ -11,9 +11,9 @@ import RxSwift
 
 protocol AccountViewControllerDelegate: class {
     func transactionTapped(txInfo: SimpleBlockBridge)
-    func editRepTapped(account: AccountInfo)
-    func sendTapped(account: AccountInfo)
-    func receiveTapped(account: AccountInfo)
+    func editRepTapped(account: LogosAccount)
+    func sendTapped(account: LogosAccount)
+    func receiveTapped(account: LogosAccount)
     func backTapped()
 }
 
@@ -39,7 +39,7 @@ class AccountViewController: UIViewController {
 
     // MARK: - Object lifecycle
 
-    init(account: AccountInfo) {
+    init(account: LogosAccount) {
         self.viewModel = AccountViewModel(with: account)
         super.init(nibName: nil, bundle: nil)
     }
@@ -276,42 +276,43 @@ class AccountViewController: UIViewController {
     }
     
     func initiateChangeBlock(newRep: String?) {
-        guard let rep = newRep,
-            let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
-            let account = keyPair.lgsAccount else { return }
-        if rep == viewModel.account.representative {
-            Banner.show(.localize("no-rep-change"), style: .warning)
-            return
-        }
-        guard viewModel.account.frontier != ZERO_AMT else {
-            // No blocks have been made yet, store the rep for later
-            PersistentStore.write { [weak self] in
-                self?.viewModel.account.representative = rep
-            }
-            Banner.show(.localize("rep-changed"), style: .success)
-            return
-        }
+//        guard let rep = newRep,
+//            let keyPair = WalletManager.shared.keyPair(at: viewModel.account.index),
+//            let account = keyPair.lgsAccount else { return }
+//        if rep == viewModel.account.representative {
+//            Banner.show(.localize("no-rep-change"), style: .warning)
+//            return
+//        }
+//        guard viewModel.account.frontier != ZERO_AMT else {
+//            // No blocks have been made yet, store the rep for later
+//            PersistentStore.write { [weak self] in
+//                self?.viewModel.account.representative = rep
+//            }
+//            Banner.show(.localize("rep-changed"), style: .success)
+//            return
+        // TODO
+//        }
 
         // TEMP
-        var block = StateBlock(type: .change)
-        block.sequence = NSDecimalNumber(integerLiteral: self.viewModel.account.blockCount)
-        block.previous = viewModel.account.frontier
-        block.transactions = [
-            MultiSendTransaction.init(target: rep, amount: NSDecimalNumber(string: ZERO_AMT))
-        ]
-        guard block.build(with: keyPair) else { return }
-        Banner.show("Waiting for work on change block...", style: .success)
-        BlockHandler.handle(block, for: account) { [weak self] (result) in
-            switch result {
-            case .success(_):
-                Banner.show(.localize("rep-changed"), style: .success)
-                self?.viewModel.getAccountInfo() {
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                Banner.show(.localize("change-rep-error-arg", arg: error.description), style: .danger)
-            }
-        }
+//        var block = StateBlock(type: .change)
+//        block.sequence = NSDecimalNumber(string: self.viewModel.account.info.sequence)
+//        block.previous = viewModel.account.info.frontier
+//        block.transactions = [
+//            MultiSendTransaction.init(target: rep, amount: NSDecimalNumber(string: ZERO_AMT))
+//        ]
+//        guard block.build(with: keyPair) else { return }
+//        Banner.show("Waiting for work on change block...", style: .success)
+//        BlockHandler.handle(block, for: account) { [weak self] (result) in
+//            switch result {
+//            case .success(_):
+//                Banner.show(.localize("rep-changed"), style: .success)
+//                self?.viewModel.getAccountInfo() {
+//                    self?.tableView.reloadData()
+//                }
+//            case .failure(let error):
+//                Banner.show(.localize("change-rep-error-arg", arg: error.description), style: .danger)
+//            }
+//        }
     }
 }
 

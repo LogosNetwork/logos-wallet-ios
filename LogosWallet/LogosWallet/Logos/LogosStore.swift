@@ -17,7 +17,9 @@ class LogosStore {
 
     fileprivate init() { }
 
-    static func getAccounts() -> [LogosAccountInfo] {
+    // MARK: - Account Info
+
+    static func getAllWalletAccountInfo() -> [LogosAccountInfo] {
         if let contents = try? FileManager.default.contentsOfDirectory(atPath: Storage.documentsUrl.path + "/\(StorageKey.accounts.rawValue)") {
             return contents.compactMap { Storage.retrieve(StorageKey.accounts.rawValue + "/\($0)", as: LogosAccountInfo.self) }
         } else {
@@ -28,5 +30,9 @@ class LogosStore {
     static func update(account: String, info: LogosAccountInfo) {
         Storage.store(info, as: account, directoryPath: StorageKey.accounts.rawValue)
     }
+
+    // MARK: - Account Chain
+
+    static func getChain(for account: String) -> 
 
 }

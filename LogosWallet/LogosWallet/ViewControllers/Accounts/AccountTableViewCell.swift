@@ -23,20 +23,23 @@ class AccountTableViewCell: UITableViewCell {
         self.alpha = selected ? 0.3 : 1.0
     }
     
-    func prepare(with account: AccountInfo?, useSecondaryCurrency: Bool) {
+    func prepare(with account: LogosAccount?, useSecondaryCurrency: Bool) {
+        guard let account = account else {
+            return
+        }
         backgroundColor = UIColor.white.withAlphaComponent(0.1)
         layer.cornerRadius = 10.0
         let img = #imageLiteral(resourceName: "forward2").withRenderingMode(.alwaysTemplate)
         forwardImageView?.tintColor = .white
         forwardImageView?.image = img
         
-        addressLabel?.text = account?.address
-        accountNameLabel?.text = account?.name
-        let formattedValue = account?.formattedBalance ?? "0"
+        addressLabel?.text = account.address
+        accountNameLabel?.text = account.name
+        let formattedValue = account.info.formattedBalance
         let valueString: String
         if useSecondaryCurrency {
             let secondary = Currency.secondary
-            valueString = secondary.convert(account?.mlgsBalance.decimalNumber ?? 0, isRaw: false)
+            valueString = secondary.convert(account.info.mlgsBalance.decimalNumber, isRaw: false)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
             valueString = formattedValue
