@@ -43,3 +43,26 @@ struct HistoryTransaction: Codable {
     let destination: String
     let amount: String
 }
+
+extension HistoryTransactionBlock {
+
+    func isReceive(of account: String) -> Bool {
+        return origin != account
+    }
+
+    func amountTotal(for account: String) -> NSDecimalNumber {
+        if let transaction = self.transaction {
+            return transaction.amount.decimalNumber
+        } else {
+            let transactions: [HistoryTransaction]
+            if self.isReceive(of: account) {
+                transactions = self.transactions?.compactMap { $0 }.filter { $0.destination == account } ?? []
+            } else {
+                transactions = self.transactions ?? []
+            }
+            return transactions.reduce(0, { (result, transaction) -> NSDecimalNumber in
+                result.adding(transaction.amount.decimalNumber)
+            })
+        }
+    }
+}

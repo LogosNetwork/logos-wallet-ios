@@ -32,8 +32,9 @@ class AccountViewModel {
     
     private(set) var isFetching = false
     private(set) var account: LogosAccount
-    private(set) var history: [SimpleBlockBridge] = []
-    private(set) var refined: [SimpleBlockBridge] = []
+    private(set) var accountHistory: LogosAccountHistory?
+    private(set) var chain = [HistoryTransactionBlock]()
+    private(set) var refinedChain = [HistoryTransactionBlock]()
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
     var isShowingSecondary: Bool {
@@ -62,41 +63,22 @@ class AccountViewModel {
     var updateView: (() -> Void)?
     
     var count: Int {
-        return refined.count
+        return self.refinedChain.count
     }
     
     init(with account: LogosAccount) {
         self.account = account
-        self.history = [] //account.blockHistory.compactMap { $0 as SimpleBlockBridge }
-        self.refined = self.history
+        self.chain = LogosStore.getHistory(for: self.account.address)?.history ?? []
+        self.refinedChain = self.chain
     }
     
-    subscript(index: Int) -> SimpleBlockBridge? {
-        guard index < refined.count else { return nil }
-        return refined[index]
+    subscript(index: Int) -> HistoryTransactionBlock? {
+        guard index < self.refinedChain.count else { return nil }
+        return self.refinedChain[index]
     }
     
     func toggleCurrency() {
         Currency.setSecondary(!self.isShowingSecondary)
-    }
-    
-    func initHistory() {
-        history = PersistentStore.getBlockHistory(for: account.address)
-        blockCheck = Set(history.map { $0.blockHash })
-    }
-    
-    /// Completion returns count of pending blocks
-    func getPending(shouldOpen: Bool = false, completion: ((Int) -> Void)? = nil) {
-//        guard let keyPair = WalletManager.shared.keyPair(at: account.index),
-//            let acc = keyPair.lgsAccount else { return }
-//        // fetch pending
-//        isFetching = true
-//        NetworkAdapter.getPending(for: acc) { [weak self] (pending) in
-//            guard let me = self else { return }
-//            me.isFetching = false
-//            completion?(pending.count)
-////            me.handlePending(pending, previous: me.account.frontier, shouldOpen: shouldOpen)
-//        }
     }
     
     /// Recursively handle pending
@@ -219,22 +201,25 @@ class AccountViewModel {
     }
     
     func refine(_ type: RefineType) {
+        guard let address = self.account.address else {
+            return
+        }
         switch type {
         case .latestFirst:
-            refined = history
+            self.refinedChain = self.chain
         case .oldestFirst:
-            refined = history.reversed()
+            self.refinedChain = self.chain.reversed()
         case .received:
-            refined = history.filter { $0.type == "receive" }
+            self.refinedChain = self.chain.filter { $0.type == "receive" }
         case .sent:
-            refined = history.filter { $0.type == StateBlock.RequestType.send.string }
+            self.refinedChain = self.chain.filter { $0.type == StateBlock.RequestType.send.string }
         case .largestFirst:
-            refined = history.sorted(by: { (blockA, blockB) -> Bool in
-                return Double(blockA.amount) ?? 0.0 > Double(blockB.amount) ?? 0.0
+            self.refinedChain = self.chain.sorted(by: { (blockA, blockB) -> Bool in
+                return blockA.amountTotal(for: address).compare(blockB.amountTotal(for: address)) == .orderedDescending
             })
         case .smallestFirst:
-            refined = history.sorted(by: { (blockA, blockB) -> Bool in
-                return Double(blockA.amount) ?? 0.0 < Double(blockB.amount) ?? 0.0
+            self.refinedChain = self.chain.sorted(by: { (blockA, blockB) -> Bool in
+                return blockA.amountTotal(for: address).compare(blockB.amountTotal(for: address)) == .orderedAscending
             })
         }
         refineType = type

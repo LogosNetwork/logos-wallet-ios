@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol AccountViewControllerDelegate: class {
-    func transactionTapped(txInfo: SimpleBlockBridge)
+    func transactionTapped(txInfo: HistoryTransactionBlock)
     func editRepTapped(account: LogosAccount)
     func sendTapped(account: LogosAccount)
     func receiveTapped(account: LogosAccount)
@@ -347,7 +347,7 @@ extension AccountViewController: UITableViewDelegate {
         guard let tx = viewModel[indexPath.section] else { return }
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let copyAddress = UIAlertAction(title: "Copy Address", style: .default) { _ in
-            UIPasteboard.general.string = tx.account
+            UIPasteboard.general.string = tx.origin
             Banner.show("Address copied to clipboard", style: .success)
         }
         let viewDetails = UIAlertAction(title: "View Details", style: .default) { [weak self] _ in
@@ -359,14 +359,14 @@ extension AccountViewController: UITableViewDelegate {
                     Banner.show(.localize("no-name-provided"), style: .warning)
                     return
                 }
-                PersistentStore.addAddressEntry(text, address: tx.account)
+                PersistentStore.addAddressEntry(text, address: tx.origin)
                 Banner.show(.localize("arg-entry-saved", arg: text), style: .success)
             })
         }
         let cancel = UIAlertAction(title: .localize("cancel"), style: .cancel, handler: nil)
         actionSheet.addAction(viewDetails)
         actionSheet.addAction(copyAddress)
-        if !PersistentStore.getAddressEntries().contains(where: { $0.address == tx.account }) {
+        if !PersistentStore.getAddressEntries().contains(where: { $0.address == tx.origin }) {
             actionSheet.addAction(saveAddress)
         }
         actionSheet.addAction(cancel)
@@ -396,8 +396,11 @@ extension AccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let address = self.viewModel.account.address else {
+            return UITableViewCell()
+        }
         let cell = tableView.dequeueReusableCell(TransactionTableViewCell.self, for: indexPath)
-        cell.prepare(with: viewModel[indexPath.section], useSecondaryCurrency: viewModel.isShowingSecondary)
+        cell.prepare(with: self.viewModel[indexPath.section], owner: address, useSecondaryCurrency: self.viewModel.isShowingSecondary)
         return cell
     }
 }

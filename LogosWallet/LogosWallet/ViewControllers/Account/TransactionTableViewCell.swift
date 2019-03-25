@@ -23,7 +23,7 @@ class TransactionTableViewCell: UITableViewCell {
         self.alpha = selected ? 0.3 : 1.0
     }
     
-    func prepare(with tx: SimpleBlockBridge?, useSecondaryCurrency: Bool) {
+    func prepare(with tx: HistoryTransactionBlock?, owner: String, useSecondaryCurrency: Bool) {
         guard let tx = tx else {
             return
         }
@@ -32,24 +32,25 @@ class TransactionTableViewCell: UITableViewCell {
         layer.cornerRadius = 10.0
 
         let sourceDestination: String
-        if tx.owner == tx.account {
-            // send
-            self.typeIndicatorLabel?.text = "+"
-            self.typeLabel?.text = .localize("sent-filter")
-            sourceDestination = tx.target
-        } else {
+        if tx.isReceive(of: owner) {
             // receive
-            self.typeIndicatorLabel?.text = "-"
+            self.typeIndicatorLabel?.text = "+"
             self.typeLabel?.text = .localize("received-filter")
-            sourceDestination = tx.account
+            sourceDestination = tx.origin
+        } else {
+            // send
+            self.typeIndicatorLabel?.text = "-"
+            self.typeLabel?.text = .localize("sent-filter")
+            // TODO: handle multiple
+            sourceDestination = tx.transactions?.first?.destination ?? ""
         }
         let secondary = Currency.secondary
         let stringValue: String
         if useSecondaryCurrency {
-            let converted = secondary.convert(tx.amount.decimalNumber)
+            let converted = secondary.convert(tx.amountTotal(for: owner))
             stringValue = "\(converted) " + secondary.rawValue.uppercased()
         } else {
-            stringValue = "\(tx.amount.decimalNumber.mlgsString.formattedAmount) \(CURRENCY_NAME)"
+            stringValue = "\(tx.amountTotal(for: owner).mlgsString.formattedAmount) \(CURRENCY_NAME)"
         }
         amountLabel?.text = stringValue
         let alias = PersistentStore.getAddressEntries().first(where: { $0.address == sourceDestination })?.name
