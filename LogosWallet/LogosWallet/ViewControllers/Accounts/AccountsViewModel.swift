@@ -11,8 +11,10 @@ import Foundation
 struct AccountsViewModel {
 
     fileprivate var totalLGS: NSDecimalNumber {
-        let total = WalletManager.shared.accounts.reduce(NSDecimalNumber(decimal: 0.0), { (result, account) in
-            result.adding(account.info.balance.decimalNumber)
+        let total = WalletManager.shared.accounts
+            .compactMap { $0.info }
+            .reduce(NSDecimalNumber(decimal: 0.0), { (result, account) in
+                result.adding(account.balance.decimalNumber)
         })
         return total
     }

@@ -48,12 +48,16 @@ extension SendCoordinator: SendViewControllerDelegate {
     }
     
     func enterAmountTapped() {
-        let enterAmountVC = EnterAmountViewController(with: self.account)
+        guard let info = self.account.info else {
+            Banner.show("No funds to send", style: .warning)
+            return
+        }
+        let enterAmountVC = EnterAmountViewController(with: info)
         enterAmountVC.enteredAmount = { [weak self] (amount) in
             self?.sendViewController.apply(amount: amount)
         }
         enterAmountVC.modalTransitionStyle = .crossDissolve
-        sendViewController.present(UINavigationController(rootViewController: enterAmountVC), animated: true)
+        self.sendViewController.present(UINavigationController(rootViewController: enterAmountVC), animated: true)
     }
     
     func sendTapped(txInfo: TxInfo) {

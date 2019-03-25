@@ -24,7 +24,9 @@ class AccountTableViewCell: UITableViewCell {
     }
     
     func prepare(with account: LogosAccount?, useSecondaryCurrency: Bool) {
-        guard let account = account else {
+        guard
+            let account = account
+        else {
             return
         }
         backgroundColor = UIColor.white.withAlphaComponent(0.1)
@@ -35,11 +37,11 @@ class AccountTableViewCell: UITableViewCell {
         
         addressLabel?.text = account.address
         accountNameLabel?.text = account.name
-        let formattedValue = account.info.formattedBalance
+        let formattedValue = account.info?.formattedBalance ?? "0"
         let valueString: String
         if useSecondaryCurrency {
             let secondary = Currency.secondary
-            valueString = secondary.convert(account.info.mlgsBalance.decimalNumber, isRaw: false)
+            valueString = secondary.convert(account.info?.mlgsBalance.decimalNumber ?? 0, isRaw: false)
             unitLabel?.text = secondary.rawValue.uppercased()
         } else {
             valueString = formattedValue

@@ -153,15 +153,6 @@ public struct NetworkAdapter {
         })
     }
     
-//    static func getLedger(account: String, count: Int = 1, completion: @escaping (AccountInfo?) -> Void) {
-//        request(target: .ledger(address: account, count: 1), success: { (response) in
-//            // Funky response here, if the account doesn't exist yet, a random (perhaps adjacent in DB?) account is returned. Ensure that the requesting account is equal to the account in the response
-//            guard let json = try? response.mapJSON() as? [String: Any] else { completion(nil); return }
-//            let info = AccountInfo.fromJSON(json, account: account)
-//            completion(info)
-//        })
-//    }
-    
     static func getAccountHistory(account: String, count: Int, completion: @escaping ([TransactionBlock], Error?) -> Void) {
         request(target: .accountHistory(address: account, count: count), success: { (response) in
             let history: [TransactionBlock]
@@ -176,6 +167,23 @@ public struct NetworkAdapter {
                 }
             }
             completion(history, error)
+        })
+    }
+
+    static func getAccountHistory2(account: String, count: Int, completion: @escaping (LogosAccountHistory?, Error?) -> Void) {
+        request(target: .accountHistory2(address: account, count: count), success: { (response) in
+            var result: LogosAccountHistory?
+            var error: Error?
+            if let accountHistory = Decoda.decode(LogosAccountHistory.self, strategy: .useDefaultKeys, from: response.data) {
+                result = accountHistory
+            } else {
+                if let errorJson = try? response.mapJSON() as? [String: String],
+                    let errorString = errorJson?["error"] {
+                    let err = NSError(domain: "NetworkAdapter", code: 1337, userInfo: [NSLocalizedDescriptionKey: errorString])
+                    error = err
+                }
+            }
+            completion(result, error)
         })
     }
     

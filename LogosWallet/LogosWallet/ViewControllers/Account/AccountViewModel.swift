@@ -30,7 +30,7 @@ class AccountViewModel {
         }
     }
     
-    private(set) var isFetching: Bool = false
+    private(set) var isFetching = false
     private(set) var account: LogosAccount
     private(set) var history: [SimpleBlockBridge] = []
     private(set) var refined: [SimpleBlockBridge] = []
@@ -40,10 +40,13 @@ class AccountViewModel {
         return Currency.isSecondarySelected
     }
     var balanceValue: String {
-        if !self.isShowingSecondary {
-            return self.account.info.formattedBalance
+        guard let info = self.account.info else {
+            return self.isShowingSecondary ? "0".formattedBalance : Currency.secondary.convert(0)
+        }
+        if self.isShowingSecondary {
+            return Currency.secondary.convert(info.balance.decimalNumber)
         } else {
-            return Currency.secondary.convert(self.account.info.balance.decimalNumber)
+            return info.formattedBalance
         }
     }
     // TODO: clean up currency stuff
@@ -64,7 +67,7 @@ class AccountViewModel {
     
     init(with account: LogosAccount) {
         self.account = account
-        self.history = account.blockHistory.compactMap { $0 as SimpleBlockBridge }
+        self.history = [] //account.blockHistory.compactMap { $0 as SimpleBlockBridge }
         self.refined = self.history
     }
     
@@ -166,13 +169,13 @@ class AccountViewModel {
     func getHistory(completion: @escaping (Error?) -> Void) {
         guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
         NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount + 1) { (chain, error) in
-            let transformed = chain.compactMap { $0.simpleBlock(account: acc) }
-            for var item in transformed {
-                item.owner = acc
-            }
-            self.history = transformed
-            self.refined = transformed
-            PersistentStore.updateBlockHistory(for: self.account, history: transformed)
+//            let transformed = chain.compactMap { $0.simpleBlock(account: acc) }
+//            for var item in transformed {
+//                item.owner = acc
+//            }
+//            self.history = transformed
+//            self.refined = transformed
+//            PersistentStore.updateBlockHistory(for: self.account, history: transformed)
             if let error = error {
                 // TEMP: ignore error if no previous block history exists, otherwise assume that the testnet has been reset
                 if self.account.blockCount > 0, (error as NSError).code == 1337, chain.isEmpty {

@@ -85,6 +85,7 @@ struct Transaction: Codable {
     }
 }
 
+
 struct AccountHistory: Codable {
     let account: String
     let history: [TransactionBlock]

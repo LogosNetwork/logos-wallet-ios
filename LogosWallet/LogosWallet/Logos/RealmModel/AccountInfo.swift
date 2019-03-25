@@ -12,11 +12,11 @@ class LogosAccount: Object {
     @objc dynamic var index: Int = 0
     @objc dynamic var address: String?
     @objc dynamic var name: String?
-    var info: LogosAccountInfo!
+    var info: LogosAccountInfo?
 }
 
 extension LogosAccount {
     var blockCount: Int {
-        return Int(self.info.sequence) ?? 0
+        return Int(self.info?.requestCount ?? "0") ?? 0
     }
 }

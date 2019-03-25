@@ -19,18 +19,19 @@ enum LogosDelegateService {
     static func loadBalancedIndex() -> Int {
         guard
             let account = self.account,
+            let info = account.info,
             let address = account.address,
             let publicKey = WalletUtil.derivePublic(from: address),
-            account.info.frontier.isEmpty == false
+            info.frontier.isEmpty == false
         else {
             return 0
         }
 
         let delegateIndex: Int
-        if account.info.frontier == ZERO_AMT || account.info.frontier == "" {
+        if info.frontier == ZERO_AMT || info.frontier == "" {
             delegateIndex = Int(String(publicKey.suffix(2)), radix: 16) ?? 0
         } else {
-            delegateIndex = Int(String(account.info.frontier.suffix(2)), radix: 16) ?? 0
+            delegateIndex = Int(String(info.frontier.suffix(2)), radix: 16) ?? 0
         }
         return delegateIndex % 32
     }

@@ -36,6 +36,7 @@ enum LogosService {
     case accountInfo(account: String)
     // TEMP
     case accountInfo2(account: String)
+    case accountHistory2(address: String, count: Int)
 
     // Temp RPC calls
     case blockCreate(parameters: BlockCreateParameters)
@@ -45,6 +46,9 @@ extension LogosService: TargetType {
     var baseURL: URL {
         // TEMP
         if case .accountInfo2(_) = self {
+            return URL(string: "https://pla.bs/rpc")!
+        }
+        if case .accountHistory2(_, _) = self {
             return URL(string: "https://pla.bs/rpc")!
         }
         let index = LogosDelegateService.loadBalancedIndex()
@@ -109,6 +113,14 @@ extension LogosService: TargetType {
                 "account": account,
                 "targetURL": "http://172.1.1.100:55000",
                 "rpc_action": "account_info",
+            ], encoding: JSONEncoding.default)
+        case .accountHistory2(let account, let count):
+            return .requestParameters(parameters: [
+                "account": account,
+                "targetURL": "http://172.1.1.100:55000",
+                "rpc_action": "account_history",
+                "count": count,
+                "raw": false,
             ], encoding: JSONEncoding.default)
         }
     }

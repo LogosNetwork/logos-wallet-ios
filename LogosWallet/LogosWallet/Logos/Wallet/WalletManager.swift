@@ -10,7 +10,7 @@ import Foundation
 
 final class WalletManager {
     
-    static let shared: WalletManager = WalletManager()
+    static let shared = WalletManager()
     private(set) var verifiedReps: [VerifiedAccount] = []
     var networkDelegates: [String: String] = [:]
     private(set) lazy var accounts = self.bootstrapAccounts()
@@ -168,6 +168,7 @@ final class WalletManager {
         guard let accountAddress = WalletUtil.keyPair(seed: seed, index: index)?.lgsAccount else { return }
         Lincoln.log("Account created '\(accountAddress)'", inConsole: true)
         // Create account
+        LogosStore.setup(with: accountAddress)
         PersistentStore.addAccount(name: name, address: accountAddress, index: Int(index))
         PersistentStore.addAddressEntry(name, address: accountAddress)
         updateAccounts()
@@ -179,25 +180,6 @@ final class WalletManager {
     func createWallet(phrase: [String]) {
         
     }
-    
-//    func createVanityAddress(with value: String, completion: ((Bool) -> Void)) {
-//        var target: String = ""
-//        var result = ""
-//        var seed: Data?
-//        // Addresses must start with either a 1 or 3
-//        while !result.contains(value) {
-//            guard let sd = Sodium().randomBytes.buf(length: 32) else {
-//                completion(false)
-//                return
-//            }
-//            guard let keyPair = WalletUtil.keyPair(seed: sd, index: 0), let account = keyPair.xrbAccount else {
-//                completion(false)
-//                return
-//            }
-//            result = account
-//            seed = sd
-//        }
-//    }
     
     /// Adds an account address by incrementing the seed index by 1. First account's index is 0.
     ///
@@ -220,7 +202,7 @@ final class WalletManager {
     }
     
     func updateAccounts() {
-//        accounts = PersistentStore.getAccounts()
+        self.accounts = self.bootstrapAccounts()
     }
 
     func resetAllAccounts() {
@@ -235,7 +217,7 @@ final class WalletManager {
     private func bootstrapAccounts() -> [LogosAccount] {
         let accounts = PersistentStore.getAccounts()
 
-        let allAccountInfo = LogosStore.getAllWalletAccountInfo()
+        let allAccountInfo = LogosStore.getAllWalletAccountInfo(for: accounts.compactMap { $0.address })
         for i in 0..<accounts.count {
             if i < allAccountInfo.count {
                 accounts[i].info = allAccountInfo[0]

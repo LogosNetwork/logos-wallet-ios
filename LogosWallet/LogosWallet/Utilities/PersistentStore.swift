@@ -16,7 +16,7 @@ struct PersistentStore {
             schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 3 {
-                    migration.enumerateObjects(ofType: AccountInfo.className(), { (old, new) in
+                    migration.enumerateObjects(ofType: LogosAccount.className(), { (old, new) in
                         guard
                             let old = old,
                             let new = new,
@@ -35,13 +35,13 @@ struct PersistentStore {
     
     // MARK: - Accounts
 
-    static func remove(account: AccountInfo) {
+    static func remove(account: LogosAccount) {
         try? Realm().delete(account)
     }
     
-    static func getAccounts() -> [AccountInfo] {
+    static func getAccounts() -> [LogosAccount] {
         do {
-            return try Array(Realm().objects(AccountInfo.self))
+            return try Array(Realm().objects(LogosAccount.self))
         } catch {
             Lincoln.log("Error getting accounts: \(error.localizedDescription)")
             return []
@@ -49,7 +49,7 @@ struct PersistentStore {
     }
     
     static func addAccount(name: String, address: String, index: Int) {
-        let account = AccountInfo()
+        let account = LogosAccount()
         account.name = name
         account.address = address
         account.index = index
@@ -114,25 +114,25 @@ struct PersistentStore {
         }
     }
     
-    static func updateBlockHistory(for account: AccountInfo, history: [SimpleBlockBridge]) {
-        let blockSet = Set(account.blockHistory.map { $0.blockHash })
-        let blocks: [SimpleBlock] = history
-            .filter { !blockSet.contains($0.blockHash) }
-            .map {
-                let b = SimpleBlock()
-                b.target = $0.target
-                b.account = $0.account
-                b.amount = $0.amount
-                b.blockHash = $0.blockHash
-                b.owner = account.address ?? ""
-                b.type = $0.type
-                return b
-            }
-        guard blocks.count > 0 else { return }
-        write {
-            account.blockHistory.insert(contentsOf: blocks, at: 0)
-            Lincoln.log("BLOCK HISTORY COUNT - \(account.blockHistory.count)")
-        }
+    static func updateBlockHistory(for account: LogosAccount, history: [SimpleBlockBridge]) {
+//        let blockSet = Set(account.blockHistory.map { $0.blockHash })
+//        let blocks: [SimpleBlock] = history
+//            .filter { !blockSet.contains($0.blockHash) }
+//            .map {
+//                let b = SimpleBlock()
+//                b.target = $0.target
+//                b.account = $0.account
+//                b.amount = $0.amount
+//                b.blockHash = $0.blockHash
+//                b.owner = account.address ?? ""
+//                b.type = $0.type
+//                return b
+//            }
+//        guard blocks.count > 0 else { return }
+//        write {
+//            account.blockHistory.insert(contentsOf: blocks, at: 0)
+//            Lincoln.log("BLOCK HISTORY COUNT - \(account.blockHistory.count)")
+//        }
         
     }
     
