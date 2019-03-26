@@ -220,7 +220,7 @@ final class WalletManager {
         let allAccountInfo = LogosStore.getAllWalletAccountInfo(for: accounts.compactMap { $0.address })
         for i in 0..<accounts.count {
             if i < allAccountInfo.count {
-                accounts[i].info = allAccountInfo[0]
+                accounts[i].info = allAccountInfo[i]
             }
         }
         return accounts
