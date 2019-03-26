@@ -11,7 +11,7 @@ import Foundation
 struct LogosAccountHistory: Codable {
     let account: String
     let history: [HistoryTransactionBlock]
-    let previous: String
+    let previous: String?
 }
 
 struct HistoryTransactionBlock: Codable {

@@ -12,7 +12,7 @@ struct LogosAccountInfo: Codable {
     let type, frontier, receiveTip, openBlock: String
     let representativeBlock, balance, modifiedTimestamp, requestCount: String
     let sequence: String
-    let tokens: [String: Token]
+    let tokens: [String: Token]?
 
     enum CodingKeys: String, CodingKey {
         case type, frontier
