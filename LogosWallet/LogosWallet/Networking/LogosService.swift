@@ -45,20 +45,15 @@ enum LogosService {
 extension LogosService: TargetType {
     var baseURL: URL {
         // TEMP
-        if case .accountInfo2(_) = self {
-            return URL(string: "https://pla.bs/rpc")!
-        }
-        if case .accountHistory2(_, _) = self {
-            return URL(string: "https://pla.bs/rpc")!
-        }
-        let index = LogosDelegateService.loadBalancedIndex()
-        if !WalletManager.shared.networkDelegates.isEmpty,
-            let delegateIP = WalletManager.shared.networkDelegates["\(index)"],
-            let url = URL(string: "http://" + delegateIP + ":55000") {
-            return url
-        } else {
-            return NetworkAdapter.baseNodeUrl
-        }
+        return URL(string: "https://pla.bs/rpc")!
+//        let index = LogosDelegateService.loadBalancedIndex()
+//        if !WalletManager.shared.networkDelegates.isEmpty,
+//            let delegateIP = WalletManager.shared.networkDelegates["\(index)"],
+//            let url = URL(string: "http://" + delegateIP + ":55000") {
+//            return url
+//        } else {
+//            return NetworkAdapter.baseNodeUrl
+//        }
     }
     
     var path: String {
@@ -88,9 +83,19 @@ extension LogosService: TargetType {
         case .ledger(let address, let count):
             return params(for: "ledger", params: ["account": address, "count": count, "representative": true, "pending": true])
         case .process(let block):
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: block.json, options: []),
-                let blockString = String(data: jsonData, encoding: .ascii) else { return .requestPlain }
-            return params(for: "process", params: ["block": blockString])
+            guard
+                let jsonData = try? JSONSerialization.data(withJSONObject: block.json, options: []),
+                let requestString = String(data: jsonData, encoding: .ascii)
+            else {
+                return .requestPlain
+            }
+            // TEMP
+            return .requestParameters(parameters: [
+                "request": requestString,
+                "targetURL": "http://172.1.1.100:55000",
+                "rpc_action": "process",
+            ], encoding: JSONEncoding.default)
+//            return params(for: "process", params: ["block": blockString])
         case .pending(let accounts, let count):
             return params(for: "accounts_pending", params: ["accounts": accounts, "count": count])
         case .createServerAccount(let walletID, let username, let password):

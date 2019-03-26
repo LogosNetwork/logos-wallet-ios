@@ -51,11 +51,11 @@ struct StateBlock: BlockAdapter {
     }
 
     var hash = ""
-    var account = ""
+    var origin = ""
     var previous = ""
     var sequence: NSDecimalNumber = 0
-    var transactionType: RequestType = .unknown
-    var transactionFee: NSDecimalNumber = 0
+    var type: RequestType = .unknown
+    var fee: NSDecimalNumber = 0
     var signature = ""
     var work = ""
     var transactions: [MultiSendTransaction] = []
@@ -65,35 +65,33 @@ struct StateBlock: BlockAdapter {
 
     mutating func build(with signingKeys: KeyPair) -> Bool {
         guard
-            let encodedAccount = signingKeys.lgsAccount,
-            let accountData = WalletUtil.derivePublic(from: encodedAccount)?.hexData,
+            let encodedOrigin = signingKeys.lgsAccount,
+            let originData = WalletUtil.derivePublic(from: encodedOrigin)?.hexData,
             let previousData = self.previous.hexData,
-            let hexTransactionFee = self.transactionFee.hexString,
+            let hexFee = self.fee.hexString,
             let sequenceData = self.sequence.hexString?.leftPadding(toLength: 8, withPad: "0").hexData,
-            let transactionCountData = self.transactionCount.hexString?.leftPadding(toLength: 4, withPad: "0").hexData,
-            let transactionFeeData = hexTransactionFee.leftPadding(toLength: 32, withPad: "0").hexData
+            let feeData = hexFee.leftPadding(toLength: 32, withPad: "0").hexData
         else {
             return false
         }
 
         // sequence and trans count are little endian
         var hashItems: [Data] = [
-            accountData,
+            self.type.data,
+            originData,
             previousData,
+            feeData,
             sequenceData.byteSwap(),
-            self.transactionType.data,
-            transactionCountData.byteSwap(),
         ]
 
         self.transactions.forEach {
-            if let targetData = WalletUtil.derivePublic(from: $0.target)?.hexData {
+            if let targetData = WalletUtil.derivePublic(from: $0.destination)?.hexData {
                 hashItems.append(targetData)
             }
             if let amountData = $0.amount.hexString?.leftPadding(toLength: 32, withPad: "0").hexData {
                 hashItems.append(amountData)
             }
         }
-        hashItems.append(transactionFeeData)
 
         guard
             let digest = NaCl.digest(hashItems, outputLength: 32),
@@ -103,7 +101,7 @@ struct StateBlock: BlockAdapter {
         }
 
         self.hash = digest.hexString.uppercased()
-        self.account = encodedAccount
+        self.origin = encodedOrigin
         self.signature = sig.hexString.uppercased()
 
         return true
@@ -112,17 +110,17 @@ struct StateBlock: BlockAdapter {
     var json: [String: Any] {
         return [
             "hash": self.hash,
-            "transaction_type": self.transactionType.string,
-            "account": self.account,
+            "type": self.type.string,
+            "origin": self.origin,
             "previous": self.previous,
             "signature": self.signature,
             "work": self.work,
-            "fee": self.transactionFee.stringValue,
+            "fee": self.fee.stringValue,
             "transactions": self.transactions.map { $0.json },
             "number_transactions": self.transactionCount.intValue,
             "sequence": self.sequence.stringValue,
             // TEMP
-            "next": "0000000000000000000000000000000000000000000000000000000000000000",
+            "next": GENESIS_HASH,
         ]
     }
 }
@@ -130,19 +128,19 @@ struct StateBlock: BlockAdapter {
 extension StateBlock {
 
     init(type: RequestType) {
-        self.transactionType = type
+        self.type = type
     }
 
 }
 
 struct MultiSendTransaction {
 
-    var target: String
+    var destination: String
     var amount: NSDecimalNumber
 
     var json: [String: String] {
         return [
-            "target": self.target,
+            "destination": self.destination,
             "amount": self.amount.stringValue,
         ]
     }

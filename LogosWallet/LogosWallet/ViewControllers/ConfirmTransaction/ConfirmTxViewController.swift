@@ -109,9 +109,9 @@ class ConfirmTxViewController: UIViewController {
         block.work = "0000000000000000"
         block.previous = info.frontier.uppercased()
         block.sequence = NSDecimalNumber(string: info.sequence)
-        block.transactionFee = NSDecimalNumber(string: "10000000000000000000000")
+        block.fee = NSDecimalNumber(string: "10000000000000000000000")
         block.transactions = [
-            MultiSendTransaction(target: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue),
+            MultiSendTransaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue),
         ]
 
         guard
