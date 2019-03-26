@@ -9,14 +9,18 @@
 import RealmSwift
 
 class LogosAccount: Object {
+
     @objc dynamic var index: Int = 0
     @objc dynamic var address: String?
     @objc dynamic var name: String?
     var info: LogosAccountInfo?
+
 }
 
 extension LogosAccount {
-    var blockCount: Int {
+
+    var requestCount: Int {
         return Int(self.info?.requestCount ?? "0") ?? 0
     }
+
 }

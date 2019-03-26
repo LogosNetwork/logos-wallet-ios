@@ -80,64 +80,11 @@ class AccountViewModel {
     func toggleCurrency() {
         Currency.setSecondary(!self.isShowingSecondary)
     }
-    
-    /// Recursively handle pending
-//    func handlePending(_ pending: [String], previous: String, shouldOpen: Bool) {
-//        guard !pending.isEmpty,
-//            let keyPair = WalletManager.shared.keyPair(at: account.index),
-//            let account = keyPair.lgnAccount else { return }
-//        var remaining = pending
-//        // Pending block order in array is newest -> oldest
-//        let source = remaining.removeLast()
-//        isFetching = true
-//        NetworkAdapter.blockInfo(hashes: [source]) { [weak self] (info, error) in
-//            self?.isFetching = false
-//            guard let me = self,
-//                let amount = info.first?.amount,
-//                let balance = BInt(me.account.balance),
-//                let amt = BInt(amount) else { return }
-//            var block = shouldOpen ? StateBlock(intent: .open) : StateBlock(intent: .receive)
-//            let randomRep = WalletManager.shared.getRandomRep()?.account ?? account
-//            block.previous = previous
-//            block.targetAddresses = [source]
-//            block.transactionAmounts = [amount]
-//            if me.account.representative.isEmpty {
-//                block.representative = randomRep
-//            } else {
-//                block.representative = me.account.representative
-//            }
-//            guard me.account.balance.bNumber + amount.bNumber >= me.account.balance.bNumber else {
-//                Banner.show("Account balance should be greater than previous balance", style: .danger)
-//                return
-//            }
-//            guard block.build(with: keyPair) else { return }
-//            if shouldOpen {
-//                Banner.show(.localize("opening-account"), style: .success)
-//            }
-//            me.isFetching = true
-//            BlockHandler.handle(block, for: account) { (result) in
-//                me.isFetching = false
-//                switch result {
-//                case .success(let newHash):
-//                    // Balance must be updated otherwise consecutive recieves can be seen as sends due to a negative balance
-//                    PersistentStore.write {
-//                        // TODO: come back to this
-//                        me.account.balance = (me.account.balance.bNumber + amount.bNumber).toMlgn
-//                    }
-//                    me.handlePending(remaining, previous: newHash, shouldOpen: false)
-//                    me.onNewBlockBroadcasted?()
-//                case .failure(let error):
-//                    Banner.show(.localize("receive-error-arg", arg: error.description), style: .danger)
-//                }
-//            }
-//        }
-//    }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
         guard let address = self.account.address else {
             return
         }
-
         NetworkAdapter.accountInfo2(for: address) { [weak self] (accountInfo, _) in
             defer { completion?() }
             guard let info = accountInfo else {
@@ -149,36 +96,25 @@ class AccountViewModel {
     }
     
     func getHistory(completion: @escaping (Error?) -> Void) {
-        guard let acc: String = WalletManager.shared.keyPair(at: account.index)?.lgsAccount else { return }
-        NetworkAdapter.getAccountHistory(account: acc, count: account.blockCount + 1) { (chain, error) in
-//            let transformed = chain.compactMap { $0.simpleBlock(account: acc) }
-//            for var item in transformed {
-//                item.owner = acc
-//            }
-//            self.history = transformed
-//            self.refined = transformed
-//            PersistentStore.updateBlockHistory(for: self.account, history: transformed)
+        guard let address = self.account.address else {
+            return
+        }
+        NetworkAdapter.getAccountHistory2(account: address, count: self.account.requestCount + 1) { (history, error) in
             if let error = error {
                 // TEMP: ignore error if no previous block history exists, otherwise assume that the testnet has been reset
-                if self.account.blockCount > 0, (error as NSError).code == 1337, chain.isEmpty {
+                if self.account.requestCount > 0, (error as NSError).code == 1337, history?.history.isEmpty ?? true {
                     completion(error)
                 } else {
                     completion(nil)
                 }
-            } else {
-//                self.updateSequenceIfNeeded(chain)
+            } else if let history = history {
+                self.chain = history.history
+                self.refinedChain = history.history
+                LogosStore.updateHistory(for: address, history: history)
                 completion(nil)
             }
         }
     }
-
-//    private func updateSequenceIfNeeded(_ chain: [TransactionBlock]) {
-//        if self.account.blockCount > 0 && self.account.sequence == 0 {
-//            PersistentStore.write {
-//                self.account.sequence = chain.filter { $0.account == self.account.address }.count
-//            }
-//        }
-//    }
 
     func repair(_ completion: @escaping () -> Void) {
 //        PersistentStore.removeBlockHistory(for: account.address)
@@ -210,9 +146,9 @@ class AccountViewModel {
         case .oldestFirst:
             self.refinedChain = self.chain.reversed()
         case .received:
-            self.refinedChain = self.chain.filter { $0.type == "receive" }
+            self.refinedChain = self.chain.filter { $0.isReceive(of: address) }
         case .sent:
-            self.refinedChain = self.chain.filter { $0.type == StateBlock.RequestType.send.string }
+            self.refinedChain = self.chain.filter { !$0.isReceive(of: address) }
         case .largestFirst:
             self.refinedChain = self.chain.sorted(by: { (blockA, blockB) -> Bool in
                 return blockA.amountTotal(for: address).compare(blockB.amountTotal(for: address)) == .orderedDescending
