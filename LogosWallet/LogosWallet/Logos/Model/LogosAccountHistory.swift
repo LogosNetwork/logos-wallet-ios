@@ -42,6 +42,13 @@ struct TransactionRequest: Codable {
 struct Transaction: Codable {
     let destination: String
     let amount: String
+
+    var json: [String: String] {
+        return [
+            "destination": self.destination,
+            "amount": self.amount,
+        ]
+    }
 }
 
 extension TransactionRequest {

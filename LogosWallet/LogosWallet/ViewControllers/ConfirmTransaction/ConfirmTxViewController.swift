@@ -98,26 +98,27 @@ class ConfirmTxViewController: UIViewController {
         guard
             self.txInfo.amount.decimalNumber.decimalValue > 0.0,
             let keyPair = WalletManager.shared.keyPair(at: self.txInfo.account.index),
-            let _ = keyPair.lgsAccount,
+            let origin = keyPair.lgsAccount,
             let _ = WalletUtil.derivePublic(from: self.txInfo.recipientAddress),
             let info = self.txInfo.account.info
         else {
             return
         }
 
-        var block = StateBlock(type: .send)
-        block.work = "0000000000000000"
-        block.previous = info.frontier.uppercased()
-        block.sequence = NSDecimalNumber(string: info.sequence)
-        block.fee = NSDecimalNumber(string: "10000000000000000000000")
-        block.transactions = [
-            MultiSendTransaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue),
+        let sendRequest = SendRequest()
+        sendRequest.origin = origin
+        sendRequest.work = "0000000000000000"
+        sendRequest.previous = info.frontier.uppercased()
+        sendRequest.sequence = NSDecimalNumber(string: info.sequence)
+        sendRequest.fee = NSDecimalNumber(string: "10000000000000000000000")
+        sendRequest.transactions = [
+            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue.stringValue),
         ]
 
         guard
-            block.build(with: keyPair)
+            sendRequest.sign(with: keyPair)
         else {
-            Lincoln.log("Problem building block: \(block.json)")
+            Lincoln.log("Problem building block: \(sendRequest.json)")
             return
         }
         
@@ -126,7 +127,7 @@ class ConfirmTxViewController: UIViewController {
             self.contentView?.alpha = 0.0
         }
         LoadingView.startAnimating(in: self.navigationController)
-        NetworkAdapter.process(block: block) { [weak self] (hash, error) in
+        NetworkAdapter.process(request: sendRequest) { [weak self] (hash, error) in
             if let error = error {
                 Banner.show("\(error.message)", style: .danger)
                 LoadingView.stopAnimating(true) {

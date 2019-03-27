@@ -60,7 +60,7 @@ class BlockHandler {
                 return
             }
             block.work = work
-            NetworkAdapter.process(block: block) { (blockHash, error) in
+            NetworkAdapter.process(request: block) { (blockHash, error) in
                 defer {
                     processing.remove(workInput)
                 }

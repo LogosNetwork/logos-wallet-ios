@@ -132,9 +132,9 @@ public struct NetworkAdapter {
         })
     }
 
-    static func process(block: BlockAdapter, completion: ((String?, APIError?) -> Void)? = nil) {
-        Lincoln.log("Broadcasting block '\(block.json)'", inConsole: true)
-        request(target: .process(block: block), success: { (response) in
+    static func process(request: RequestAdapter, completion: ((String?, APIError?) -> Void)? = nil) {
+        Lincoln.log("Broadcasting request '\(request.json)'", inConsole: true)
+        self.request(target: .process(request: request), success: { (response) in
             guard let json = try? response.mapJSON() as? [String: String] else {
                 completion?(nil, APIError.badResponse)
                 return

@@ -10,7 +10,7 @@ import Foundation
 
 // Base class for all Request types
 
-class Request {
+class Request: RequestAdapter {
 
     enum RequestType: UInt8 {
         case send
@@ -59,19 +59,64 @@ class Request {
     var signature = ""
     var work = ""
 
-    var json: String {
-        return ""
+    var originData: Data? {
+        return WalletUtil.derivePublic(from: self.origin)?.hexData
+    }
+    var previousData: Data? {
+        return self.previous.hexData
+    }
+    var sequenceData: Data? {
+        return self.sequence.hexString?.leftPadding(toLength: 8, withPad: "0").hexData
+    }
+    var feeData: Data? {
+        return self.fee.hexString?.leftPadding(toLength: 32, withPad: "0").hexData
+    }
+
+    var json: [String: Any] {
+        return [
+            "hash": self.hash,
+            "type": self.type.string,
+            "origin": self.origin,
+            "previous": self.previous,
+            "signature": self.signature,
+            "work": self.work,
+            "fee": self.fee.stringValue,
+            "sequence": self.sequence.stringValue,
+            "next": GENESIS_HASH,
+        ]
     }
 
     func sign(with keys: KeyPair) -> Bool {
         guard
-            let hash = self.hash.hexData,
+            let hashItems = self.hashItems,
+            let hash = NaCl.digest(hashItems, outputLength: HASH_BYTES),
             let signatureData = NaCl.sign(hash, secret: keys.secretKey)
         else {
             return false
         }
 
-        self.signature = signatureData.hexString
+        self.hash = hash.hexString.uppercased()
+        self.signature = signatureData.hexString.uppercased()
         return NaCl.verify(hash, signature: signatureData, publicKey: keys.publicKey)
     }
+
+    var hashItems: [Data]? {
+        guard
+            let originData = self.originData,
+            let previousData = self.previousData,
+            let feeData = self.feeData,
+            let sequenceData = self.sequenceData
+        else {
+            return nil
+        }
+
+        return [
+            self.type.data,
+            originData,
+            previousData,
+            feeData,
+            sequenceData.byteSwap()
+        ]
+    }
+
 }

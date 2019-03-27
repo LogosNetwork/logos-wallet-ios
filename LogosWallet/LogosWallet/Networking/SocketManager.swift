@@ -142,7 +142,7 @@ struct Decoda {
 enum LogosRPCService {
 
     case accountInfo(account: String)
-    case process(block: BlockAdapter)
+    case process(block: RequestAdapter)
     case subscribe(account: String)
 
     var payload: String? {

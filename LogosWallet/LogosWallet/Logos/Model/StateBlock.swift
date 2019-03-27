@@ -10,7 +10,7 @@ import Foundation
 
 // https://github.com/LogosNetwork/logos-core/blob/d00ac73ea5ff59d8cd819ab2d4e91f8372fa3b49/logos/consensus/messages/state_block.hpp
 
-struct StateBlock: BlockAdapter {
+struct StateBlock: RequestAdapter {
 
     enum RequestType: UInt8 {
         case send

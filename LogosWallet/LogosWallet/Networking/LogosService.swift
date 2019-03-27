@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-protocol BlockAdapter {
+protocol RequestAdapter {
     var json: [String: Any] { get }
 }
 
@@ -25,7 +25,7 @@ struct BlockCreateParameters {
 
 enum LogosService {
     case serverStatus
-    case process(block: BlockAdapter)
+    case process(request: RequestAdapter)
     case generateWork(hash: String)
     case accountHistory(address: String, count: Int)
     case ledger(address: String, count: Int)
