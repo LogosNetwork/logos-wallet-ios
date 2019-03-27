@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol AccountViewControllerDelegate: class {
-    func transactionTapped(txInfo: HistoryTransactionBlock)
+    func transactionTapped(txInfo: TransactionRequest)
     func editRepTapped(account: LogosAccount)
     func sendTapped(account: LogosAccount)
     func receiveTapped(account: LogosAccount)

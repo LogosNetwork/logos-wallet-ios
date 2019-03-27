@@ -33,8 +33,8 @@ class AccountViewModel {
     private(set) var isFetching = false
     private(set) var account: LogosAccount
     private(set) var accountHistory: LogosAccountHistory?
-    private(set) var chain = [HistoryTransactionBlock]()
-    private(set) var refinedChain = [HistoryTransactionBlock]()
+    private(set) var chain = [TransactionRequest]()
+    private(set) var refinedChain = [TransactionRequest]()
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
     var isShowingSecondary: Bool {
@@ -72,7 +72,7 @@ class AccountViewModel {
         self.refinedChain = self.chain
     }
     
-    subscript(index: Int) -> HistoryTransactionBlock? {
+    subscript(index: Int) -> TransactionRequest? {
         guard index < self.refinedChain.count else { return nil }
         return self.refinedChain[index]
     }

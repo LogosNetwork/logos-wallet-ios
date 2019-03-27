@@ -31,7 +31,7 @@ class BlockInfoViewController: TransparentNavViewController {
 
     lazy var scrollView: UIScrollView = UIScrollView()
     private var isSend: Bool {
-        return self.account.address == self.viewModel.info.account
+        return self.account.address == self.viewModel.info.origin
     }
     
     init(viewModel: BlockInfoViewModel, account: LogosAccount) {
@@ -95,7 +95,7 @@ class BlockInfoViewController: TransparentNavViewController {
         contentView.addSubview(mainStack)
         scrollView.addSubview(contentView)
 
-        let blockStack = buildSubStack("BLOCK", value: viewModel.info.blockHash)
+        let blockStack = buildSubStack("BLOCK", value: viewModel.info.hash)
         mainStack.addArrangedSubview(blockStack)
 
         typeLabel.snp.makeConstraints { (make) in
@@ -129,7 +129,7 @@ class BlockInfoViewController: TransparentNavViewController {
         }
 
         if self.isSend == false {
-            let originStack = self.buildSubStack("ORIGIN", value: self.viewModel.model?.account ?? "")
+            let originStack = self.buildSubStack("ORIGIN", value: self.viewModel.model?.origin ?? "")
             self.mainStack.addArrangedSubview(originStack)
         }
         
@@ -138,17 +138,17 @@ class BlockInfoViewController: TransparentNavViewController {
         mainStack.addArrangedSubview(buildSubStack("PREVIOUS", value: self.viewModel.model?.previous))
         mainStack.addArrangedSubview(buildSubStack("SIGNATURE", value: self.viewModel.model?.signature))
         if self.viewModel.isMultiTx {
-            model.transactions.enumerated().forEach { (index, tx) in
-                let targetStack = self.buildSubStack("RECIPIENT \(index + 1)", value: tx.target)
+            model.transactions?.enumerated().forEach { (index, tx) in
+                let targetStack = self.buildSubStack("RECIPIENT \(index + 1)", value: tx.destination)
                 self.mainStack.addArrangedSubview(targetStack)
                 let amountStack = self.buildSubStack("AMOUNT \(index + 1)", value: tx.amount.decimalNumber.mlgsString.formattedAmount)
                 self.mainStack.addArrangedSubview(amountStack)
             }
         } else {
-            let targetStack = buildSubStack("RECIPIENT", value: model.transactions.first?.target ?? "")
+            let targetStack = buildSubStack("RECIPIENT", value: model.transaction?.destination ?? "")
             mainStack.addArrangedSubview(targetStack)
 
-            let amount = viewModel.info.amount.decimalNumber.mlgsString.formattedAmount
+            let amount = viewModel.info.amountTotal(for: self.account.address!).mlgsString.formattedAmount
             let amountStack = buildSubStack("AMOUNT", value: amount + " \(CURRENCY_NAME)")
             mainStack.addArrangedSubview(amountStack)
         }
@@ -168,7 +168,7 @@ class BlockInfoViewController: TransparentNavViewController {
     // MARK: - Actions
     
     @objc func externalTapped() {
-        guard let url = URL(string: BLOCK_EXPLORER_URL + viewModel.info.blockHash) else { return }
+        guard let url = URL(string: BLOCK_EXPLORER_URL + viewModel.info.hash) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     

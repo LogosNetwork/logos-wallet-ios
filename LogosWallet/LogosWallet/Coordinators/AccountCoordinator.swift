@@ -55,11 +55,11 @@ extension AccountCoordinator: AccountViewControllerDelegate {
         receiveCoordinator.start()
     }
     
-    func transactionTapped(txInfo: HistoryTransactionBlock) {
+    func transactionTapped(txInfo: TransactionRequest) {
         Lincoln.log()
         // TODO
-//        let blockInfoVC = BlockInfoViewController(viewModel: BlockInfoViewModel(with: txInfo), account: self.account)
-//        navController.pushViewController(blockInfoVC, animated: true)
+        let blockInfoVC = BlockInfoViewController(viewModel: BlockInfoViewModel(with: txInfo), account: self.account)
+        self.navController.pushViewController(blockInfoVC, animated: true)
     }
     
     func editRepTapped(account: LogosAccount) {

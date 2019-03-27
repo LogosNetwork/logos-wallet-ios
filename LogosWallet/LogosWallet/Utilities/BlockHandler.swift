@@ -12,7 +12,7 @@ import RxSwift
 class BlockHandler {
 
     static let shared = BlockHandler()
-    let incomingBlockSubject = PublishSubject<TransactionBlock>()
+    let incomingBlockSubject = PublishSubject<TransactionRequest>()
 
     enum BlockHandlerError: Error {
         case proofOfWork
@@ -76,24 +76,27 @@ class BlockHandler {
 
     func handleIncoming(blockData: Data, for address: String) {
         guard
-            let transactionBlock = Decoda.decode(TransactionBlock.self, strategy: .useDefaultKeys, from: blockData),
+            let transactionRequest = Decoda.decode(TransactionRequest.self, strategy: .useDefaultKeys, from: blockData),
             let account = WalletManager.shared.accounts.first(where: { $0.address == address })
         else {
             return
         }
 
-        if WalletManager.shared.accounts.filter({ $0.address == transactionBlock.account }).isEmpty {
+        if WalletManager.shared.accounts.filter({ $0.address == transactionRequest.origin }).isEmpty {
             // play receive sound for when sender address is not from this wallet
             SoundManager.shared.play(.receive)
         }
         NetworkAdapter.accountInfo2(for: address) { [weak self] (info, error) in
             guard let accountInfo = info else { return }
             LogosStore.update(account: address, info: accountInfo)
-            NetworkAdapter.getAccountHistory(account: address, count: 10) { chain, _ in
+            NetworkAdapter.getAccountHistory2(account: address, count: 10) { history, _ in
                 // TODO
 //                PersistentStore.updateBlockHistory(for: account, history: chain.compactMap({ $0.simpleBlock(account: address) }))
+                if let history = history {
+                    LogosStore.updateHistory(for: address, history: history)
+                }
                 WalletManager.shared.updateAccounts()
-                self?.incomingBlockSubject.onNext(transactionBlock)
+                self?.incomingBlockSubject.onNext(transactionRequest)
             }
         }
     }

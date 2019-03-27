@@ -9,8 +9,8 @@
 import Foundation
 
 class BlockInfoViewModel {
-    let info: SimpleBlockBridge
-    private(set) var model: TransactionBlock?
+    let info: TransactionRequest
+    private(set) var model: TransactionRequest?
     var localizedDate: String? {
         guard
             let timestamp = model?.timestamp,
@@ -22,15 +22,15 @@ class BlockInfoViewModel {
         return DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .short)
     }
     var isMultiTx: Bool {
-        return self.model?.transactions.count ?? 0 > 1
+        return self.model?.transactions != nil
     }
 
-    init(with info: SimpleBlockBridge) {
+    init(with info: TransactionRequest) {
         self.info = info
     }
     
     func fetch(_ completion: @escaping () -> Void) {
-        NetworkAdapter.blockInfo(hash: info.blockHash) { [weak self] (info, error) in
+        NetworkAdapter.blockInfo(hash: self.info.hash) { [weak self] (info, error) in
             guard error == nil else {
                 Banner.show(error?.localizedDescription ?? "Fetch error", style: .danger)
                 completion()

@@ -73,10 +73,10 @@ public struct NetworkAdapter {
 
     // MARK: - Logos
 
-    static func blockInfo(hash: String, completion: @escaping (TransactionBlock?, APIError?) -> Void) {
+    static func blockInfo(hash: String, completion: @escaping (TransactionRequest?, APIError?) -> Void) {
         request(target: .block(hash: hash), success:  { (response) in
             do {
-                let block = try JSONDecoder().decode(TransactionBlock.self, from: response.data)
+                let block = try JSONDecoder().decode(TransactionRequest.self, from: response.data)
                 completion(block, nil)
             } catch {
                 completion(nil, .badResponse)
@@ -153,22 +153,22 @@ public struct NetworkAdapter {
         })
     }
     
-    static func getAccountHistory(account: String, count: Int, completion: @escaping ([TransactionBlock], Error?) -> Void) {
-        request(target: .accountHistory(address: account, count: count), success: { (response) in
-            let history: [TransactionBlock]
-            var error: Error?
-            if let accountHistory = Decoda.decode(AccountHistory.self, strategy: .useDefaultKeys, from: response.data) {
-                history = accountHistory.history
-            } else {
-                history = []
-                if let errorJson = try? response.mapJSON() as? [String: String],
-                    let errorString = errorJson?["error"] {
-                    error = NSError(domain: "NetworkAdapter", code: 1337, userInfo: [NSLocalizedDescriptionKey: errorString])
-                }
-            }
-            completion(history, error)
-        })
-    }
+//    static func getAccountHistory(account: String, count: Int, completion: @escaping ([TransactionBlock], Error?) -> Void) {
+//        request(target: .accountHistory(address: account, count: count), success: { (response) in
+//            let history: [TransactionBlock]
+//            var error: Error?
+//            if let accountHistory = Decoda.decode(AccountHistory.self, strategy: .useDefaultKeys, from: response.data) {
+//                history = accountHistory.history
+//            } else {
+//                history = []
+//                if let errorJson = try? response.mapJSON() as? [String: String],
+//                    let errorString = errorJson?["error"] {
+//                    error = NSError(domain: "NetworkAdapter", code: 1337, userInfo: [NSLocalizedDescriptionKey: errorString])
+//                }
+//            }
+//            completion(history, error)
+//        })
+//    }
 
     static func getAccountHistory2(account: String, count: Int, completion: @escaping (LogosAccountHistory?, Error?) -> Void) {
         request(target: .accountHistory2(address: account, count: count), success: { (response) in

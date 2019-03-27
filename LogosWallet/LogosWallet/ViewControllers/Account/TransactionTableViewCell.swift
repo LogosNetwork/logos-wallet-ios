@@ -23,7 +23,7 @@ class TransactionTableViewCell: UITableViewCell {
         self.alpha = selected ? 0.3 : 1.0
     }
     
-    func prepare(with tx: HistoryTransactionBlock?, owner: String, useSecondaryCurrency: Bool) {
+    func prepare(with tx: TransactionRequest?, owner: String, useSecondaryCurrency: Bool) {
         guard let tx = tx else {
             return
         }

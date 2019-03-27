@@ -10,21 +10,21 @@ import Foundation
 
 struct LogosAccountHistory: Codable {
     let account: String
-    let history: [HistoryTransactionBlock]
+    let history: [TransactionRequest]
     let previous: String?
 }
 
-struct HistoryTransactionBlock: Codable {
+struct TransactionRequest: Codable {
     let type: String
     let origin: String
     let previous, fee, sequence, signature: String
     let work, next, hash, requestBlockHash: String
     let requestBlockIndex: String
     let numberTransactions: String?
-    let transactions: [HistoryTransaction]?
+    let transactions: [Transaction]?
     let timestamp: String
     let tokenID: String?
-    let transaction: HistoryTransaction?
+    let transaction: Transaction?
     let tokenFee: String?
 
     enum CodingKeys: String, CodingKey {
@@ -39,12 +39,12 @@ struct HistoryTransactionBlock: Codable {
     }
 }
 
-struct HistoryTransaction: Codable {
+struct Transaction: Codable {
     let destination: String
     let amount: String
 }
 
-extension HistoryTransactionBlock {
+extension TransactionRequest {
 
     func isReceive(of account: String) -> Bool {
         return origin != account
@@ -54,7 +54,7 @@ extension HistoryTransactionBlock {
         if let transaction = self.transaction {
             return transaction.amount.decimalNumber
         } else {
-            let transactions: [HistoryTransaction]
+            let transactions: [Transaction]
             if self.isReceive(of: account) {
                 transactions = self.transactions?.compactMap { $0 }.filter { $0.destination == account } ?? []
             } else {
