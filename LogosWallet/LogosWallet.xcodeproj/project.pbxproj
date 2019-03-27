@@ -86,6 +86,8 @@
 		A78085602244A7AB00A8B1E6 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780855F2244A7AB00A8B1E6 /* Storage.swift */; };
 		A78085622244AEFF00A8B1E6 /* LogosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78085612244AEFF00A8B1E6 /* LogosStore.swift */; };
 		A7808565224813D900A8B1E6 /* LogosAccountHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */; };
+		A7808567224A064700A8B1E6 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808566224A064700A8B1E6 /* Request.swift */; };
+		A780856A224A06E600A8B1E6 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808569224A06E600A8B1E6 /* SendRequest.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -276,6 +278,8 @@
 		A780855F2244A7AB00A8B1E6 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		A78085612244AEFF00A8B1E6 /* LogosStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosStore.swift; sourceTree = "<group>"; };
 		A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosAccountHistory.swift; sourceTree = "<group>"; };
+		A7808566224A064700A8B1E6 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		A7808569224A06E600A8B1E6 /* SendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -421,6 +425,7 @@
 		A73298202009AF9800B21C8D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A7808568224A06CB00A8B1E6 /* Request */,
 				A768B9A620225DAC00620B62 /* TxInfo.swift */,
 				A73298252009F29B00B21C8D /* AccountHistory.swift */,
 				A749FCEF2089980000AB7D9C /* BlockInfo.swift */,
@@ -590,6 +595,15 @@
 				A7322676220F87AA00B2EA69 /* StateBlockTests.swift */,
 			);
 			path = LogosWalletTests;
+			sourceTree = "<group>";
+		};
+		A7808568224A06CB00A8B1E6 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				A7808566224A064700A8B1E6 /* Request.swift */,
+				A7808569224A06E600A8B1E6 /* SendRequest.swift */,
+			);
+			path = Request;
 			sourceTree = "<group>";
 		};
 		A79116EA2015757600890432 /* QR */ = {
@@ -1173,6 +1187,7 @@
 				A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */,
 				A757A250211A9DA600A9C688 /* AccountInfoResponse.swift in Sources */,
 				A79116FF20173C4400890432 /* AddressEntry.swift in Sources */,
+				A780856A224A06E600A8B1E6 /* SendRequest.swift in Sources */,
 				A76AC7B4202AD7C000C7CEE8 /* SettingsViewController.swift in Sources */,
 				A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */,
 				A76AC7C220301D8500C7CEE8 /* CurrencySelectViewController.swift in Sources */,
@@ -1186,6 +1201,7 @@
 				A72EBDA31FFCCF4200407E6D /* AccountsViewController.swift in Sources */,
 				A768B9A92022E10800620B62 /* AccountCoordinator.swift in Sources */,
 				A73065242045321E00A49C03 /* URLHandler.swift in Sources */,
+				A7808567224A064700A8B1E6 /* Request.swift in Sources */,
 				A7B327FA200331BD00E0E360 /* TransparentNavigationTransition.swift in Sources */,
 				A7B858EE20338B6200698FAE /* ConsoleViewController.swift in Sources */,
 				A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */,
