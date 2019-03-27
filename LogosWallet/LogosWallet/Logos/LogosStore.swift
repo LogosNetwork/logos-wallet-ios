@@ -35,8 +35,8 @@ class LogosStore {
         return accounts.compactMap { Storage.retrieve(StorageKey.accounts.rawValue + "/\($0)/info", as: LogosAccountInfo.self) }
     }
 
-    static func update(account: String, info: LogosAccountInfo) {
-        Storage.store(info, as: "info", directoryPath: StorageKey.accounts.rawValue + "/\(account)")
+    static func update(account: String, info: LogosAccountInfo, completion: (() -> Void)? = nil) {
+        Storage.store(info, as: "info", directoryPath: StorageKey.accounts.rawValue + "/\(account)", completion: completion)
     }
 
     // MARK: - Account History

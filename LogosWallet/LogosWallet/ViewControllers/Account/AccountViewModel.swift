@@ -59,7 +59,6 @@ class AccountViewModel {
         }
     }
     private(set) var refineType: RefineType = .latestFirst
-    var onNewBlockBroadcasted: (() -> Void)?
     var updateView: (() -> Void)?
     
     var count: Int {
@@ -86,12 +85,13 @@ class AccountViewModel {
             return
         }
         NetworkAdapter.accountInfo2(for: address) { [weak self] (accountInfo, _) in
-            defer { completion?() }
             guard let info = accountInfo else {
+                completion?()
                 return
             }
             self?.account.info = info
             LogosStore.update(account: address, info: info)
+            completion?()
         }
     }
     

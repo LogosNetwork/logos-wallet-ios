@@ -180,7 +180,7 @@ extension LogosMQTT: MQTTSessionDelegate {
 
         if topic.contains("account/") {
             let account = topic.replacingOccurrences(of: "account/", with: "")
-            BlockHandler.shared.handleIncoming(blockData: data, for: account)
+            RequestHandler.shared.handleIncoming(requestData: data, for: account)
         }
     }
 }

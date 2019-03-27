@@ -51,8 +51,8 @@ class AccountsViewController: UIViewController {
             }
         }
 
-        BlockHandler.shared
-            .incomingBlockSubject
+        RequestHandler.shared
+            .incomingRequestSubject
             .subscribe(onNext: { [weak self] _ in
                 self?.updateAccounts()
             }).disposed(by: self.disposeBag)

@@ -20,7 +20,7 @@ class Storage {
 
     fileprivate init() { }
 
-    static func store<T: Encodable>(_ object: T, as fileName: String, directoryPath: String? = nil) {
+    static func store<T: Encodable>(_ object: T, as fileName: String, directoryPath: String? = nil, completion: (() -> Void)? = nil) {
         DispatchQueue.global(qos: .userInitiated).async {
             let encoder = JSONEncoder()
             do {
@@ -40,8 +40,13 @@ class Storage {
                     try FileManager.default.removeItem(at: url)
                 }
                 FileManager.default.createFile(atPath: url.path, contents: data, attributes: nil)
+                DispatchQueue.main.async {
+                    completion?()
+                }
             } catch {
-
+                DispatchQueue.main.async {
+                    completion?()
+                }
             }
         }
     }

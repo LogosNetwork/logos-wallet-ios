@@ -18,13 +18,12 @@
 		A72699BA21BE2F8A00C0B09B /* LogosMQTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */; };
 		A726C2811FFCD5D400E73C18 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726C27F1FFCD5D400E73C18 /* AccountTableViewCell.swift */; };
 		A726C2821FFCD5D400E73C18 /* AccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A726C2801FFCD5D400E73C18 /* AccountTableViewCell.xib */; };
-		A72BC4ED20A5731000AE3C4A /* BlockHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */; };
+		A72BC4ED20A5731000AE3C4A /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BC4EC20A5731000AE3C4A /* RequestHandler.swift */; };
 		A72EBDA31FFCCF4200407E6D /* AccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72EBDA11FFCCF4200407E6D /* AccountsViewController.swift */; };
 		A72EBDA41FFCCF4200407E6D /* AccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A72EBDA21FFCCF4200407E6D /* AccountsViewController.xib */; };
 		A730652220438B8400A49C03 /* EnterAddressEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */; };
 		A73065242045321E00A49C03 /* URLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73065232045321E00A49C03 /* URLHandler.swift */; };
 		A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */; };
-		A7322675220EA2EB00B2EA69 /* StateBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322674220EA2EB00B2EA69 /* StateBlock.swift */; };
 		A7322677220F87AA00B2EA69 /* StateBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322676220F87AA00B2EA69 /* StateBlockTests.swift */; };
 		A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */; };
 		A7329814200756A300B21C8D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329812200756A300B21C8D /* AccountViewController.swift */; };
@@ -203,13 +202,12 @@
 		A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosMQTT.swift; sourceTree = "<group>"; };
 		A726C27F1FFCD5D400E73C18 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		A726C2801FFCD5D400E73C18 /* AccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountTableViewCell.xib; sourceTree = "<group>"; };
-		A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockHandler.swift; sourceTree = "<group>"; };
+		A72BC4EC20A5731000AE3C4A /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		A72EBDA11FFCCF4200407E6D /* AccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsViewController.swift; sourceTree = "<group>"; };
 		A72EBDA21FFCCF4200407E6D /* AccountsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountsViewController.xib; sourceTree = "<group>"; };
 		A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAddressEntryViewModel.swift; sourceTree = "<group>"; };
 		A73065232045321E00A49C03 /* URLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHandler.swift; sourceTree = "<group>"; };
 		A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookCoordinator.swift; sourceTree = "<group>"; };
-		A7322674220EA2EB00B2EA69 /* StateBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlock.swift; sourceTree = "<group>"; };
 		A7322676220F87AA00B2EA69 /* StateBlockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlockTests.swift; sourceTree = "<group>"; };
 		A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		A73229CF20B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -432,7 +430,6 @@
 				A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */,
 				A757A24F211A9DA600A9C688 /* AccountInfoResponse.swift */,
 				A77CDF5421BA4679004940A0 /* TransactionBlock.swift */,
-				A7322674220EA2EB00B2EA69 /* StateBlock.swift */,
 				A7071E7C224218FF00A353ED /* LogosAccountInfo.swift */,
 				A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */,
 			);
@@ -739,7 +736,7 @@
 				A7EB8F5C20664BA1004463FC /* PasswordChecker.swift */,
 				A70E8E052097B7FF00372394 /* DataExporter.swift */,
 				A7EAC9CF209B9CDA00EE1F14 /* Secure.swift */,
-				A72BC4EC20A5731000AE3C4A /* BlockHandler.swift */,
+				A72BC4EC20A5731000AE3C4A /* RequestHandler.swift */,
 				A780855F2244A7AB00A8B1E6 /* Storage.swift */,
 			);
 			path = Utilities;
@@ -1193,7 +1190,6 @@
 				A76AC7C220301D8500C7CEE8 /* CurrencySelectViewController.swift in Sources */,
 				A7B327F52001D4AA00E0E360 /* StartViewController.swift in Sources */,
 				A79116FA20172FB100890432 /* AddressItemTableViewCell.swift in Sources */,
-				A7322675220EA2EB00B2EA69 /* StateBlock.swift in Sources */,
 				A78085602244A7AB00A8B1E6 /* Storage.swift in Sources */,
 				A76AC7AF202AC0CA00C7CEE8 /* EnterAddressEntryViewController.swift in Sources */,
 				A79116F020157A4800890432 /* SendCoordinator.swift in Sources */,
@@ -1256,7 +1252,7 @@
 				A76AC7AC202A549E00C7CEE8 /* SimpleBlock.swift in Sources */,
 				A732981F2008769200B21C8D /* AccountsCoordinator.swift in Sources */,
 				A730652220438B8400A49C03 /* EnterAddressEntryViewModel.swift in Sources */,
-				A72BC4ED20A5731000AE3C4A /* BlockHandler.swift in Sources */,
+				A72BC4ED20A5731000AE3C4A /* RequestHandler.swift in Sources */,
 				A73298262009F29B00B21C8D /* AccountHistory.swift in Sources */,
 				A726C2811FFCD5D400E73C18 /* AccountTableViewCell.swift in Sources */,
 				A7EF84271FEDCC8300C74035 /* Coordinator.swift in Sources */,

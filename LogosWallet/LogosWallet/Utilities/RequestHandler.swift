@@ -9,12 +9,12 @@
 import Foundation
 import RxSwift
 
-class BlockHandler {
+class RequestHandler {
 
-    static let shared = BlockHandler()
-    let incomingBlockSubject = PublishSubject<TransactionRequest>()
+    static let shared = RequestHandler()
+    let incomingRequestSubject = PublishSubject<TransactionRequest>()
 
-    enum BlockHandlerError: Error {
+    enum RequestHandlerError: Error {
         case proofOfWork
         case process(String?)
         case unknown
@@ -27,7 +27,7 @@ class BlockHandler {
                 if let msg = msg {
                     return "Process (\(msg))"
                 } else {
-                    return "Something happened when processing the block"
+                    return "Something happened when processing the request"
                 }
             case .unknown: return "Unknown"
             case .alreadyInProgress: return "Broadcast already in progress"
@@ -36,18 +36,18 @@ class BlockHandler {
     }
     enum Result {
         case success(String)
-        case failure(BlockHandlerError)
+        case failure(RequestHandlerError)
     }
     
     fileprivate static var processing: Set<String> = []
     
-    static func handle(_ block: StateBlock, for account: String, completion: @escaping (BlockHandler.Result) -> Void) {
-        var block = block
+    static func handle(_ request: SendRequest, for account: String, completion: @escaping (RequestHandler.Result) -> Void) {
+        var request = request
         guard let accountPublic = WalletUtil.derivePublic(from: account) else {
             completion(.failure(.unknown))
             return
         }
-        let workInput = block.previous
+        let workInput = request.previous
         guard !processing.contains(workInput) else {
             completion(.failure(.alreadyInProgress))
             return
@@ -59,8 +59,8 @@ class BlockHandler {
                 completion(.failure(.proofOfWork))
                 return
             }
-            block.work = work
-            NetworkAdapter.process(request: block) { (blockHash, error) in
+            request.work = work
+            NetworkAdapter.process(request: request) { (blockHash, error) in
                 defer {
                     processing.remove(workInput)
                 }
@@ -74,10 +74,10 @@ class BlockHandler {
     }
 
 
-    func handleIncoming(blockData: Data, for address: String) {
+    func handleIncoming(requestData: Data, for address: String) {
         guard
-            let transactionRequest = Decoda.decode(TransactionRequest.self, strategy: .useDefaultKeys, from: blockData),
-            let account = WalletManager.shared.accounts.first(where: { $0.address == address })
+            let transactionRequest = Decoda.decode(TransactionRequest.self, strategy: .useDefaultKeys, from: requestData),
+            let _ = WalletManager.shared.accounts.first(where: { $0.address == address })
         else {
             return
         }
@@ -90,13 +90,11 @@ class BlockHandler {
             guard let accountInfo = info else { return }
             LogosStore.update(account: address, info: accountInfo)
             NetworkAdapter.getAccountHistory2(account: address, count: 10) { history, _ in
-                // TODO
-//                PersistentStore.updateBlockHistory(for: account, history: chain.compactMap({ $0.simpleBlock(account: address) }))
                 if let history = history {
                     LogosStore.updateHistory(for: address, history: history)
                 }
                 WalletManager.shared.updateAccounts()
-                self?.incomingBlockSubject.onNext(transactionRequest)
+                self?.incomingRequestSubject.onNext(transactionRequest)
             }
         }
     }

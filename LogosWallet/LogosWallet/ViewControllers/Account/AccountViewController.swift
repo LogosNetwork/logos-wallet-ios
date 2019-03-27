@@ -84,8 +84,8 @@ class AccountViewController: UIViewController {
             }
         }
 
-        BlockHandler.shared
-            .incomingBlockSubject
+        RequestHandler.shared
+            .incomingRequestSubject
             .subscribe(onNext: { [weak self] (incomingBlock) in
                 guard let strongSelf = self else { return }
                 strongSelf.viewModel = AccountViewModel(with: strongSelf.viewModel.account)
@@ -108,10 +108,6 @@ class AccountViewController: UIViewController {
     }
 
     func setupViewModel() {
-        self.viewModel.onNewBlockBroadcasted = { [weak self] in
-            self?.onNewBlockBroadcasted()
-        }
-
         self.viewModel.updateView = { [weak self] in
             self?.updateView()
         }
@@ -263,9 +259,12 @@ class AccountViewController: UIViewController {
         delegate?.receiveTapped(account: viewModel.account)
     }
     
-    func onNewBlockBroadcasted() {
+    func onRequestBroadcasted() {
         self.viewModel.getAccountInfo { [weak self] in
             self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+            self?.viewModel.getHistory { _ in
+                self?.tableView.reloadData()
+            }
         }
     }
     
