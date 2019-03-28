@@ -15,7 +15,7 @@ class Request: RequestAdapter {
     enum RequestType: UInt8 {
         case send
         case change
-        case tokenSend = 14
+        case tokenSend = 15
         case unknown = 0xff
 
         var data: Data {
@@ -82,7 +82,6 @@ class Request: RequestAdapter {
             "work": self.work,
             "fee": self.fee.stringValue,
             "sequence": self.sequence.stringValue,
-            "next": GENESIS_HASH,
         ]
     }
 
