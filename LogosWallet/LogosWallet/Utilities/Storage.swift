@@ -70,11 +70,15 @@ class Storage {
         }
     }
 
-    static func clearAll() {
-        let contents = try? FileManager.default.contentsOfDirectory(at: self.documentsUrl, includingPropertiesForKeys: nil, options: [])
+    static func clear(directory: URL) {
+        let contents = try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: [])
         contents?
             .compactMap { $0 }
             .forEach { try? FileManager.default.removeItem(at: $0) }
+    }
+
+    static func clearAll() {
+        self.clear(directory: self.documentsUrl)
     }
 
 }
