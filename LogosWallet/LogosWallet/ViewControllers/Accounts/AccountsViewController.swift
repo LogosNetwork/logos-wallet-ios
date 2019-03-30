@@ -36,17 +36,12 @@ class AccountsViewController: UIViewController {
         navigationController?.delegate = self
 
         WalletManager.shared.accounts.forEach { account in
-            guard let address = account.address else {
-                return
-            }
-            SocketManager.shared.action(.subscribe(account: address))
-            NetworkAdapter.accountInfo(for: address) { [weak self] (info, error) in
+            SocketManager.shared.action(.subscribe(account: account.lgsAddress))
+            NetworkAdapter.accountInfo2(for: account.lgsAddress) { [weak self] (info, error) in
                 if let info = info {
-//                    PersistentStore.write {
-//                        account.balance = info.balance
-//                        account.frontier = info.frontier
-//                    }
-                    self?.updateAccounts()
+                    LogosStore.update(account: account.lgsAddress, info: info) {
+                        self?.updateAccounts()
+                    }
                 }
             }
         }

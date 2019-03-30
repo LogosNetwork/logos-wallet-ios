@@ -117,23 +117,15 @@ class AccountViewModel {
     }
 
     func repair(_ completion: @escaping () -> Void) {
-//        PersistentStore.removeBlockHistory(for: account.address)
-//        refined = []
-//        history = []
-//        blockCheck.removeAll()
-//
-//        PersistentStore.write {
-//            self.account.repair()
-//        }
-//        getHistory { _ in
-//            if !self.history.isEmpty {
-//                self.getAccountInfo {
-//                    completion()
-//                }
-//            } else {
-//                completion()
-//            }
-//        }
+        LogosStore.clearAccountData(for: self.account.lgsAddress)
+        self.refinedChain = []
+        self.chain = []
+        self.account.info = nil
+        self.getAccountInfo { [weak self] in
+            self?.getHistory { _ in
+                completion()
+            }
+        }
     }
     
     func refine(_ type: RefineType) {

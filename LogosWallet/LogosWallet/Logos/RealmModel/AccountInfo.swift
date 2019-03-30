@@ -19,6 +19,10 @@ class LogosAccount: Object {
 
 extension LogosAccount {
 
+    var lgsAddress: String {
+        return self.address ?? ""
+    }
+
     var requestCount: Int {
         return Int(self.info?.requestCount ?? "0") ?? 0
     }

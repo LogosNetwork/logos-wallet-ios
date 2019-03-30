@@ -206,12 +206,11 @@ final class WalletManager {
     }
 
     func resetAllAccounts() {
-//        self.accounts.forEach { account in
-//            PersistentStore.removeBlockHistory(for: account.address)
-//            PersistentStore.write {
-//                account.repair()
-//            }
-//        }
+        self.accounts.forEach {
+            LogosStore.clearAccountData(for: $0.lgsAddress)
+        }
+
+        self.accounts = self.bootstrapAccounts()
     }
 
     private func bootstrapAccounts() -> [LogosAccount] {
