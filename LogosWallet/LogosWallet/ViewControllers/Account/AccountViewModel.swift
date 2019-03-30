@@ -67,7 +67,7 @@ class AccountViewModel {
     
     init(with account: LogosAccount) {
         self.account = account
-        self.chain = LogosStore.getHistory(for: self.account.address)?.history ?? []
+        self.chain = LogosStore.getHistory(for: self.account.lgsAddress)?.history ?? []
         self.refinedChain = self.chain
     }
     
@@ -81,11 +81,11 @@ class AccountViewModel {
     }
 
     func getAccountInfo(completion: (() -> Void)? = nil) {
-        guard let address = self.account.address else {
-            return
-        }
-        NetworkAdapter.accountInfo2(for: address) { [weak self] (accountInfo, _) in
-            guard let info = accountInfo else {
+        NetworkAdapter.accountInfo2(for: self.account.lgsAddress) { [weak self] (accountInfo, _) in
+            guard
+                let info = accountInfo,
+                let address = self?.account.lgsAddress
+            else {
                 completion?()
                 return
             }
@@ -96,10 +96,7 @@ class AccountViewModel {
     }
     
     func getHistory(completion: @escaping (Error?) -> Void) {
-        guard let address = self.account.address else {
-            return
-        }
-        NetworkAdapter.getAccountHistory2(account: address, count: self.account.requestCount + 1) { (history, error) in
+        NetworkAdapter.getAccountHistory2(account: self.account.lgsAddress, count: self.account.requestCount + 1) { (history, error) in
             if let error = error {
                 // TEMP: ignore error if no previous block history exists, otherwise assume that the testnet has been reset
                 if self.account.requestCount > 0, (error as NSError).code == 1337, history?.history.isEmpty ?? true {
@@ -110,7 +107,7 @@ class AccountViewModel {
             } else if let history = history {
                 self.chain = history.history
                 self.refinedChain = history.history
-                LogosStore.updateHistory(for: address, history: history)
+                LogosStore.updateHistory(for: self.account.lgsAddress, history: history)
                 completion(nil)
             }
         }
@@ -129,25 +126,22 @@ class AccountViewModel {
     }
     
     func refine(_ type: RefineType) {
-        guard let address = self.account.address else {
-            return
-        }
         switch type {
         case .latestFirst:
             self.refinedChain = self.chain
         case .oldestFirst:
             self.refinedChain = self.chain.reversed()
         case .received:
-            self.refinedChain = self.chain.filter { $0.isReceive(of: address) }
+            self.refinedChain = self.chain.filter { $0.isReceive(of: self.account.lgsAddress) }
         case .sent:
-            self.refinedChain = self.chain.filter { !$0.isReceive(of: address) }
+            self.refinedChain = self.chain.filter { !$0.isReceive(of: self.account.lgsAddress) }
         case .largestFirst:
             self.refinedChain = self.chain.sorted(by: { (blockA, blockB) -> Bool in
-                return blockA.amountTotal(for: address).compare(blockB.amountTotal(for: address)) == .orderedDescending
+                return blockA.amountTotal(for: self.account.lgsAddress).compare(blockB.amountTotal(for: self.account.lgsAddress)) == .orderedDescending
             })
         case .smallestFirst:
             self.refinedChain = self.chain.sorted(by: { (blockA, blockB) -> Bool in
-                return blockA.amountTotal(for: address).compare(blockB.amountTotal(for: address)) == .orderedAscending
+                return blockA.amountTotal(for: self.account.lgsAddress).compare(blockB.amountTotal(for: self.account.lgsAddress)) == .orderedAscending
             })
         }
         refineType = type

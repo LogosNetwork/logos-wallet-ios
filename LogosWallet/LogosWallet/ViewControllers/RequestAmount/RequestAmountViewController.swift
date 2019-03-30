@@ -111,12 +111,17 @@ class RequestAmountViewController: UIViewController {
     }
     
     @IBAction func shareTapped(_ sender: Any) {
-        guard let address = account.address, let amount = amountLabel?.text, var value = Double(amount) else { return }
+        guard
+            let amount = amountLabel?.text,
+            var value = Double(amount)
+        else {
+            return
+        }
         if isShowingSecondary {
             value = value / Currency.secondaryConversionRate
         }
         var items: [Any] = []
-        let shareText: String = "Amount to send: \(value.chopDecimal(to: 6)) \(CURRENCY_NAME)\nAddress: \(address)"
+        let shareText: String = "Amount to send: \(value.chopDecimal(to: 6)) \(CURRENCY_NAME)\nAddress: \(self.account.lgsAddress)"
         if let image = qrImageView?.image?.maskWithColor(.black) {
             items.append(image)
         }

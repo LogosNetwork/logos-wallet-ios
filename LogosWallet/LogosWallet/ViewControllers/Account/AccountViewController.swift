@@ -395,11 +395,8 @@ extension AccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let address = self.viewModel.account.address else {
-            return UITableViewCell()
-        }
         let cell = tableView.dequeueReusableCell(TransactionTableViewCell.self, for: indexPath)
-        cell.prepare(with: self.viewModel[indexPath.section], owner: address, useSecondaryCurrency: self.viewModel.isShowingSecondary)
+        cell.prepare(with: self.viewModel[indexPath.section], owner: self.viewModel.account.lgsAddress, useSecondaryCurrency: self.viewModel.isShowingSecondary)
         return cell
     }
 }

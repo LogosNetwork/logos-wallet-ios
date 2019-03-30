@@ -121,9 +121,8 @@ class ReceiveViewController: UIViewController {
     }
     
     @IBAction func shareTapped(_ sender: Any) {
-        guard let address = account.address else { return }
         var items: [Any] = []
-        let addressText: String = .localize("send-to-arg", arg:  address)
+        let addressText: String = .localize("send-to-arg", arg:  self.account.lgsAddress)
         if let image = qrCodeImageView?.image {
             items.append(image)
         }
