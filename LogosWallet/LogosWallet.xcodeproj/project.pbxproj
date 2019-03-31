@@ -87,6 +87,8 @@
 		A7808565224813D900A8B1E6 /* LogosAccountHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */; };
 		A7808567224A064700A8B1E6 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808566224A064700A8B1E6 /* Request.swift */; };
 		A780856A224A06E600A8B1E6 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808569224A06E600A8B1E6 /* SendRequest.swift */; };
+		A780858A224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */; };
+		A780858C224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -278,6 +280,8 @@
 		A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosAccountHistory.swift; sourceTree = "<group>"; };
 		A7808566224A064700A8B1E6 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		A7808569224A06E600A8B1E6 /* SendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
+		A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewFlowLayout.swift; sourceTree = "<group>"; };
+		A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -416,6 +420,8 @@
 				A732981620075B7100B21C8D /* AccountViewController.xib */,
 				A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */,
 				A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */,
+				A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */,
+				A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -1196,6 +1202,7 @@
 				A7EF841E1FED915000C74035 /* WalletManager.swift in Sources */,
 				A72EBDA31FFCCF4200407E6D /* AccountsViewController.swift in Sources */,
 				A768B9A92022E10800620B62 /* AccountCoordinator.swift in Sources */,
+				A780858C224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift in Sources */,
 				A73065242045321E00A49C03 /* URLHandler.swift in Sources */,
 				A7808567224A064700A8B1E6 /* Request.swift in Sources */,
 				A7B327FA200331BD00E0E360 /* TransparentNavigationTransition.swift in Sources */,
@@ -1215,6 +1222,7 @@
 				A7EF841B1FED8A5000C74035 /* Keychain.swift in Sources */,
 				A76AC7BB202ADB2100C7CEE8 /* SettingsCoordinator.swift in Sources */,
 				A79116F62017264000890432 /* AddressBookViewController.swift in Sources */,
+				A780858A224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift in Sources */,
 				A73298242009F22B00B21C8D /* AccountViewModel.swift in Sources */,
 				A7EB8F6120684645004463FC /* PasswordViewController.swift in Sources */,
 				A768B9A4202194B300620B62 /* Banner.swift in Sources */,
@@ -1439,7 +1447,7 @@
 					"$(PROJECT_DIR)/$(TARGET_NAME)/ThirdParty",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/LogosWallet/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.thelogoswallet;
@@ -1468,7 +1476,7 @@
 					"$(PROJECT_DIR)/$(TARGET_NAME)/ThirdParty",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/LogosWallet/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.prometheanlabs.thelogoswallet;
