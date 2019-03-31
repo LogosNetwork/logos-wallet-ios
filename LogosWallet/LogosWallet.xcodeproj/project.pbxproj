@@ -27,7 +27,6 @@
 		A7322677220F87AA00B2EA69 /* StateBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322676220F87AA00B2EA69 /* StateBlockTests.swift */; };
 		A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */; };
 		A7329814200756A300B21C8D /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7329812200756A300B21C8D /* AccountViewController.swift */; };
-		A732981720075B7100B21C8D /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981620075B7100B21C8D /* AccountViewController.xib */; };
 		A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */; };
 		A732981B20086B4D00B21C8D /* TransactionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */; };
 		A732981F2008769200B21C8D /* AccountsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A732981E2008769200B21C8D /* AccountsCoordinator.swift */; };
@@ -215,7 +214,6 @@
 		A73229CF20B6238B00CACB3A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A73229D120B623B400CACB3A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7329812200756A300B21C8D /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		A732981620075B7100B21C8D /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTableViewCell.swift; sourceTree = "<group>"; };
 		A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionTableViewCell.xib; sourceTree = "<group>"; };
 		A732981E2008769200B21C8D /* AccountsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsCoordinator.swift; sourceTree = "<group>"; };
@@ -417,7 +415,6 @@
 			children = (
 				A73298232009F22B00B21C8D /* AccountViewModel.swift */,
 				A7329812200756A300B21C8D /* AccountViewController.swift */,
-				A732981620075B7100B21C8D /* AccountViewController.xib */,
 				A732981820086B4D00B21C8D /* TransactionTableViewCell.swift */,
 				A732981920086B4D00B21C8D /* TransactionTableViewCell.xib */,
 				A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */,
@@ -1009,7 +1006,6 @@
 				A7B858FE203408E200698FAE /* PasscodeViewController.xib in Resources */,
 				A7938276212D10FB0038286C /* hint.wav in Resources */,
 				A72EBDA41FFCCF4200407E6D /* AccountsViewController.xib in Resources */,
-				A732981720075B7100B21C8D /* AccountViewController.xib in Resources */,
 				A726C2821FFCD5D400E73C18 /* AccountTableViewCell.xib in Resources */,
 				A7EF84361FEE453700C74035 /* ReceiveViewController.xib in Resources */,
 			);

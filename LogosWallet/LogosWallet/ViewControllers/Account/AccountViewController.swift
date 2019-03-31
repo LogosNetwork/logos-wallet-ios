@@ -20,15 +20,40 @@ protocol AccountViewControllerDelegate: class {
 class AccountViewController: UIViewController {
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet weak var currencyTapBox: UIView?
-    @IBOutlet weak var receiveButton: UIButton?
-    @IBOutlet weak var sendButton: UIButton?
-    @IBOutlet weak var sortButton: UIButton?
-    @IBOutlet weak var totalBalanceTitleLabel: UILabel?
-    @IBOutlet weak var totalBalanceLabel: UILabel?
-    @IBOutlet weak var unitsLabel: UILabel?
+    lazy var receiveButton = with(UIButton(type: .custom)) {
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle(.localize("receive"), for: .normal)
+        $0.addTarget(self, action: #selector(self.receiveTapped(_:)), for: .touchUpInside)
+        $0.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
+        $0.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+    }
+    lazy var sendButton = with(UIButton(type: .custom)) {
+        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle(.localize("send"), for: .normal)
+        $0.addTarget(self, action: #selector(self.sendTapped(_:)), for: .touchUpInside)
+        $0.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
+        $0.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+    }
+    lazy var sortButton = with(UIButton(type: .custom)) {
+        $0.setTitle(self.viewModel.refineType.title, for: .normal)
+        $0.setImage(#imageLiteral(resourceName: "down").withRenderingMode(.alwaysTemplate), for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.addTarget(self, action: #selector(self.refineTapped(_:)), for: .touchUpInside)
+        $0.imageView?.tintColor = .white
+        $0.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .thin)
+    }
     fileprivate var refreshControl: UIRefreshControl?
-    @IBOutlet weak var tableView: UITableView!
+    lazy var tableView = with(UITableView()) {
+        $0.dataSource = self
+        $0.delegate = self
+        $0.estimatedRowHeight = 60
+        $0.rowHeight = UITableViewAutomaticDimension
+        $0.register(TransactionTableViewCell.self)
+        $0.tableFooterView = UIView()
+        $0.separatorStyle = .none
+        $0.backgroundColor = .clear
+    }
+
     fileprivate var previousOffset: CGFloat = 0.0
     fileprivate var balanceToSortOffset: CGFloat?
     weak var delegate: AccountViewControllerDelegate?
@@ -36,6 +61,14 @@ class AccountViewController: UIViewController {
     private let disposeBag = DisposeBag()
     var pollingTimer: Timer?
     private let feedbackGenerator = UINotificationFeedbackGenerator()
+    lazy var carouselView = with(UICollectionView(frame: .zero, collectionViewLayout: CarouselViewFlowLayout(size: CGSize(width: 225.0, height: 100.0)))) {
+        $0.backgroundColor = .clear
+        $0.dataSource = self
+        $0.clipsToBounds = false
+        $0.showsHorizontalScrollIndicator = false
+        $0.decelerationRate = UIScrollViewDecelerationRateFast
+    }
+    let topContainerView = UIView()
 
     // MARK: - Object lifecycle
 
@@ -54,7 +87,7 @@ class AccountViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if balanceToSortOffset == nil {
-            balanceToSortOffset = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
+//            balanceToSortOffset = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
         }
     }
     
@@ -67,14 +100,13 @@ class AccountViewController: UIViewController {
         super.viewDidLoad()
 
         self.setupView()
-        self.setupTableView()
         self.setupNavBar()
         self.setupViewModel()
-        self.totalBalanceLabel?.text = self.viewModel.balanceValue
+//        self.totalBalanceLabel?.text = self.viewModel.balanceValue
 
         self.viewModel.getAccountInfo { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
+//            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
             strongSelf.viewModel.getHistory { error in
                 if let _ = error {
                     strongSelf.showWalletResetDialogue()
@@ -111,6 +143,17 @@ class AccountViewController: UIViewController {
         self.viewModel.updateView = { [weak self] in
             self?.updateView()
         }
+    }
+
+    func setupCarouselView() {
+        self.topContainerView.tintColor = .clear
+        self.topContainerView.addSubview(self.carouselView)
+        self.carouselView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(20.0)
+            make.bottom.equalToSuperview().offset(-20.0)
+            make.left.right.equalToSuperview()
+        }
+        self.carouselView.register(AccountCarouselCollectionViewCell.self, forCellWithReuseIdentifier: AccountCarouselCollectionViewCell.reuseIdentifier)
     }
 
     func setupNavBar() {
@@ -151,29 +194,55 @@ class AccountViewController: UIViewController {
         rightBarItem.tintColor = .white
         navigationItem.rightBarButtonItem = rightBarItem
     }
-    
-    fileprivate func setupTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = 60
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.register(TransactionTableViewCell.self)
-        tableView.tableFooterView = UIView()
-        tableView.separatorStyle = .none
-    }
-    
+
     fileprivate func setupView() {
-        let buttonImg = #imageLiteral(resourceName: "down").withRenderingMode(.alwaysTemplate)
-        sortButton?.imageView?.tintColor = .white
-        sortButton?.setImage(buttonImg, for: .normal)
-        
-        let currencyTap = UITapGestureRecognizer(target: self, action: #selector(currencySwitch))
-        currencyTapBox?.addGestureRecognizer(currencyTap)
-        totalBalanceTitleLabel?.text = String.localize("total-balance").uppercased()
-        sortButton?.setTitle(viewModel.refineType.title, for: .normal)
-        sendButton?.setTitle(.localize("send"), for: .normal)
-        receiveButton?.setTitle(.localize("receive"), for: .normal)
-        unitsLabel?.text = self.viewModel.currencyValue
+        self.view.addSubview(self.topContainerView)
+        self.topContainerView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.left.equalTo(self.view.snp.left)
+            make.right.equalTo(self.view.snp.right)
+            make.height.equalTo(150.0)
+        }
+
+        self.setupCarouselView()
+
+        self.view.addSubview(self.sortButton)
+//        let currencyTap = UITapGestureRecognizer(target: self, action: #selector(currencySwitch))
+//        currencyTapBox?.addGestureRecognizer(currencyTap)
+//        totalBalanceTitleLabel?.text = String.localize("total-balance").uppercased()
+        self.sortButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.topContainerView.snp.bottom).offset(AppStyle.Size.padding)
+            make.left.equalToSuperview().offset(AppStyle.Size.padding)
+        }
+
+        let stackView = with(UIStackView()) {
+            $0.axis = .horizontal
+            $0.distribution = .fillEqually
+        }
+        stackView.addArrangedSubview(self.sendButton)
+        stackView.addArrangedSubview(self.receiveButton)
+        self.view.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            make.height.equalTo(70.0)
+        }
+        let separator = UIView()
+        separator.backgroundColor = UIColor.white.withAlphaComponent(0.25)
+        self.view.addSubview(separator)
+        separator.snp.makeConstraints { (make) in
+            make.width.equalTo(1.0)
+            make.centerX.centerY.equalTo(stackView)
+            make.height.equalTo(50.0)
+        }
+
+        self.view.addSubview(self.tableView)
+        self.tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.sortButton.snp.bottom).offset(AppStyle.Size.padding)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(stackView.snp.top).offset(AppStyle.Size.smallPadding)
+        }
+//        unitsLabel?.text = self.viewModel.currencyValue
     }
     
     // MARK: - Actions
@@ -210,9 +279,9 @@ class AccountViewController: UIViewController {
     
     @objc fileprivate func currencySwitch() {
         viewModel.toggleCurrency()
-        tableView?.reloadData()
-        totalBalanceLabel?.text = viewModel.balanceValue
-        unitsLabel?.text = viewModel.currencyValue
+        tableView.reloadData()
+//        totalBalanceLabel?.text = viewModel.balanceValue
+//        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {
@@ -261,7 +330,7 @@ class AccountViewController: UIViewController {
     
     func onRequestBroadcasted() {
         self.viewModel.getAccountInfo { [weak self] in
-            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+//            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
             self?.viewModel.getHistory { _ in
                 self?.tableView.reloadData()
             }
@@ -269,8 +338,8 @@ class AccountViewController: UIViewController {
     }
     
     func updateView() {
-        self.totalBalanceLabel?.text = self.viewModel.balanceValue
-        self.sortButton?.setTitle(self.viewModel.refineType.title, for: .normal)
+//        self.totalBalanceLabel?.text = self.viewModel.balanceValue
+        self.sortButton.setTitle(self.viewModel.refineType.title, for: .normal)
         self.tableView.reloadData()
     }
     
@@ -319,11 +388,11 @@ extension AccountViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let balanceToSortOffset = balanceToSortOffset else { return }
         let currentOffset = min(max(scrollView.contentOffset.y, 0), scrollView.contentSize.height - scrollView.bounds.size.height)
-        let balanceY = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
-        currencyTapBox?.alpha = CGFloat(balanceY / balanceToSortOffset)
-        if currencyTapBox?.alpha ?? 0.0 < 0 { currencyTapBox?.alpha = 0 }
-        if currencyTapBox?.alpha ?? 0.0 > 1 { currencyTapBox?.alpha = 1 }
-        
+//        let balanceY = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
+//        currencyTapBox?.alpha = CGFloat(balanceY / balanceToSortOffset)
+//        if currencyTapBox?.alpha ?? 0.0 < 0 { currencyTapBox?.alpha = 0 }
+//        if currencyTapBox?.alpha ?? 0.0 > 1 { currencyTapBox?.alpha = 1 }
+
         if currentOffset > 0 {
             let delta = previousOffset - currentOffset
             topConstraint.constant += delta
@@ -399,4 +468,17 @@ extension AccountViewController: UITableViewDataSource {
         cell.prepare(with: self.viewModel[indexPath.section], owner: self.viewModel.account.lgsAddress, useSecondaryCurrency: self.viewModel.isShowingSecondary)
         return cell
     }
+}
+
+extension AccountViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCarouselCollectionViewCell.reuseIdentifier, for: indexPath) as! AccountCarouselCollectionViewCell
+        return cell
+    }
+
 }
