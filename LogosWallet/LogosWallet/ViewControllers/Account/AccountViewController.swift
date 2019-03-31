@@ -473,11 +473,12 @@ extension AccountViewController: UITableViewDataSource {
 extension AccountViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return self.viewModel.tokenAccounts.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCarouselCollectionViewCell.reuseIdentifier, for: indexPath) as! AccountCarouselCollectionViewCell
+        cell.prepare(with: self.viewModel.tokenAccounts[indexPath.item])
         return cell
     }
 

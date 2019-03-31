@@ -12,18 +12,18 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
 
     let nameLabel = with(UILabel()) {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 10.0, weight: .medium)//AppStyle.Font.subtitle
+        $0.font = .systemFont(ofSize: 10.0, weight: .medium)
         $0.textColor = AppStyle.Color.lowAlphaWhite
     }
     let balanceLabel = with(UILabel()) {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 25.0, weight: .light)//AppStyle.Font.title//
+        $0.font = .systemFont(ofSize: 25.0, weight: .light)
         $0.textColor = .white
         $0.setContentHuggingPriority(.required, for: .horizontal)
     }
-    
-    let iconImageView = with(UIImageView()) {
-        $0.contentMode = .scaleAspectFit
+    let symbolLabel = with(UILabel()) {
+        $0.font = .systemFont(ofSize: 8.0, weight: .light)
+        $0.textColor = .white
     }
 
     static let reuseIdentifier = "\(self)"
@@ -40,6 +40,13 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.nameLabel.text = ""
+        self.balanceLabel.text = ""
+        self.symbolLabel.text = ""
+    }
+
     private func setupView() {
         let stackView = with(UIStackView()) {
             $0.axis = .vertical
@@ -53,19 +60,24 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
         }
         stackView.addArrangedSubview(self.nameLabel)
         stackView.addArrangedSubview(self.balanceLabel)
-        self.nameLabel.text = "LOGOS"
 
-        self.balanceLabel.text = "9494.32"
-
-        let currencyLabel = UILabel()
-        currencyLabel.font = .systemFont(ofSize: 8.0, weight: .light)
-        currencyLabel.text = "LGS"
-        currencyLabel.textColor = .white
-        self.addSubview(currencyLabel)
-        currencyLabel.snp.makeConstraints { (make) in
+        self.addSubview(self.symbolLabel)
+        self.symbolLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.balanceLabel.snp.top).offset(4.0)
-            make.left.equalTo(self.balanceLabel.snp.right)
+            make.left.equalTo(self.balanceLabel.snp.right).offset(1.0)
         }
     }
 
+    func prepare(with model: AccountCarouselAdapter) {
+        self.nameLabel.text = model.name
+        self.balanceLabel.text = model.balance
+        self.symbolLabel.text = model.symbol
+    }
+
+}
+
+protocol AccountCarouselAdapter {
+    var name: String { get }
+    var balance: String { get }
+    var symbol: String { get }
 }

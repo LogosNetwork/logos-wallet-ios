@@ -88,6 +88,7 @@
 		A780856A224A06E600A8B1E6 /* SendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808569224A06E600A8B1E6 /* SendRequest.swift */; };
 		A780858A224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */; };
 		A780858C224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */; };
+		A780858E2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858D2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -280,6 +281,7 @@
 		A7808569224A06E600A8B1E6 /* SendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequest.swift; sourceTree = "<group>"; };
 		A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewFlowLayout.swift; sourceTree = "<group>"; };
 		A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		A780858D2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosTokenAccountInfo.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				A77CDF5421BA4679004940A0 /* TransactionBlock.swift */,
 				A7071E7C224218FF00A353ED /* LogosAccountInfo.swift */,
 				A7808564224813D900A8B1E6 /* LogosAccountHistory.swift */,
+				A780858D2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1250,6 +1253,7 @@
 				A7B327F82002A43500E0E360 /* LeftAlignedIconButton.swift in Sources */,
 				A76AC7C62030239C00C7CEE8 /* Currency.swift in Sources */,
 				A72699BA21BE2F8A00C0B09B /* LogosMQTT.swift in Sources */,
+				A780858E2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift in Sources */,
 				A79C6D06215C8A49007AEF05 /* AppUrlsViewController.swift in Sources */,
 				A768B99B201F0ABB00620B62 /* NumpadCollectionViewCell.swift in Sources */,
 				A71CEBA42054EB0E00FF6B54 /* AboutViewController.swift in Sources */,

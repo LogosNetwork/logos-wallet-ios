@@ -39,3 +39,9 @@ extension LogosAccountInfo {
         return self.mlgsBalance.formattedAmount
     }
 }
+
+struct TokenAccount: AccountCarouselAdapter {
+    let balance: String
+    let name: String
+    let symbol :String
+}

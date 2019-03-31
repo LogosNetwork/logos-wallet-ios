@@ -37,6 +37,14 @@ class AccountViewModel {
     private(set) var refinedChain = [TransactionRequest]()
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
+    lazy var tokenAccounts: [AccountCarouselAdapter] = {
+        // TODO
+        return [
+            TokenAccount(balance: "0", name: "Logos", symbol: "LGS"),
+            TokenAccount(balance: "90000000000000000000000000000000".decimalNumber.mlgsString.formattedBalance, name: "Bitcoin", symbol: "BTC"),
+            TokenAccount(balance: "1682999999999999999999995999790000".decimalNumber.mlgsString.formattedBalance, name: "Koincoin", symbol: "KOI")
+        ]
+    }()
     var isShowingSecondary: Bool {
         return Currency.isSecondarySelected
     }
