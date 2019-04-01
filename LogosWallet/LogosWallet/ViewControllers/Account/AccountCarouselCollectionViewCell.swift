@@ -20,10 +20,13 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
         $0.font = .systemFont(ofSize: 25.0, weight: .light)
         $0.textColor = .white
         $0.setContentHuggingPriority(.required, for: .horizontal)
+        $0.adjustsFontSizeToFitWidth = true
+        $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     let symbolLabel = with(UILabel()) {
         $0.font = .systemFont(ofSize: 8.0, weight: .light)
         $0.textColor = .white
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 
     static let reuseIdentifier = "\(self)"
@@ -65,6 +68,7 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
         self.symbolLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.balanceLabel.snp.top).offset(4.0)
             make.left.equalTo(self.balanceLabel.snp.right).offset(1.0)
+            make.right.equalTo(self.snp.right).offset(-AppStyle.Size.smallPadding)
         }
     }
 

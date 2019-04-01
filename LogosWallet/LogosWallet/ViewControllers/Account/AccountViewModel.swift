@@ -39,9 +39,10 @@ class AccountViewModel {
     private(set) var balance: AccountBalance?
     lazy var tokenAccounts: [AccountCarouselAdapter] = {
         // TODO
+        let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(balance: "0", name: "Logos", symbol: "LGS")
         return [
-            TokenAccount(balance: "0", name: "Logos", symbol: "LGS"),
-            TokenAccount(balance: "90000000000000000000000000000000".decimalNumber.mlgsString.formattedBalance, name: "Bitcoin", symbol: "BTC"),
+            lgsAccount,
+            TokenAccount(balance: "900000000000000000000000000000000000000000".decimalNumber.mlgsString.formattedBalance, name: "Bitcoin", symbol: "BTC"),
             TokenAccount(balance: "1682999999999999999999995999790000".decimalNumber.mlgsString.formattedBalance, name: "Koincoin", symbol: "KOI")
         ]
     }()

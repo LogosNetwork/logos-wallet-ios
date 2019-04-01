@@ -26,6 +26,18 @@ struct LogosAccountInfo: Codable {
     }
 }
 
+extension LogosAccountInfo: AccountCarouselAdapter {
+
+    var name: String {
+        return "Logos"
+    }
+
+    var symbol: String {
+        return "LGS"
+    }
+
+}
+
 struct Token: Codable {
     let whitelisted, frozen, balance: String
 }
