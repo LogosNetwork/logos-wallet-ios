@@ -89,6 +89,7 @@
 		A780858A224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */; };
 		A780858C224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */; };
 		A780858E2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858D2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift */; };
+		A780859022531DC600A8B1E6 /* LogosTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780858F22531DC600A8B1E6 /* LogosTokenManager.swift */; };
 		A78854DF200F12FA00C9565B /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78854DE200F12FA00C9565B /* Networking.swift */; };
 		A79116ED2015758A00890432 /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116EB2015758A00890432 /* QRScanViewController.swift */; };
 		A79116EE2015758A00890432 /* QRScanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79116EC2015758A00890432 /* QRScanViewController.xib */; };
@@ -282,6 +283,7 @@
 		A7808589224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewFlowLayout.swift; sourceTree = "<group>"; };
 		A780858B224F514800A8B1E6 /* AccountCarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		A780858D2250A4E500A8B1E6 /* LogosTokenAccountInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosTokenAccountInfo.swift; sourceTree = "<group>"; };
+		A780858F22531DC600A8B1E6 /* LogosTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogosTokenManager.swift; sourceTree = "<group>"; };
 		A78854DE200F12FA00C9565B /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		A79116EB2015758A00890432 /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		A79116EC2015758A00890432 /* QRScanViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QRScanViewController.xib; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				A76AC7AA2029819700C7CEE8 /* RealmModel */,
 				A73298202009AF9800B21C8D /* Model */,
 				A732982E200ACEB000B21C8D /* PoW.swift */,
+				A780858F22531DC600A8B1E6 /* LogosTokenManager.swift */,
 			);
 			path = Logos;
 			sourceTree = "<group>";
@@ -1223,6 +1226,7 @@
 				A79116F62017264000890432 /* AddressBookViewController.swift in Sources */,
 				A780858A224F4EA900A8B1E6 /* CarouselViewFlowLayout.swift in Sources */,
 				A73298242009F22B00B21C8D /* AccountViewModel.swift in Sources */,
+				A780859022531DC600A8B1E6 /* LogosTokenManager.swift in Sources */,
 				A7EB8F6120684645004463FC /* PasswordViewController.swift in Sources */,
 				A768B9A4202194B300620B62 /* Banner.swift in Sources */,
 				A732981A20086B4D00B21C8D /* TransactionTableViewCell.swift in Sources */,
