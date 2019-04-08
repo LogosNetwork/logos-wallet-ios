@@ -37,15 +37,7 @@ class AccountViewModel {
     private(set) var refinedChain = [TransactionRequest]()
     private(set) var blockCheck: Set<String> = []
     private(set) var balance: AccountBalance?
-    lazy var tokenAccounts: [AccountCarouselAdapter] = {
-        // TODO
-        let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(balance: "0", name: "Logos", symbol: "LGS")
-        return [
-            lgsAccount,
-            TokenAccount(balance: "900000000000000000000000000000000000000000".decimalNumber.mlgsString.formattedBalance, name: "Bitcoin", symbol: "BTC"),
-            TokenAccount(balance: "1682999999999999999999995999790000".decimalNumber.mlgsString.formattedBalance, name: "Koincoin", symbol: "KOI")
-        ]
-    }()
+    lazy var associatedAccounts: [AccountCarouselAdapter] = self.getCarouselAccountsList()
     var isShowingSecondary: Bool {
         return Currency.isSecondarySelected
     }
@@ -120,6 +112,17 @@ class AccountViewModel {
                 completion(nil)
             }
         }
+    }
+
+    func getCarouselAccountsList() -> [AccountCarouselAdapter] {
+        let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(accountBalance: "0", name: "Logos", symbol: "LGS")
+        var result: [AccountCarouselAdapter] = self.account.info?.tokens?.compactMap {
+            let tokenInfo = LogosTokenManager.shared.tokenAccounts[$0.key]
+            let balance = $0.value.balance.decimalNumber.mlgsString.formattedBalance
+            return TokenAccount(accountBalance: balance, name: tokenInfo?.name ?? "--", symbol: tokenInfo?.symbol ?? "--")
+            } ?? []
+        result.insert(lgsAccount, at: 0)
+        return result
     }
 
     func repair(_ completion: @escaping () -> Void) {

@@ -38,9 +38,15 @@ class AccountsViewController: UIViewController {
         WalletManager.shared.accounts.forEach { account in
             SocketManager.shared.action(.subscribe(account: account.lgsAddress))
             NetworkAdapter.accountInfo2(for: account.lgsAddress) { [weak self] (info, error) in
-                if let info = info {
-                    LogosStore.update(account: account.lgsAddress, info: info) {
-                        self?.updateAccounts()
+                guard let info = info else {
+                    return
+                }
+                LogosStore.update(account: account.lgsAddress, info: info) {
+                    self?.updateAccounts()
+                }
+                if let tokens = info.tokens {
+                    tokens.forEach { key, _ in
+                        LogosTokenManager.shared.fetchTokenInfo(for: key)
                     }
                 }
             }

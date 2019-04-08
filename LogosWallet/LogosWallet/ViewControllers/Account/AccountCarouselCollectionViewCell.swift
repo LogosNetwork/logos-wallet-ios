@@ -74,7 +74,7 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
 
     func prepare(with model: AccountCarouselAdapter) {
         self.nameLabel.text = model.name
-        self.balanceLabel.text = model.balance
+        self.balanceLabel.text = model.accountBalance
         self.symbolLabel.text = model.symbol
     }
 
@@ -82,6 +82,6 @@ class AccountCarouselCollectionViewCell: UICollectionViewCell {
 
 protocol AccountCarouselAdapter {
     var name: String { get }
-    var balance: String { get }
+    var accountBalance: String { get }
     var symbol: String { get }
 }
