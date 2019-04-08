@@ -36,6 +36,10 @@ extension LogosAccountInfo: AccountCarouselAdapter {
         return "LGS"
     }
 
+    var accountBalance: String {
+        return self.formattedBalance
+    }
+
 }
 
 struct Token: Codable {
@@ -53,7 +57,7 @@ extension LogosAccountInfo {
 }
 
 struct TokenAccount: AccountCarouselAdapter {
-    let balance: String
+    let accountBalance: String
     let name: String
     let symbol :String
 }
