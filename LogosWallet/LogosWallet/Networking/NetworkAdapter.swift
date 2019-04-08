@@ -54,7 +54,9 @@ public struct NetworkAdapter {
             UserDefaults.standard.set(newValue, forKey: "baseNodeUrl")
         }
     }
+
     static let provider = MoyaProvider<LogosService>()
+//    static let provider = MoyaProvider<LogosService>(stubClosure: MoyaProvider<LogosService>.immediatelyStub)
     static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
     static let delegateProvider = MoyaProvider<LogosDelegateService>()
 
@@ -184,6 +186,16 @@ public struct NetworkAdapter {
                 }
             }
             completion(result, error)
+        })
+    }
+
+    static func getTokenAccountInfo(for account: String, completion: ((LogosTokenAccountInfo?, APIError?) -> Void)? = nil) {
+        request(target: .tokenAccountInfo(account: account), success: { (response) in
+            if let info = Decoda.decode(LogosTokenAccountInfo.self, strategy: .useDefaultKeys, from: response.data) {
+                completion?(info, nil)
+            } else {
+                completion?(nil, .badResponse)
+            }
         })
     }
     
