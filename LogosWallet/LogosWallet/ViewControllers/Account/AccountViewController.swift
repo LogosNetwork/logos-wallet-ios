@@ -52,6 +52,7 @@ class AccountViewController: UIViewController {
         $0.tableFooterView = UIView()
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
     }
 
     fileprivate var previousOffset: CGFloat = 0.0
@@ -69,6 +70,7 @@ class AccountViewController: UIViewController {
         $0.decelerationRate = UIScrollViewDecelerationRateFast
     }
     let topContainerView = UIView()
+    weak var balanceLabel: UILabel?
 
     // MARK: - Object lifecycle
 
@@ -102,11 +104,11 @@ class AccountViewController: UIViewController {
         self.setupView()
         self.setupNavBar()
         self.setupViewModel()
-//        self.totalBalanceLabel?.text = self.viewModel.balanceValue
+        self.balanceLabel?.text = self.viewModel.balanceValue
 
         self.viewModel.getAccountInfo { [weak self] in
             guard let strongSelf = self else { return }
-//            strongSelf.totalBalanceLabel?.text = strongSelf.viewModel.balanceValue
+            strongSelf.balanceLabel?.text = strongSelf.viewModel.balanceValue
             strongSelf.viewModel.getHistory { error in
                 if let _ = error {
                     strongSelf.showWalletResetDialogue()
@@ -212,7 +214,7 @@ class AccountViewController: UIViewController {
 //        totalBalanceTitleLabel?.text = String.localize("total-balance").uppercased()
         self.sortButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.topContainerView.snp.bottom).offset(AppStyle.Size.padding)
-            make.left.equalToSuperview().offset(AppStyle.Size.padding)
+            make.left.equalToSuperview().offset(AppStyle.Size.smallPadding)
         }
 
         let stackView = with(UIStackView()) {
@@ -238,9 +240,10 @@ class AccountViewController: UIViewController {
 
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.sortButton.snp.bottom).offset(AppStyle.Size.padding)
-            make.left.right.equalToSuperview()
-            make.bottom.equalTo(stackView.snp.top).offset(AppStyle.Size.smallPadding)
+            make.top.equalTo(self.sortButton.snp.bottom).offset(AppStyle.Size.smallPadding)
+            make.left.equalToSuperview().offset(AppStyle.Size.smallPadding)
+            make.right.equalToSuperview().offset(-AppStyle.Size.smallPadding)
+            make.bottom.equalTo(stackView.snp.top).offset(-AppStyle.Size.smallPadding)
         }
 //        unitsLabel?.text = self.viewModel.currencyValue
     }
@@ -280,7 +283,7 @@ class AccountViewController: UIViewController {
     @objc fileprivate func currencySwitch() {
         viewModel.toggleCurrency()
         tableView.reloadData()
-//        totalBalanceLabel?.text = viewModel.balanceValue
+//        self.balanceLabel?.text = viewModel.balanceValue
 //        unitsLabel?.text = viewModel.currencyValue
     }
     
@@ -330,7 +333,7 @@ class AccountViewController: UIViewController {
     
     func onRequestBroadcasted() {
         self.viewModel.getAccountInfo { [weak self] in
-//            self?.totalBalanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+            self?.balanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
             self?.viewModel.getHistory { _ in
                 self?.tableView.reloadData()
             }
@@ -338,7 +341,7 @@ class AccountViewController: UIViewController {
     }
     
     func updateView() {
-//        self.totalBalanceLabel?.text = self.viewModel.balanceValue
+        self.balanceLabel?.text = self.viewModel.balanceValue
         self.sortButton.setTitle(self.viewModel.refineType.title, for: .normal)
         self.tableView.reloadData()
     }
@@ -466,6 +469,7 @@ extension AccountViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(TransactionTableViewCell.self, for: indexPath)
         cell.prepare(with: self.viewModel[indexPath.section], owner: self.viewModel.account.lgsAddress, useSecondaryCurrency: self.viewModel.isShowingSecondary)
+        cell.addShadow()
         return cell
     }
 }
@@ -478,7 +482,12 @@ extension AccountViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCarouselCollectionViewCell.reuseIdentifier, for: indexPath) as! AccountCarouselCollectionViewCell
-        cell.prepare(with: self.viewModel.associatedAccounts[indexPath.item])
+        let account = self.viewModel.associatedAccounts[indexPath.item]
+        // TODO: update this to use current selected balance
+        if account.symbol == "LGS" {
+            self.balanceLabel = cell.balanceLabel
+        }
+        cell.prepare(with: account)
         return cell
     }
 
