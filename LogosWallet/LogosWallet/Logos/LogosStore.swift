@@ -12,7 +12,7 @@ class LogosStore {
 
     fileprivate init() { }
 
-    static func setup(with account: String) {
+    static func setup(for account: String) {
         let accountsUrl = Storage.documentsUrl.appendingPathComponent("accounts")
         let accountUrl = accountsUrl.appendingPathComponent(account)
         if !FileManager.default.fileExists(atPath: accountsUrl.path) {

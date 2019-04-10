@@ -12,7 +12,7 @@ struct LogosTokenAccountInfo: Codable {
     let tokenBalance, totalSupply, tokenFeeBalance, symbol: String
     let name, issuerInfo, feeRate, feeType: String
     let controllers: [Controller]
-    let settings: [String]
+//    let settings: [String]
     let issuanceRequest, type, sequence, requestCount: String
     let frontier, receiveTip, balance: String
 
@@ -24,7 +24,8 @@ struct LogosTokenAccountInfo: Codable {
         case issuerInfo = "issuer_info"
         case feeRate = "fee_rate"
         case feeType = "fee_type"
-        case controllers, settings
+        case controllers
+//        case settings
         case issuanceRequest = "issuance_request"
         case type, sequence
         case requestCount = "request_count"
