@@ -108,6 +108,7 @@ class AccountViewController: UIViewController {
 
         self.viewModel.getAccountInfo { [weak self] in
             guard let strongSelf = self else { return }
+            strongSelf.carouselView.reloadData()
             strongSelf.balanceLabel?.text = strongSelf.viewModel.balanceValue
             strongSelf.viewModel.getHistory { error in
                 if let _ = error {
