@@ -48,7 +48,7 @@ class AccountViewController: UIViewController {
         $0.delegate = self
         $0.estimatedRowHeight = 60
         $0.rowHeight = UITableViewAutomaticDimension
-        $0.register(TransactionTableViewCell.self)
+        $0.register(TransactionTableViewCell.self, forCellReuseIdentifier: TransactionTableViewCell.reuseIdentifier)
         $0.tableFooterView = UIView()
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
@@ -468,7 +468,12 @@ extension AccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(TransactionTableViewCell.self, for: indexPath)
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: TransactionTableViewCell.reuseIdentifier, for: indexPath) as? TransactionTableViewCell
+        else {
+            return UITableViewCell()
+        }
+
         cell.prepare(with: self.viewModel[indexPath.section], owner: self.viewModel.account.lgsAddress, useSecondaryCurrency: self.viewModel.isShowingSecondary)
         cell.addShadow()
         return cell

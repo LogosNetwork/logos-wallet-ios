@@ -34,8 +34,13 @@ struct AppStyle {
         /// 25.0, medium
         static var title: UIFont = .systemFont(ofSize: 25.0, weight: .medium)
 
-        /// 14.0 light
+        /// 14.0 regular
         static var subtitle: UIFont = .systemFont(ofSize: 14.0, weight: .regular)
+
+        static var lightSubtitle: UIFont = .systemFont(ofSize: 14.0, weight: .light)
+
+        /// 14.0 medium
+        static var subhead: UIFont = .systemFont(ofSize: 14.0, weight: .medium)
 
         /// 17.0, light
         static var body: UIFont = .systemFont(ofSize: 17.0, weight: .light)
