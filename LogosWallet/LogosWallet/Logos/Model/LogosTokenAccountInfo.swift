@@ -37,5 +37,5 @@ struct LogosTokenAccountInfo: Codable {
 
 struct Controller: Codable {
     let account: String
-    let privileges: [String]
+//    let privileges: [String]
 }

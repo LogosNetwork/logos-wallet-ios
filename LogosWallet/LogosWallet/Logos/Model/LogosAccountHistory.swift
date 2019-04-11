@@ -15,7 +15,7 @@ struct LogosAccountHistory: Codable {
 }
 
 struct TransactionRequest: Codable {
-    let type: String
+    let type: TransactionRequestType
     let origin: String
     let previous, fee, sequence, signature: String
     let work, next, hash, requestBlockHash: String
@@ -24,8 +24,12 @@ struct TransactionRequest: Codable {
     let transactions: [Transaction]?
     let timestamp: String
     let tokenID: String?
-    let transaction: Transaction?
     let tokenFee: String?
+    let transaction: Transaction?
+    let symbol, name, totalSupply, feeType: String?
+    let feeRate, settings: String?
+    let controllers: [Controller]?
+    let issuerInfo: String?
 
     enum CodingKeys: String, CodingKey {
         case type, origin, previous, fee, sequence, signature, work, next, hash
@@ -34,11 +38,15 @@ struct TransactionRequest: Codable {
         case numberTransactions = "number_transactions"
         case transactions, timestamp
         case tokenID = "token_id"
-        case transaction
         case tokenFee = "token_fee"
+        case transaction, symbol, name
+        case totalSupply = "total_supply"
+        case feeType = "fee_type"
+        case feeRate = "fee_rate"
+        case settings, controllers
+        case issuerInfo = "issuer_info"
     }
 }
-
 struct Transaction: Codable {
     let destination: String
     let amount: String
@@ -72,4 +80,12 @@ extension TransactionRequest {
             })
         }
     }
+
+}
+
+enum TransactionRequestType: String, Codable {
+    case distribute = "distribute"
+    case issuance = "issuance"
+    case send = "send"
+    case tokenSend = "token_send"
 }

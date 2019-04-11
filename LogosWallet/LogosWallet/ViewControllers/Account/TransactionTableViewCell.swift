@@ -38,10 +38,7 @@ class TransactionTableViewCell: UITableViewCell {
         $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 
-//    let contentStackView = with(UIStackView()) {
-//        $0.axis = .vertical
-//        $0.spacing = AppStyle.Size.smallPadding
-//    }
+    let bottomContainerView = UIView()
 
     let expandedStackView = with(UIStackView()) {
         $0.axis = .vertical
@@ -105,9 +102,14 @@ class TransactionTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
 
+        self.addSubview(self.bottomContainerView)
+        self.bottomContainerView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(baseContentView.snp.bottom)
+        }
         self.addSubview(self.expandedStackView)
         self.expandedStackView.snp.makeConstraints { make in
-            make.top.equalTo(baseContentView.snp.bottom)
+            make.top.equalTo(self.bottomContainerView.snp.bottom)
             make.left.right.equalTo(baseContentView)
             make.bottom.equalToSuperview().offset(-AppStyle.Size.padding)
         }
@@ -124,7 +126,9 @@ class TransactionTableViewCell: UITableViewCell {
         self.timeLabel.text = ""
         self.subtitleLabel.text = ""
         self.originLabel.text = ""
-//        self.contentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        self.typeImageView.image = nil
+        self.bottomContainerView.subviews.forEach { $0.removeFromSuperview() }
+        self.expandedStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -148,39 +152,15 @@ class TransactionTableViewCell: UITableViewCell {
         self.originLabel.text = tx.origin
 
         switch tx.type {
-        case "send":
+        case .send:
             self.layoutSend(tx: tx, owner: owner)
-        case "distribute":
+        case .distribute:
             self.layoutDistribute(tx: tx)
-        case "token_send":
+        case .tokenSend:
             self.layoutTokenSend(tx: tx, owner: owner)
-        default:
-            break
+        case .issuance:
+            self.layoutTokenIssuance(tx: tx)
         }
-//        let sourceDestination: String
-//        if tx.isReceive(of: owner) {
-//            // receive
-//            self.typeIndicatorLabel?.text = "+"
-//            self.typeLabel?.text = .localize("received-filter")
-//            sourceDestination = tx.origin
-//        } else {
-//            // send
-//            self.typeIndicatorLabel?.text = "-"
-//            self.typeLabel?.text = .localize("sent-filter")
-//            // TODO: handle multiple
-//            sourceDestination = tx.transactions?.first?.destination ?? ""
-//        }
-//        let secondary = Currency.secondary
-//        let stringValue: String
-//        if useSecondaryCurrency {
-//            let converted = secondary.convert(tx.amountTotal(for: owner))
-//            stringValue = "\(converted) " + secondary.rawValue.uppercased()
-//        } else {
-//            stringValue = "\(tx.amountTotal(for: owner).mlgsString.formattedAmount) \(CURRENCY_NAME)"
-//        }
-//        amountLabel?.text = stringValue
-//        let alias = PersistentStore.getAddressEntries().first(where: { $0.address == sourceDestination })?.name
-//        sourceDestLabel?.text = alias ?? sourceDestination
     }
 
     private func layoutSend(tx: TransactionRequest, owner: String) {
@@ -204,6 +184,10 @@ class TransactionTableViewCell: UITableViewCell {
         if let distributeTransaction = tx.transaction {
             self.subtitleLabel.text = "\(distributeTransaction.amount) \(tokenInfo.symbol)"
         }
+    }
+
+    private func layoutTokenIssuance(tx: TransactionRequest) {
+        self.subtitleLabel.text = "\(tx.name ?? "") \(tx.symbol ?? "")"
     }
 
     func layoutTokenSend(tx: TransactionRequest, owner: String) {
@@ -237,14 +221,14 @@ extension TransactionRequest {
     var typeText: String {
         let result: String
         switch self.type {
-        case "send":
+        case .send:
             result = "Send"
-        case "distribute":
+        case .distribute:
             result = "Token Distribute"
-        case "token_send":
+        case .tokenSend:
             result = "Token Send"
-        default:
-            result = "Request"
+        case .issuance:
+            result = "Token Issuance"
         }
         return result
     }
