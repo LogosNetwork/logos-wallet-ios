@@ -65,6 +65,7 @@ class AccountViewController: UIViewController {
     lazy var carouselView = with(UICollectionView(frame: .zero, collectionViewLayout: CarouselViewFlowLayout(size: CGSize(width: 225.0, height: 100.0)))) {
         $0.backgroundColor = .clear
         $0.dataSource = self
+        $0.delegate = self
         $0.clipsToBounds = false
         $0.showsHorizontalScrollIndicator = false
         $0.decelerationRate = UIScrollViewDecelerationRateFast
@@ -390,25 +391,40 @@ class AccountViewController: UIViewController {
 
 extension AccountViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let balanceToSortOffset = balanceToSortOffset else { return }
-        let currentOffset = min(max(scrollView.contentOffset.y, 0), scrollView.contentSize.height - scrollView.bounds.size.height)
-//        let balanceY = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
-//        currencyTapBox?.alpha = CGFloat(balanceY / balanceToSortOffset)
-//        if currencyTapBox?.alpha ?? 0.0 < 0 { currencyTapBox?.alpha = 0 }
-//        if currencyTapBox?.alpha ?? 0.0 > 1 { currencyTapBox?.alpha = 1 }
+        if scrollView == self.carouselView {
 
-        if currentOffset > 0 {
-            let delta = previousOffset - currentOffset
-            topConstraint.constant += delta
-            if topConstraint.constant <= 0 {
-                topConstraint.constant = 0
-            } else if topConstraint.constant > 200 {
-                topConstraint.constant = 200
-            }
-            previousOffset = currentOffset
         } else {
-            topConstraint.constant = 200
-            previousOffset = 0.0
+            guard let balanceToSortOffset = balanceToSortOffset else { return }
+            let currentOffset = min(max(scrollView.contentOffset.y, 0), scrollView.contentSize.height - scrollView.bounds.size.height)
+            //        let balanceY = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
+            //        currencyTapBox?.alpha = CGFloat(balanceY / balanceToSortOffset)
+            //        if currencyTapBox?.alpha ?? 0.0 < 0 { currencyTapBox?.alpha = 0 }
+            //        if currencyTapBox?.alpha ?? 0.0 > 1 { currencyTapBox?.alpha = 1 }
+
+            if currentOffset > 0 {
+                let delta = previousOffset - currentOffset
+                topConstraint.constant += delta
+                if topConstraint.constant <= 0 {
+                    topConstraint.constant = 0
+                } else if topConstraint.constant > 200 {
+                    topConstraint.constant = 200
+                }
+                previousOffset = currentOffset
+            } else {
+                topConstraint.constant = 200
+                previousOffset = 0.0
+            }
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == self.carouselView {
+            let visibleRect = CGRect(origin: self.carouselView.contentOffset, size: self.carouselView.bounds.size)
+            let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+            if let visibleIndexPath = self.carouselView.indexPathForItem(at: visiblePoint) {
+                self.viewModel.selectedAccountIndex = visibleIndexPath.item
+                self.tableView.reloadData()
+            }
         }
     }
 }
@@ -496,5 +512,9 @@ extension AccountViewController: UICollectionViewDataSource {
         cell.prepare(with: account)
         return cell
     }
+
+}
+
+extension AccountViewController: UICollectionViewDelegate {
 
 }

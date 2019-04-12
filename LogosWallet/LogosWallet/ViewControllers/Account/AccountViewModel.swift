@@ -40,6 +40,23 @@ class AccountViewModel {
     var associatedAccounts: [AccountCarouselAdapter] {
         return self.getCarouselAccountsList()
     }
+    var currentAccount: AccountCarouselAdapter? {
+        let associatedAccounts = self.associatedAccounts
+        if self.selectedAccountIndex < associatedAccounts.count {
+            return associatedAccounts[self.selectedAccountIndex]
+        } else {
+            return nil
+        }
+    }
+    var selectedAccountIndex: Int = 0 {
+        didSet {
+            if let currentAccount = self.currentAccount, let tokenID = currentAccount.tokenID {
+                self.refinedChain = self.chain.filter { $0.tokenID == tokenID }
+            } else {
+                self.refinedChain = self.chain
+            }
+        }
+    }
     var isShowingSecondary: Bool {
         return Currency.isSecondarySelected
     }
@@ -117,11 +134,11 @@ class AccountViewModel {
     }
 
     func getCarouselAccountsList() -> [AccountCarouselAdapter] {
-        let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(accountBalance: "0", name: "Logos", symbol: "LGS")
+        let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(accountBalance: "0", name: "Logos", symbol: "LGS", tokenID: nil)
         var result: [AccountCarouselAdapter] = self.account.info?.tokens?.compactMap {
             let tokenInfo = LogosTokenManager.shared.tokenAccounts[$0.key]
             let balance = $0.value.balance
-            return TokenAccount(accountBalance: balance, name: tokenInfo?.name ?? "--", symbol: tokenInfo?.symbol ?? "--")
+            return TokenAccount(accountBalance: balance, name: tokenInfo?.name ?? "--", symbol: tokenInfo?.symbol ?? "--", tokenID: $0.key)
             } ?? []
         result.insert(lgsAccount, at: 0)
         return result

@@ -84,4 +84,11 @@ protocol AccountCarouselAdapter {
     var name: String { get }
     var accountBalance: String { get }
     var symbol: String { get }
+    var tokenID: String? { get }
+}
+
+extension AccountCarouselAdapter {
+    var tokenID: String? {
+        return nil
+    }
 }

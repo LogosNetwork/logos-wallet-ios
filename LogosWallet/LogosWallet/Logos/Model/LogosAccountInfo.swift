@@ -59,5 +59,6 @@ extension LogosAccountInfo {
 struct TokenAccount: AccountCarouselAdapter {
     let accountBalance: String
     let name: String
-    let symbol :String
+    let symbol: String
+    var tokenID: String? = nil
 }
