@@ -198,6 +198,7 @@ class TransactionTableViewCell: UITableViewCell {
             return
         }
 
+        self.typeImageView.image = #imageLiteral(resourceName: "coin_send").withRenderingMode(.alwaysTemplate)
         self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
     }
     

@@ -27,7 +27,8 @@ struct TransactionRequest: Codable {
     let tokenFee: String?
     let transaction: Transaction?
     let symbol, name, totalSupply, feeType: String?
-    let feeRate, settings: String?
+    let feeRate: String?
+//    let settings: String?
     let controllers: [Controller]?
     let issuerInfo: String?
 
@@ -43,7 +44,8 @@ struct TransactionRequest: Codable {
         case totalSupply = "total_supply"
         case feeType = "fee_type"
         case feeRate = "fee_rate"
-        case settings, controllers
+        case controllers
+//        case settings
         case issuerInfo = "issuer_info"
     }
 }
