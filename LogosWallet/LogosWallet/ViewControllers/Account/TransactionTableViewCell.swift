@@ -16,6 +16,7 @@ class TransactionTableViewCell: UITableViewCell {
         $0.textColor = .white
         $0.font = AppStyle.Font.subhead
         $0.textAlignment = .right
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
         $0.setContentHuggingPriority(.required, for: .horizontal)
     }
 

@@ -14,4 +14,15 @@ struct TxInfo {
     var recipientAddress: String
     var amount: String
     var account: LogosAccount
+
+    var remainingBalance: String {
+        if let tokenID = self.tokenID, let tokenInfo = self.account.info?.tokens?[tokenID] {
+            return tokenInfo.balance.decimalNumber.subtracting(amount.decimalNumber).stringValue
+        } else if let balance = self.account.info?.balance.decimalNumber {
+            let rawAmount = amount.decimalNumber.rawValue
+            return balance.subtracting(rawAmount).mlgsString
+        } else {
+            return "--"
+        }
+    }
 }

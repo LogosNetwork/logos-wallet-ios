@@ -25,6 +25,13 @@ class ConfirmTxViewController: UIViewController {
     var onBlockGenerated: (() -> Void)?
     var onSendComplete: (() -> Void)?
     let txInfo: TxInfo
+    var currencyText: String {
+        if let tokenID = self.txInfo.tokenID, let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenID] {
+            return tokenInfo.symbol
+        } else {
+            return CURRENCY_NAME
+        }
+    }
     
     init(with txInfo: TxInfo) {
         self.txInfo = txInfo
@@ -57,10 +64,13 @@ class ConfirmTxViewController: UIViewController {
         contentView?.layer.cornerRadius = 10.0
         contentView?.clipsToBounds = true
         confirmButton?.backgroundColor = AppStyle.Color.logosBlue
-        balanceLabel?.text = "-- \(CURRENCY_NAME)"
-        amountLabel?.text = "\(txInfo.amount.formattedAmount) \(CURRENCY_NAME)"
+        balanceLabel?.text = "\(self.txInfo.remainingBalance) \(self.currencyText)"
+        amountLabel?.text = "\(txInfo.amount.formattedAmount) \(self.currencyText)"
         let secondaryAmount = Currency.secondary.convert(txInfo.amount.decimalNumber, isRaw: false)
         secondaryAmountLabel?.text = "\(secondaryAmount) \(Currency.secondary.rawValue.uppercased())"
+        if let _ = self.txInfo.tokenID {
+            self.secondaryAmountLabel?.text = "--"
+        }
         recipientNameLabel?.text = txInfo.recipientName
         recipientAddressLabel?.text = txInfo.recipientAddress
         [recipientTitleLabel, amountTitleLabel, balanceTitleLabel, recipientNameLabel, amountLabel, balanceLabel].forEach {
@@ -105,38 +115,30 @@ class ConfirmTxViewController: UIViewController {
             return
         }
 
-        let sendRequest: SendRequest
+        let request: SendRequest
         if let tokenID = self.txInfo.tokenID {
-            sendRequest = TokenSendRequest(tokenID: tokenID, tokenFee: 0)
+            request = self.createTokenSend(info: info, tokenID: tokenID)
         } else {
-            sendRequest = SendRequest()
+            request = self.createSend(info: info)
         }
-        sendRequest.origin = origin
-        sendRequest.previous = info.frontier.uppercased()
-        sendRequest.sequence = NSDecimalNumber(string: info.sequence)
-        sendRequest.fee = NSDecimalNumber(string: "10000000000000000000000")
-        sendRequest.work = "0000000000000000"
-        if sendRequest.type == .tokenSend {
-            sendRequest.work = "0"
-        }
-        let amount = sendRequest.type == .tokenSend ? self.txInfo.amount : self.txInfo.amount.decimalNumber.rawValue.stringValue
-        sendRequest.transactions = [
-            Transaction(destination: self.txInfo.recipientAddress, amount: amount),
-        ]
+        request.origin = origin
+        request.previous = info.frontier.uppercased()
+        request.sequence = NSDecimalNumber(string: info.sequence)
+        request.fee = NSDecimalNumber(string: "10000000000000000000000")
 
         guard
-            sendRequest.sign(with: keyPair)
+            request.sign(with: keyPair)
         else {
-            Lincoln.log("Problem building block: \(sendRequest.json)")
+            Lincoln.log("Problem building block: \(request.json)")
             return
         }
         
-        Lincoln.log("Sending \(txInfo.amount) \(CURRENCY_NAME) to '\(txInfo.recipientAddress)'", inConsole: true)
+        Lincoln.log("Sending \(txInfo.amount) \(self.currencyText) to '\(txInfo.recipientAddress)'", inConsole: true)
         UIView.animate(withDuration: 0.3) {
             self.contentView?.alpha = 0.0
         }
         LoadingView.startAnimating(in: self.navigationController)
-        NetworkAdapter.process(request: sendRequest) { [weak self] (hash, error) in
+        NetworkAdapter.process(request: request) { [weak self] (hash, error) in
             if let error = error {
                 Banner.show("\(error.message)", style: .danger)
                 LoadingView.stopAnimating(true) {
@@ -150,4 +152,23 @@ class ConfirmTxViewController: UIViewController {
             }
         }
     }
+
+    private func createTokenSend(info: LogosAccountInfo, tokenID: String) -> SendRequest {
+        let request = TokenSendRequest(tokenID: tokenID, tokenFee: 0)
+        request.work = "0"
+        request.transactions = [
+            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount),
+        ]
+        return request
+    }
+
+    private func createSend(info: LogosAccountInfo) -> SendRequest {
+        let request = SendRequest()
+        request.work = "0000000000000000"
+        request.transactions = [
+            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue.stringValue),
+        ]
+        return request
+    }
+
 }
