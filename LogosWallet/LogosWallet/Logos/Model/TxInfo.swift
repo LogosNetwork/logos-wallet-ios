@@ -9,6 +9,7 @@
 import Foundation
 
 struct TxInfo {
+    var tokenID: String?
     var recipientName: String
     var recipientAddress: String
     var amount: String

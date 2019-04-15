@@ -22,9 +22,9 @@ class SendCoordinator: RootViewCoordinator {
     private(set) var account: LogosAccount
     weak var delegate: SendCoordinatorDelegate?
     
-    init(root: UIViewController, account: LogosAccount) {
+    init(root: UIViewController, account: LogosAccount, tokenID: String?) {
         self.rootViewController = root
-        self.sendViewController = SendViewController(account: account)
+        self.sendViewController = SendViewController(account: account, tokenID: tokenID)
         self.account = account
     }
     

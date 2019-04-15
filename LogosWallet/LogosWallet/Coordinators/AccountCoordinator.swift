@@ -37,9 +37,9 @@ class AccountCoordinator: RootViewCoordinator {
 }
 
 extension AccountCoordinator: AccountViewControllerDelegate {
-    func sendTapped(account: LogosAccount) {
+    func sendTapped(account: LogosAccount, tokenID: String?) {
         Lincoln.log()
-        let sendCoordinator = SendCoordinator(root: rootViewController, account: account)
+        let sendCoordinator = SendCoordinator(root: rootViewController, account: account, tokenID: tokenID)
         sendCoordinator.delegate = self
         childCoordinators.append(sendCoordinator)
         sendCoordinator.start()

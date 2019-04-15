@@ -12,7 +12,7 @@ import RxSwift
 protocol AccountViewControllerDelegate: class {
     func transactionTapped(txInfo: TransactionRequest)
     func editRepTapped(account: LogosAccount)
-    func sendTapped(account: LogosAccount)
+    func sendTapped(account: LogosAccount, tokenID: String?)
     func receiveTapped(account: LogosAccount)
     func backTapped()
 }
@@ -326,7 +326,7 @@ class AccountViewController: UIViewController {
     }
     
     @IBAction func sendTapped(_ sender: Any) {
-        delegate?.sendTapped(account: viewModel.account)
+        delegate?.sendTapped(account: viewModel.account, tokenID: self.viewModel.currentAccount?.tokenID)
     }
     
     @IBAction func receiveTapped(_ sender: Any) {

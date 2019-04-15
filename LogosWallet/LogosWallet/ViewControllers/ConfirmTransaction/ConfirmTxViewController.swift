@@ -105,14 +105,23 @@ class ConfirmTxViewController: UIViewController {
             return
         }
 
-        let sendRequest = SendRequest()
+        let sendRequest: SendRequest
+        if let tokenID = self.txInfo.tokenID {
+            sendRequest = TokenSendRequest(tokenID: tokenID, tokenFee: 0)
+        } else {
+            sendRequest = SendRequest()
+        }
         sendRequest.origin = origin
-        sendRequest.work = "0000000000000000"
         sendRequest.previous = info.frontier.uppercased()
         sendRequest.sequence = NSDecimalNumber(string: info.sequence)
         sendRequest.fee = NSDecimalNumber(string: "10000000000000000000000")
+        sendRequest.work = "0000000000000000"
+        if sendRequest.type == .tokenSend {
+            sendRequest.work = "0"
+        }
+        let amount = sendRequest.type == .tokenSend ? self.txInfo.amount : self.txInfo.amount.decimalNumber.rawValue.stringValue
         sendRequest.transactions = [
-            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue.stringValue),
+            Transaction(destination: self.txInfo.recipientAddress, amount: amount),
         ]
 
         guard

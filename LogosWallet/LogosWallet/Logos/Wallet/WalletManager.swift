@@ -168,7 +168,7 @@ final class WalletManager {
         guard let accountAddress = WalletUtil.keyPair(seed: seed, index: index)?.lgsAccount else { return }
         Lincoln.log("Account created '\(accountAddress)'", inConsole: true)
         // Create account
-        LogosStore.setup(with: accountAddress)
+        LogosStore.setup(for: accountAddress)
         PersistentStore.addAccount(name: name, address: accountAddress, index: Int(index))
         PersistentStore.addAddressEntry(name, address: accountAddress)
         updateAccounts()

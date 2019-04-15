@@ -23,6 +23,7 @@
 		A72EBDA41FFCCF4200407E6D /* AccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A72EBDA21FFCCF4200407E6D /* AccountsViewController.xib */; };
 		A730652220438B8400A49C03 /* EnterAddressEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */; };
 		A73065242045321E00A49C03 /* URLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73065232045321E00A49C03 /* URLHandler.swift */; };
+		A730C9FB2260764E00545433 /* TokenSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A730C9FA2260764E00545433 /* TokenSendRequest.swift */; };
 		A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */; };
 		A7322677220F87AA00B2EA69 /* StateBlockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7322676220F87AA00B2EA69 /* StateBlockTests.swift */; };
 		A73229CE20AEBD8F00CACB3A /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */; };
@@ -209,6 +210,7 @@
 		A72EBDA21FFCCF4200407E6D /* AccountsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountsViewController.xib; sourceTree = "<group>"; };
 		A730652120438B8400A49C03 /* EnterAddressEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterAddressEntryViewModel.swift; sourceTree = "<group>"; };
 		A73065232045321E00A49C03 /* URLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHandler.swift; sourceTree = "<group>"; };
+		A730C9FA2260764E00545433 /* TokenSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSendRequest.swift; sourceTree = "<group>"; };
 		A731BE5920183FAB00CA96CD /* AddressBookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookCoordinator.swift; sourceTree = "<group>"; };
 		A7322676220F87AA00B2EA69 /* StateBlockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateBlockTests.swift; sourceTree = "<group>"; };
 		A73229CD20AEBD8F00CACB3A /* DisclaimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 			children = (
 				A7808566224A064700A8B1E6 /* Request.swift */,
 				A7808569224A06E600A8B1E6 /* SendRequest.swift */,
+				A730C9FA2260764E00545433 /* TokenSendRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1233,6 +1236,7 @@
 				A74361E71FE64F9100054078 /* AppDelegate.swift in Sources */,
 				A7329814200756A300B21C8D /* AccountViewController.swift in Sources */,
 				A71CEB9E2054AE2F00FF6B54 /* LockViewController.swift in Sources */,
+				A730C9FB2260764E00545433 /* TokenSendRequest.swift in Sources */,
 				A768B996201F037500620B62 /* EnterAmountViewController.swift in Sources */,
 				A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */,
 				A768B993201EF02000620B62 /* ReceiveCoordinator.swift in Sources */,
