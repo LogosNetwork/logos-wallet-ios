@@ -68,7 +68,7 @@ class SendViewController: UIViewController {
         setupView()
         backdropView?.alpha = 0.0
         backdropView?.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        sendLabel?.text = String.localize("send").uppercased()
+        sendLabel?.text = self.tokenID != nil ? "Token Send" : String.localize("send").uppercased()
         recipientLabel?.text = String.localize("recipient").uppercased()
         // iphone x
         if UIDevice.isIPhoneX {

@@ -52,7 +52,7 @@ extension SendCoordinator: SendViewControllerDelegate {
             Banner.show("No funds to send", style: .warning)
             return
         }
-        let enterAmountVC = EnterAmountViewController(with: info)
+        let enterAmountVC = EnterAmountViewController(with: info, tokenID: self.sendViewController.tokenID)
         enterAmountVC.enteredAmount = { [weak self] (amount) in
             self?.sendViewController.apply(amount: amount)
         }

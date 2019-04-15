@@ -18,14 +18,40 @@ class EnterAmountViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView?
     @IBOutlet weak var balanceLabel: UILabel?
     fileprivate var amount: NSDecimalNumber = 0.0
-    fileprivate var isShowingSecondary: Bool = false
+    fileprivate var isShowingSecondary: Bool = false {
+        didSet {
+            self.currencyButton?.setTitle(self.currencyText.uppercased(), for: .normal)
+        }
+    }
     fileprivate let rows: CGFloat = 4
     fileprivate let cols: CGFloat = 3
     let accountInfo: LogosAccountInfo
+    let tokenID: String?
     var enteredAmount: ((String) -> Void)?
 
-    init(with accountInfo: LogosAccountInfo) {
+    var balanceText: String {
+        let amount: String
+        if self.tokenID == nil {
+            amount = self.accountInfo.formattedBalance
+        } else if let tokenID = self.tokenID, let tokenAccount = self.accountInfo.tokens?[tokenID] {
+            amount = tokenAccount.balance
+        } else {
+            amount = "--"
+        }
+        return String.localize("available-balance-arg", arg: amount).uppercased()
+    }
+
+    var currencyText: String {
+        if let tokenID = self.tokenID, let tokenAccountInfo = LogosTokenManager.shared.tokenAccounts[tokenID] {
+            return tokenAccountInfo.symbol
+        } else {
+            return self.isShowingSecondary ? Currency.secondary.symbol : CURRENCY_NAME
+        }
+    }
+
+    init(with accountInfo: LogosAccountInfo, tokenID: String?) {
         self.accountInfo = accountInfo
+        self.tokenID = tokenID
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,13 +79,14 @@ class EnterAmountViewController: UIViewController {
         continueButton.backgroundColor = AppStyle.Color.logosBlue
         continueButton.setImage(#imageLiteral(resourceName: "xrb_check").withRenderingMode(.alwaysTemplate), for: .normal)
         continueButton.tintColor = .white
-        balanceLabel?.text = String.localize("available-balance-arg", arg: "\(self.accountInfo.formattedBalance)").uppercased()
+        balanceLabel?.text = self.balanceText
         balanceLabel?.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(balanceTapped))
         balanceLabel?.addGestureRecognizer(gesture)
         currencyButton?.layer.borderColor = AppStyle.lightGrey.cgColor
         currencyButton?.layer.borderWidth = 1.0
         currencyButton?.layer.cornerRadius = 20.0
+        self.currencyButton?.setTitle(self.currencyText, for: .normal)
     }
     
     fileprivate func setupNavBar() {
@@ -105,15 +132,17 @@ class EnterAmountViewController: UIViewController {
     }
     
     @IBAction func currencyButtonTapped(_ sender: Any) {
+        guard self.tokenID == nil else {
+            return
+        }
+
         isShowingSecondary = !isShowingSecondary
         if isShowingSecondary {
             let secondary = Currency.secondary
             let converted = secondary.convert(self.amount, isRaw: false)
             self.balanceLabel?.text = String.localize("available-balance-arg", arg: converted).uppercased()
-            self.currencyButton?.setTitle(secondary.rawValue.uppercased(), for: .normal)
             self.amountLabel?.text = converted
         } else {
-            self.currencyButton?.setTitle(CURRENCY_NAME, for: .normal)
             let amountText = amount.stringValue
             self.amountLabel?.text = amountText
             self.balanceLabel?.text = String.localize("available-balance-arg", arg: self.accountInfo.formattedBalance).uppercased()
