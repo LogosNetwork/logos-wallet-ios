@@ -161,6 +161,8 @@ class TransactionTableViewCell: UITableViewCell {
             self.layoutTokenSend(tx: tx, owner: owner)
         case .issuance:
             self.layoutTokenIssuance(tx: tx)
+        case .revoke:
+            self.layoutTokenRevoke(tx: tx)
         }
     }
 
@@ -189,6 +191,7 @@ class TransactionTableViewCell: UITableViewCell {
 
     private func layoutTokenIssuance(tx: TransactionRequest) {
         self.subtitleLabel.text = "\(tx.name ?? "") \(tx.symbol ?? "")"
+        self.typeImageView.image = #imageLiteral(resourceName: "clipboard2").withRenderingMode(.alwaysTemplate)
     }
 
     func layoutTokenSend(tx: TransactionRequest, owner: String) {
@@ -201,6 +204,18 @@ class TransactionTableViewCell: UITableViewCell {
 
         self.typeImageView.image = #imageLiteral(resourceName: "coin_send").withRenderingMode(.alwaysTemplate)
         self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
+    }
+
+    func layoutTokenRevoke(tx: TransactionRequest) {
+        guard
+            let tokenId = tx.tokenID,
+            let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenId]
+        else {
+            return
+        }
+
+        self.subtitleLabel.text = "\(tx.transaction?.amount ?? "--") \(tokenInfo.symbol)"
+        self.typeImageView.image = #imageLiteral(resourceName: "minus").withRenderingMode(.alwaysTemplate)
     }
     
 }
@@ -231,6 +246,8 @@ extension TransactionRequest {
             result = "Token Send"
         case .issuance:
             result = "Token Issuance"
+        case .revoke:
+            result = "Token Revoke"
         }
         return result
     }

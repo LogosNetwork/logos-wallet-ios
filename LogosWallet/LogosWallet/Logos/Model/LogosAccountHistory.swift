@@ -90,4 +90,5 @@ enum TransactionRequestType: String, Codable {
     case issuance = "issuance"
     case send = "send"
     case tokenSend = "token_send"
+    case revoke = "revoke"
 }
