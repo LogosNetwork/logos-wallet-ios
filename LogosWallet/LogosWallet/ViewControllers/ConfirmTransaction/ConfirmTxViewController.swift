@@ -154,7 +154,8 @@ class ConfirmTxViewController: UIViewController {
     }
 
     private func createTokenSend(info: LogosAccountInfo, tokenID: String) -> SendRequest {
-        let request = TokenSendRequest(tokenID: tokenID, tokenFee: 0)
+        let feeRate = LogosTokenManager.shared.tokenAccounts[tokenID]?.feeRate ?? "0"
+        let request = TokenSendRequest(tokenID: tokenID, tokenFee: feeRate.decimalNumber)
         request.work = "0"
         request.transactions = [
             Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount),

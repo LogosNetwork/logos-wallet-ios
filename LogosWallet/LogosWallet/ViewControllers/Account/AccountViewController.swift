@@ -334,10 +334,12 @@ class AccountViewController: UIViewController {
     }
     
     func onRequestBroadcasted() {
-        self.viewModel.getAccountInfo { [weak self] in
-            self?.balanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-            self?.viewModel.getHistory { _ in
-                self?.tableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            self?.viewModel.getAccountInfo {
+                self?.balanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
+                self?.viewModel.getHistory { _ in
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -391,30 +393,30 @@ class AccountViewController: UIViewController {
 
 extension AccountViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == self.carouselView {
-
-        } else {
-            guard let balanceToSortOffset = balanceToSortOffset else { return }
-            let currentOffset = min(max(scrollView.contentOffset.y, 0), scrollView.contentSize.height - scrollView.bounds.size.height)
+//        if scrollView == self.carouselView {
+//
+//        } else {
+//            guard let balanceToSortOffset = balanceToSortOffset else { return }
+//            let currentOffset = min(max(scrollView.contentOffset.y, 0), scrollView.contentSize.height - scrollView.bounds.size.height)
             //        let balanceY = totalBalanceLabel?.convert(totalBalanceLabel!.center, to: sortButton!).y ?? 1.0
             //        currencyTapBox?.alpha = CGFloat(balanceY / balanceToSortOffset)
             //        if currencyTapBox?.alpha ?? 0.0 < 0 { currencyTapBox?.alpha = 0 }
             //        if currencyTapBox?.alpha ?? 0.0 > 1 { currencyTapBox?.alpha = 1 }
 
-            if currentOffset > 0 {
-                let delta = previousOffset - currentOffset
-                topConstraint.constant += delta
-                if topConstraint.constant <= 0 {
-                    topConstraint.constant = 0
-                } else if topConstraint.constant > 200 {
-                    topConstraint.constant = 200
-                }
-                previousOffset = currentOffset
-            } else {
-                topConstraint.constant = 200
-                previousOffset = 0.0
-            }
-        }
+//            if currentOffset > 0 {
+//                let delta = previousOffset - currentOffset
+//                topConstraint.constant += delta
+//                if topConstraint.constant <= 0 {
+//                    topConstraint.constant = 0
+//                } else if topConstraint.constant > 200 {
+//                    topConstraint.constant = 200
+//                }
+//                previousOffset = currentOffset
+//            } else {
+//                topConstraint.constant = 200
+//                previousOffset = 0.0
+//            }
+//        }
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
