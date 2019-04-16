@@ -348,6 +348,7 @@ class AccountViewController: UIViewController {
         self.balanceLabel?.text = self.viewModel.balanceValue
         self.sortButton.setTitle(self.viewModel.refineType.title, for: .normal)
         self.tableView.reloadData()
+        self.carouselView.reloadData()
     }
     
     func initiateChangeBlock(newRep: String?) {

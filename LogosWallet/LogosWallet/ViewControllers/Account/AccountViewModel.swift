@@ -67,6 +67,9 @@ class AccountViewModel {
         if self.isShowingSecondary {
             return Currency.secondary.convert(info.balance.decimalNumber)
         } else {
+            if let currentAccount = self.currentAccount, let _ = currentAccount.tokenID {
+                return currentAccount.accountBalance.formattedBalance
+            }
             return info.formattedBalance
         }
     }
