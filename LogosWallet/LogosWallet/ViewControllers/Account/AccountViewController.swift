@@ -250,7 +250,6 @@ class AccountViewController: UIViewController {
             make.right.equalToSuperview()
             make.bottom.equalTo(stackView.snp.top).offset(-AppStyle.Size.smallPadding)
         }
-//        unitsLabel?.text = self.viewModel.currencyValue
     }
     
     // MARK: - Actions
@@ -289,7 +288,6 @@ class AccountViewController: UIViewController {
         viewModel.toggleCurrency()
         tableView.reloadData()
 //        self.balanceLabel?.text = viewModel.balanceValue
-//        unitsLabel?.text = viewModel.currencyValue
     }
     
     @objc fileprivate func overflowPressed() {
