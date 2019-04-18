@@ -29,7 +29,8 @@ class AccountTableViewCell: UITableViewCell {
         else {
             return
         }
-        backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        self.contentView.backgroundColor = .clear
+        backgroundColor = UIColor.white.withAlphaComponent(0.04)
         layer.cornerRadius = 10.0
         let img = #imageLiteral(resourceName: "forward2").withRenderingMode(.alwaysTemplate)
         forwardImageView?.tintColor = .white

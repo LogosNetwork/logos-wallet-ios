@@ -246,8 +246,8 @@ class AccountViewController: UIViewController {
         self.view.addSubview(self.tableView)
         self.tableView.snp.makeConstraints { (make) in
             make.top.equalTo(self.sortButton.snp.bottom).offset(AppStyle.Size.smallPadding)
-            make.left.equalToSuperview().offset(AppStyle.Size.smallPadding)
-            make.right.equalToSuperview().offset(-AppStyle.Size.smallPadding)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.bottom.equalTo(stackView.snp.top).offset(-AppStyle.Size.smallPadding)
         }
 //        unitsLabel?.text = self.viewModel.currencyValue
@@ -318,6 +318,7 @@ class AccountViewController: UIViewController {
             self.viewModel.repair { [weak self] in
                 LoadingView.stopAnimating()
                 self?.updateView()
+                self?.carouselView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: true)
 
             }
         }
@@ -499,7 +500,6 @@ extension AccountViewController: UITableViewDataSource {
         }
 
         cell.prepare(with: self.viewModel[indexPath.section], owner: self.viewModel.account.lgsAddress, useSecondaryCurrency: self.viewModel.isShowingSecondary)
-        cell.addShadow()
         return cell
     }
 }

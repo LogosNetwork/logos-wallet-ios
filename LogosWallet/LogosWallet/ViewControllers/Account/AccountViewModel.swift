@@ -153,6 +153,7 @@ class AccountViewModel {
         self.refinedChain = []
         self.chain = []
         self.account.info = nil
+        self.selectedAccountIndex = 0
         self.getAccountInfo { [weak self] in
             self?.getHistory { _ in
                 completion()

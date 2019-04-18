@@ -59,8 +59,23 @@ class TransactionTableViewCell: UITableViewCell {
     }
 
     private func setup() {
+        self.backgroundColor = .clear
+        contentView.backgroundColor = .clear
+
+        let content = with(UIView()) {
+            $0.backgroundColor = UIColor.white.withAlphaComponent(0.04)
+            $0.layer.cornerRadius = 10.0
+            $0.addShadow(0.2, radius: 3.0)
+        }
+        self.addSubview(content)
+        content.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(AppStyle.Size.smallPadding)
+            make.right.equalToSuperview().offset(-AppStyle.Size.smallPadding)
+            make.top.bottom.equalToSuperview()
+        }
+
         let baseContentView = UIView()
-        self.addSubview(baseContentView)
+        content.addSubview(baseContentView)
         baseContentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(AppStyle.Size.padding)
             make.right.equalToSuperview().offset(-AppStyle.Size.padding)
@@ -101,7 +116,7 @@ class TransactionTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
 
-        self.addSubview(self.contentStackView)
+        content.addSubview(self.contentStackView)
         self.contentStackView.snp.makeConstraints { make in
             make.top.equalTo(baseContentView.snp.bottom).offset(AppStyle.Size.padding)
             make.left.right.equalTo(baseContentView)
@@ -136,9 +151,6 @@ class TransactionTableViewCell: UITableViewCell {
         guard let tx = tx else {
             return
         }
-        backgroundColor = UIColor.white.withAlphaComponent(0.04)
-        contentView.backgroundColor = .clear
-        layer.cornerRadius = 10.0
 
         self.requestTypeLabel.text = tx.typeText
         self.timeLabel.text = tx.formattedTimestamp
