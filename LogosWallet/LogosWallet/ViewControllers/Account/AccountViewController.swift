@@ -99,6 +99,12 @@ class AccountViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.scrollViewDidEndDecelerating(self.carouselView)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -211,9 +217,6 @@ class AccountViewController: UIViewController {
         self.setupCarouselView()
 
         self.view.addSubview(self.sortButton)
-//        let currencyTap = UITapGestureRecognizer(target: self, action: #selector(currencySwitch))
-//        currencyTapBox?.addGestureRecognizer(currencyTap)
-//        totalBalanceTitleLabel?.text = String.localize("total-balance").uppercased()
         self.sortButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.topContainerView.snp.bottom).offset(AppStyle.Size.padding)
             make.left.equalToSuperview().offset(AppStyle.Size.smallPadding)
@@ -427,6 +430,8 @@ extension AccountViewController: UIScrollViewDelegate {
             if let visibleIndexPath = self.carouselView.indexPathForItem(at: visiblePoint) {
                 self.viewModel.selectedAccountIndex = visibleIndexPath.item
                 self.tableView.reloadData()
+                let cell = self.carouselView.cellForItem(at: visibleIndexPath) as? AccountCarouselCollectionViewCell
+                self.balanceLabel = cell?.balanceLabel
             }
         }
     }
@@ -508,10 +513,6 @@ extension AccountViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AccountCarouselCollectionViewCell.reuseIdentifier, for: indexPath) as! AccountCarouselCollectionViewCell
         let account = self.viewModel.associatedAccounts[indexPath.item]
-        // TODO: update this to use current selected balance
-        if account.symbol == "LGS" {
-            self.balanceLabel = cell.balanceLabel
-        }
         cell.prepare(with: account)
         return cell
     }

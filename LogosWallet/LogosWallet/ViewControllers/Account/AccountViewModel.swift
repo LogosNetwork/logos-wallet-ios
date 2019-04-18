@@ -62,16 +62,12 @@ class AccountViewModel {
     }
     var balanceValue: String {
         guard let info = self.account.info else {
-            return self.isShowingSecondary ? "0".formattedBalance : Currency.secondary.convert(0)
+            return "0".formattedBalance
         }
-        if self.isShowingSecondary {
-            return Currency.secondary.convert(info.balance.decimalNumber)
-        } else {
-            if let currentAccount = self.currentAccount, let _ = currentAccount.tokenID {
-                return currentAccount.accountBalance.formattedBalance
-            }
-            return info.formattedBalance
+        if let currentAccount = self.currentAccount, let _ = currentAccount.tokenID {
+            return currentAccount.accountBalance.formattedBalance
         }
+        return info.formattedBalance
     }
     // TODO: clean up currency stuff
     var currencyValue: String {
@@ -132,6 +128,11 @@ class AccountViewModel {
                 self.refinedChain = history.history
                 LogosStore.updateHistory(for: self.account.lgsAddress, history: history)
                 completion(nil)
+                if self.selectedAccountIndex != 0 {
+                    // trigger didSet action
+                    let index = self.selectedAccountIndex
+                    self.selectedAccountIndex = index
+                }
             }
         }
     }
