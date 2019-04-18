@@ -109,6 +109,11 @@ class AccountViewModel {
                 return
             }
             self?.account.info = info
+            info.tokens?.forEach {
+                if LogosTokenManager.shared.tokenAccounts[$0.key] == nil {
+                    LogosTokenManager.shared.fetchTokenInfo(for: $0.key)
+                }
+            }
             LogosStore.update(account: address, info: info)
             completion?()
         }
