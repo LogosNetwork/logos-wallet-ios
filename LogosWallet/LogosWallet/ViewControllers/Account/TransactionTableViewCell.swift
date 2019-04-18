@@ -147,7 +147,7 @@ class TransactionTableViewCell: UITableViewCell {
         switch tx.type {
         case .send:
             self.layoutSend(tx: tx, owner: owner)
-        case .distribute, .withdrawFee, .revoke, .tokenSend:
+        case .distribute, .withdrawFee, .withdrawLogos, .revoke, .tokenSend:
             self.layoutTokenRequest(tx: tx, owner: owner)
         case .issuance:
             self.layoutTokenIssuance(tx: tx)
@@ -169,10 +169,25 @@ class TransactionTableViewCell: UITableViewCell {
             return
         }
 
-        if let _ = tx.transactions {
+        if let transactions = tx.transactions {
             self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
-        } else if let distributeTransaction = tx.transaction {
-            self.subtitleLabel.text = "\(distributeTransaction.amount) \(tokenInfo.symbol)"
+            if transactions.count > 1 {
+                transactions.forEach {
+                    let stack = self.createHorizontalStack(header: $0.amount.formattedAmount + " \(tokenInfo.symbol)", value: "received by \($0.destination)")
+                    self.contentStackView.addArrangedSubview(stack)
+                }
+            }
+        } else if let transaction = tx.transaction {
+            let amount: String
+            let symbol: String
+            if tx.type == .withdrawLogos {
+                amount = transaction.amount.decimalNumber.mlgsString.formattedAmount
+                symbol = CURRENCY_NAME
+            } else {
+                amount = transaction.amount
+                symbol = tokenInfo.symbol
+            }
+            self.subtitleLabel.text = "\(amount) \(symbol)"
         } else {
             self.subtitleLabel.text = "\(tx.name ?? "") \(tokenInfo.symbol)"
         }
@@ -180,12 +195,15 @@ class TransactionTableViewCell: UITableViewCell {
     }
 
     private func layoutSend(tx: TransactionRequest, owner: String) {
-        if tx.isReceive(of: owner) {
-            self.typeImageView.image = #imageLiteral(resourceName: "download-arrow").withRenderingMode(.alwaysTemplate)
-        } else {
-            self.typeImageView.image = #imageLiteral(resourceName: "paper-plane").withRenderingMode(.alwaysTemplate)
-        }
+        self.typeImageView.image = #imageLiteral(resourceName: "lambda").withRenderingMode(.alwaysTemplate)
         self.subtitleLabel.text = "\(tx.amountTotal(for: owner).mlgsString.formattedAmount) \(CURRENCY_NAME)"
+
+        if let transactions = tx.transactions, transactions.count > 1 {
+            transactions.forEach {
+                let stack = self.createHorizontalStack(header: $0.amount.decimalNumber.mlgsString.formattedAmount + " \(CURRENCY_NAME)", value: "received by \($0.destination)")
+                self.contentStackView.addArrangedSubview(stack)
+            }
+        }
     }
 
     private func layoutTokenIssuance(tx: TransactionRequest) {
