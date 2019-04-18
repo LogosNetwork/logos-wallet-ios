@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="lPB-ND-RaT">
-                        <rect key="frame" x="16" y="22.5" width="110" height="37.5"/>
+                        <rect key="frame" x="16" y="22" width="110" height="37.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="Account Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySM-O9-Hth">
                                 <rect key="frame" x="0.0" y="0.0" width="110" height="20.5"/>
@@ -40,8 +39,8 @@
                             </label>
                         </subviews>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="oh3-UV-IiT">
-                        <rect key="frame" x="148" y="19" width="12.5" height="44"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="oh3-UV-IiT">
+                        <rect key="frame" x="130" y="18.5" width="12.5" height="44.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -55,7 +54,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="LGS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Okc-ev-Yok">
-                        <rect key="frame" x="164.5" y="32.5" width="26.5" height="17"/>
+                        <rect key="frame" x="146.5" y="32.5" width="26.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -70,10 +69,8 @@
                     <constraint firstItem="oh3-UV-IiT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FNb-Xk-DJm"/>
                     <constraint firstItem="Okc-ev-Yok" firstAttribute="centerY" secondItem="oh3-UV-IiT" secondAttribute="centerY" id="Q63-tA-0dK"/>
                     <constraint firstItem="lPB-ND-RaT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="WYi-cf-7XP"/>
-                    <constraint firstItem="oh3-UV-IiT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="Zjg-V0-ms7"/>
-                    <constraint firstItem="oh3-UV-IiT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="a6O-DY-RlQ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="oh3-UV-IiT" secondAttribute="bottom" constant="8" id="aZ6-A7-COZ"/>
-                    <constraint firstItem="oh3-UV-IiT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lPB-ND-RaT" secondAttribute="trailing" constant="4" id="asU-8p-ept"/>
+                    <constraint firstItem="oh3-UV-IiT" firstAttribute="leading" secondItem="lPB-ND-RaT" secondAttribute="trailing" constant="4" id="asU-8p-ept"/>
                     <constraint firstItem="7cJ-gr-WBa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eGi-aZ-Bkt"/>
                     <constraint firstItem="lPB-ND-RaT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="kxe-I8-s6E"/>
                     <constraint firstItem="7cJ-gr-WBa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Okc-ev-Yok" secondAttribute="trailing" constant="8" id="orC-XN-9ED"/>
