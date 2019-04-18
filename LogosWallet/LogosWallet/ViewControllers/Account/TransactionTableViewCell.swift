@@ -39,11 +39,9 @@ class TransactionTableViewCell: UITableViewCell {
         $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 
-    let bottomContainerView = UIView()
-
-    let expandedStackView = with(UIStackView()) {
+    let contentStackView = with(UIStackView()) {
         $0.axis = .vertical
-        $0.spacing = AppStyle.Size.smallPadding
+        $0.spacing = AppStyle.Size.extraSmallPadding
     }
 
     let typeImageView = with(UIImageView()) {
@@ -103,16 +101,11 @@ class TransactionTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
 
-        self.addSubview(self.bottomContainerView)
-        self.bottomContainerView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(baseContentView.snp.bottom)
-        }
-        self.addSubview(self.expandedStackView)
-        self.expandedStackView.snp.makeConstraints { make in
-            make.top.equalTo(self.bottomContainerView.snp.bottom)
+        self.addSubview(self.contentStackView)
+        self.contentStackView.snp.makeConstraints { make in
+            make.top.equalTo(baseContentView.snp.bottom).offset(AppStyle.Size.padding)
             make.left.right.equalTo(baseContentView)
-            make.bottom.equalToSuperview().offset(-AppStyle.Size.padding)
+            make.bottom.equalToSuperview()
         }
 
         self.originLabel.snp.makeConstraints { make in
@@ -128,8 +121,7 @@ class TransactionTableViewCell: UITableViewCell {
         self.subtitleLabel.text = ""
         self.originLabel.text = ""
         self.typeImageView.image = nil
-        self.bottomContainerView.subviews.forEach { $0.removeFromSuperview() }
-        self.expandedStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        self.contentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
     }
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -155,15 +147,36 @@ class TransactionTableViewCell: UITableViewCell {
         switch tx.type {
         case .send:
             self.layoutSend(tx: tx, owner: owner)
-        case .distribute:
-            self.layoutDistribute(tx: tx)
-        case .tokenSend:
-            self.layoutTokenSend(tx: tx, owner: owner)
+        case .distribute, .withdrawFee, .revoke, .tokenSend:
+            self.layoutTokenRequest(tx: tx, owner: owner)
         case .issuance:
             self.layoutTokenIssuance(tx: tx)
-        case .revoke:
-            self.layoutTokenRevoke(tx: tx)
+        default:
+            break
         }
+        if self.contentStackView.arrangedSubviews.count > 0 {
+            let padding = UIView()
+            padding.snp.makeConstraints { make in make.height.equalTo(AppStyle.Size.padding).priority(999) }
+            self.contentStackView.addArrangedSubview(padding)
+        }
+    }
+
+    private func layoutTokenRequest(tx: TransactionRequest, owner: String) {
+        guard
+            let tokenId = tx.tokenID,
+            let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenId]
+        else {
+            return
+        }
+
+        if let _ = tx.transactions {
+            self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
+        } else if let distributeTransaction = tx.transaction {
+            self.subtitleLabel.text = "\(distributeTransaction.amount) \(tokenInfo.symbol)"
+        } else {
+            self.subtitleLabel.text = "\(tx.name ?? "") \(tokenInfo.symbol)"
+        }
+        self.typeImageView.image = #imageLiteral(resourceName: "token").withRenderingMode(.alwaysTemplate)
     }
 
     private func layoutSend(tx: TransactionRequest, owner: String) {
@@ -175,47 +188,52 @@ class TransactionTableViewCell: UITableViewCell {
         self.subtitleLabel.text = "\(tx.amountTotal(for: owner).mlgsString.formattedAmount) \(CURRENCY_NAME)"
     }
 
-    private func layoutDistribute(tx: TransactionRequest) {
-        guard
-            let tokenId = tx.tokenID,
-            let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenId]
-        else {
-            return
-        }
-
-        self.typeImageView.image = #imageLiteral(resourceName: "box").withRenderingMode(.alwaysTemplate)
-        if let distributeTransaction = tx.transaction {
-            self.subtitleLabel.text = "\(distributeTransaction.amount) \(tokenInfo.symbol)"
-        }
-    }
-
     private func layoutTokenIssuance(tx: TransactionRequest) {
         self.subtitleLabel.text = "\(tx.name ?? "") \(tx.symbol ?? "")"
-        self.typeImageView.image = #imageLiteral(resourceName: "clipboard2").withRenderingMode(.alwaysTemplate)
-    }
+        self.typeImageView.image = #imageLiteral(resourceName: "token").withRenderingMode(.alwaysTemplate)
 
-    func layoutTokenSend(tx: TransactionRequest, owner: String) {
         guard
-            let tokenId = tx.tokenID,
-            let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenId]
+            let tokenAccount = tx.tokenID,
+            let encodedAccount = try? WalletUtil.deriveLGSAccount(from: tokenAccount.hexData!)
         else {
             return
         }
 
-        self.typeImageView.image = #imageLiteral(resourceName: "coin_send").withRenderingMode(.alwaysTemplate)
-        self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
+        let tokenAccountStack = self.createHorizontalStack(header: "Token account:", value: encodedAccount)
+        let issuedByStack = self.createHorizontalStack(header: "Issued by:", value: tx.origin)
+        let nameStack = self.createHorizontalStack(header: "Name:", value: "\(tx.name ?? "") (\(tx.symbol ?? ""))")
+        let supplyStack = self.createHorizontalStack(header: "Total supply:", value: "\(tx.totalSupply ?? "") \(tx.symbol ?? "")")
+        let feeRateStack = self.createHorizontalStack(header: "Fee rate:", value: tx.feeRate)
+        [tokenAccountStack, issuedByStack, nameStack, supplyStack, feeRateStack].forEach {
+            self.contentStackView.addArrangedSubview($0)
+        }
     }
 
-    func layoutTokenRevoke(tx: TransactionRequest) {
-        guard
-            let tokenId = tx.tokenID,
-            let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenId]
-        else {
-            return
+    private func createHorizontalStack(header: String, value: String?) -> UIStackView {
+        let stackView = with(UIStackView()) {
+            $0.axis = .horizontal
+            $0.spacing = AppStyle.Size.extraSmallPadding
         }
+        let headerLabel = with(UILabel()) {
+            $0.textColor = .white
+            $0.font = AppStyle.Font.subtitle
+            $0.text = header
+            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+            $0.setContentHuggingPriority(.required, for: .horizontal)
+            $0.numberOfLines = 1
+        }
+        let valueLabel = with(UILabel()) {
+            $0.textColor = AppStyle.Color.lowAlphaWhite
+            $0.font = AppStyle.Font.lightSubtitle
+            $0.text = value
+            $0.numberOfLines = 1
+            $0.textAlignment = .left
+            $0.lineBreakMode = .byTruncatingMiddle
+        }
+        stackView.addArrangedSubview(headerLabel)
+        stackView.addArrangedSubview(valueLabel)
 
-        self.subtitleLabel.text = "\(tx.transaction?.amount ?? "--") \(tokenInfo.symbol)"
-        self.typeImageView.image = #imageLiteral(resourceName: "minus").withRenderingMode(.alwaysTemplate)
+        return stackView
     }
     
 }
@@ -248,6 +266,30 @@ extension TransactionRequest {
             result = "Token Issuance"
         case .revoke:
             result = "Token Revoke"
+        case .adjustFee:
+            result = "Token Adjust Fee"
+        case .adjustUserStatus:
+            result = "Token Adjust User Status"
+        case .burn:
+            result = "Token Burn"
+        case .change:
+            result = "Change"
+        case .changeSetting:
+            result = "Token Change Setting"
+        case .immuteSetting:
+            result = "Token Immute Setting"
+        case .withdrawFee:
+            result = "Token Withdraw Fee"
+        case .withdrawLogos:
+            result = "Withdraw Logos"
+        case .issuanceAdditional:
+            result = "Token Issuance Additional"
+        case .updateController:
+            result = "Token Update Controller"
+        case .updateIssuerInfo:
+            result = "Token Update Issuer"
+        case .withdraw:
+            result = "Withdraw"
         }
         return result
     }

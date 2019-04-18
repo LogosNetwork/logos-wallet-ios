@@ -86,9 +86,21 @@ extension TransactionRequest {
 }
 
 enum TransactionRequestType: String, Codable {
-    case distribute = "distribute"
-    case issuance = "issuance"
-    case send = "send"
+    case distribute
+    case issuance
+    case send
     case tokenSend = "token_send"
-    case revoke = "revoke"
+    case revoke
+    case withdraw
+    case withdrawFee = "withdraw_fee"
+    case withdrawLogos = "withdraw_logos"
+    case adjustFee = "adjust_fee"
+    case adjustUserStatus = "adjust_user_status"
+    case burn
+    case change
+    case changeSetting = "change_setting"
+    case immuteSetting = "immute_setting"
+    case issuanceAdditional = "issue_additional"
+    case updateController = "update_controller"
+    case updateIssuerInfo = "update_issuer_info"
 }
