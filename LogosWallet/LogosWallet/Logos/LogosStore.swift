@@ -49,8 +49,19 @@ class LogosStore {
         return Storage.retrieve("accounts/\(account)/history", as: LogosAccountHistory.self)
     }
 
-    static func updateHistory(for account: String, history: LogosAccountHistory) {
-        Storage.store(history, as: "history", directoryPath: "accounts/\(account)")
+    static func updateHistory(for account: String, history: LogosAccountHistory, completion: (() -> Void)? = nil) {
+        var accountHistory = history
+        if let existing = self.getHistory(for: account) {
+            var existingHistory = existing.history
+            let existingHashes = existingHistory.map { $0.hash }
+            history.history.forEach {
+                if !existingHashes.contains($0.hash) {
+                    existingHistory.insert($0, at: 0)
+                }
+            }
+            accountHistory.history = existingHistory
+        }
+        Storage.store(accountHistory, as: "history", directoryPath: "accounts/\(account)", completion: completion)
     }
 
 }
