@@ -10,7 +10,7 @@ import Foundation
 
 struct LogosAccountHistory: Codable {
     let account: String
-    let history: [TransactionRequest]
+    var history: [TransactionRequest]
     let previous: String?
 }
 

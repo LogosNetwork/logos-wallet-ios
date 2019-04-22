@@ -82,7 +82,6 @@ extension AccountCoordinator: AccountViewControllerDelegate {
 
 extension AccountCoordinator: SendCoordinatorDelegate {
     func sendComplete(coordinator: Coordinator) {
-        accountVC?.onRequestBroadcasted()
         removeChildCoordinator(coordinator)
     }
     

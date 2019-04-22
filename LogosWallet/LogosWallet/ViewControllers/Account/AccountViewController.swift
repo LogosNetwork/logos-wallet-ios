@@ -129,9 +129,16 @@ class AccountViewController: UIViewController {
         RequestHandler.shared
             .incomingRequestSubject
             .subscribe(onNext: { [weak self] (incomingBlock) in
-                guard let strongSelf = self else { return }
-                strongSelf.viewModel = AccountViewModel(with: strongSelf.viewModel.account)
+                guard
+                    let strongSelf = self,
+                    let account = WalletManager.shared.account(at: strongSelf.viewModel.account.index)
+                else {
+                    return
+                }
+                let previousSelected = strongSelf.viewModel.selectedAccountIndex
+                strongSelf.viewModel = AccountViewModel(with: account)
                 strongSelf.setupViewModel()
+                strongSelf.viewModel.selectedAccountIndex = previousSelected
                 strongSelf.updateView()
             }).disposed(by: self.disposeBag)
     }
@@ -333,17 +340,6 @@ class AccountViewController: UIViewController {
     
     @IBAction func receiveTapped(_ sender: Any) {
         delegate?.receiveTapped(account: viewModel.account)
-    }
-    
-    func onRequestBroadcasted() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            self?.viewModel.getAccountInfo {
-                self?.balanceLabel?.text = self?.viewModel.balanceValue.trimTrailingZeros()
-                self?.viewModel.getHistory { _ in
-                    self?.tableView.reloadData()
-                }
-            }
-        }
     }
     
     func updateView() {

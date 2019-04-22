@@ -86,15 +86,17 @@ class RequestHandler {
             // play receive sound for when sender address is not from this wallet
             SoundManager.shared.play(.receive)
         }
+        Lincoln.log("Incoming request for: \(address)")
         NetworkAdapter.accountInfo2(for: address) { [weak self] (info, error) in
             guard let accountInfo = info else { return }
             LogosStore.update(account: address, info: accountInfo)
             NetworkAdapter.getAccountHistory2(account: address, count: 10) { history, _ in
                 if let history = history {
-                    LogosStore.updateHistory(for: address, history: history)
+                    LogosStore.updateHistory(for: address, history: history) {
+                        WalletManager.shared.updateAccounts()
+                        self?.incomingRequestSubject.onNext(transactionRequest)
+                    }
                 }
-                WalletManager.shared.updateAccounts()
-                self?.incomingRequestSubject.onNext(transactionRequest)
             }
         }
     }
