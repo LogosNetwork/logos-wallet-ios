@@ -116,6 +116,11 @@ class SendViewController: UIViewController {
         let amountGesture = UITapGestureRecognizer(target: self, action: #selector(enterAmountTapped(_:)))
         amountLabel?.addGestureRecognizer(amountGesture)
         amountLabel?.isUserInteractionEnabled = true
+        if let tokenID = self.tokenID, let symbol = LogosTokenManager.shared.tokenAccounts[tokenID]?.symbol {
+            self.currencyLabel?.text = symbol
+        } else {
+            self.currencyLabel?.text = CURRENCY_NAME
+        }
     }
     
     // MARK: - Actions
