@@ -98,7 +98,7 @@ extension LogosService: TargetType {
             // TEMP
             return .requestParameters(parameters: [
                 "request": requestString,
-                "targetURL": "http://172.1.1.100:55000",
+                "targetURL": LogosDelegateService.loadBalancedUrl().absoluteString,
                 "rpc_action": "process",
             ], encoding: JSONEncoding.default)
 //            return params(for: "process", params: ["block": blockString])
@@ -119,7 +119,7 @@ extension LogosService: TargetType {
         case .tokenAccountInfo(let account), .accountInfo2(let account):
             return .requestParameters(parameters: [
                 "account": account,
-                "targetURL": "http://172.1.1.100:55000",
+                "targetURL": LogosDelegateService.loadBalancedUrl().absoluteString,
                 "rpc_action": "account_info",
             ], encoding: JSONEncoding.default)
         case .accountInfo(let account):
@@ -127,7 +127,7 @@ extension LogosService: TargetType {
         case .accountHistory2(let account, let count):
             return .requestParameters(parameters: [
                 "account": account,
-                "targetURL": "http://172.1.1.100:55000",
+                "targetURL": LogosDelegateService.loadBalancedUrl().absoluteString,
                 "rpc_action": "account_history",
                 "count": count,
                 "raw": false,
