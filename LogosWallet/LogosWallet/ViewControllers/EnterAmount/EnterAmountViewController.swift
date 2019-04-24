@@ -29,16 +29,18 @@ class EnterAmountViewController: UIViewController {
     let tokenID: String?
     var enteredAmount: ((String) -> Void)?
 
-    var balanceText: String {
-        let amount: String
+    var balance: NSDecimalNumber {
         if self.tokenID == nil {
-            amount = self.accountInfo.formattedBalance
+            return self.accountInfo.mlgsBalance.decimalNumber
         } else if let tokenID = self.tokenID, let tokenAccount = self.accountInfo.tokens?[tokenID] {
-            amount = tokenAccount.balance
+            return tokenAccount.balance.decimalNumber
         } else {
-            amount = "--"
+            return 0
         }
-        return String.localize("available-balance-arg", arg: amount).uppercased()
+    }
+
+    var balanceText: String {
+        return String.localize("available-balance-arg", arg: self.balance.stringValue).uppercased()
     }
 
     var currencyText: String {
@@ -155,7 +157,7 @@ class EnterAmountViewController: UIViewController {
             return
         }
 
-        if self.amount.decimalValue > self.accountInfo.mlgsBalance.decimalNumber.decimalValue {
+        if self.amount.decimalValue > self.balance.decimalValue {
             Banner.show(.localize("insufficient-funds"), style: .danger)
             return
         }
