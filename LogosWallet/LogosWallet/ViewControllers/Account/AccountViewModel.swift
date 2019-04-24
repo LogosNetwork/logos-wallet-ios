@@ -109,11 +109,7 @@ class AccountViewModel {
                 return
             }
             self?.account.info = info
-            info.tokens?.forEach {
-                if LogosTokenManager.shared.tokenAccounts[$0.key] == nil {
-                    LogosTokenManager.shared.fetchTokenInfo(for: $0.key)
-                }
-            }
+            self?.getTokenAccountInfoIfNeeded()
             LogosStore.update(account: address, info: info)
             completion?()
         }
@@ -137,6 +133,16 @@ class AccountViewModel {
                     // trigger didSet action
                     let index = self.selectedAccountIndex
                     self.selectedAccountIndex = index
+                }
+            }
+        }
+    }
+
+    func getTokenAccountInfoIfNeeded() {
+        self.account.info?.tokens?.forEach {
+            if LogosTokenManager.shared.tokenAccounts[$0.key] == nil {
+                LogosTokenManager.shared.fetchTokenInfo(for: $0.key) { [weak self] in
+                    self?.updateView?()
                 }
             }
         }

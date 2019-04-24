@@ -13,12 +13,13 @@ class LogosTokenManager {
     private(set) var tokenAccounts = [String: LogosTokenAccountInfo]()
     static let shared = LogosTokenManager()
 
-    func fetchTokenInfo(for publicKey: String) {
+    func fetchTokenInfo(for publicKey: String, completion: (() -> Void)? = nil) {
         guard
             self.tokenAccounts[publicKey] == nil,
             let publicKeyHex = publicKey.hexData,
             let encodedAccount = try? WalletUtil.deriveLGSAccount(from: publicKeyHex)
         else {
+            completion?()
             return
         }
 
@@ -26,6 +27,7 @@ class LogosTokenManager {
             if let info = info {
                 self.tokenAccounts[publicKey] = info
             }
+            completion?()
         }
     }
 

@@ -140,6 +140,7 @@ class AccountViewController: UIViewController {
                 strongSelf.setupViewModel()
                 strongSelf.viewModel.selectedAccountIndex = previousSelected
                 strongSelf.updateView()
+                strongSelf.viewModel.getTokenAccountInfoIfNeeded()
             }).disposed(by: self.disposeBag)
     }
 
