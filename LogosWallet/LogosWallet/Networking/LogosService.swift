@@ -74,8 +74,12 @@ extension LogosService: TargetType {
             return params(for: "account_history", params: ["account": address, "count": count])
         case .blockInfo(let hashes):
             return params(for: "blocks_info", params: ["hashes": hashes, "source": true])
-        case .block(hash: let hash):
-            return params(for: "block", params: ["hash": hash])
+        case .block(let hash):
+            return .requestParameters(parameters: [
+                "hash": hash,
+                "targetURL": LogosDelegateService.loadBalancedUrl().absoluteString,
+                "rpc_action": "block",
+            ], encoding: JSONEncoding.default)
         case .generateWork(let hash):
             return params(for: "work_generate", params: ["hash": hash])
         case .ledger(let address, let count):

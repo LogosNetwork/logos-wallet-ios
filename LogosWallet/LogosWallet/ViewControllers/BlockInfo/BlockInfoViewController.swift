@@ -29,6 +29,11 @@ class BlockInfoViewController: TransparentNavViewController {
         return label
     }()
 
+    let typeLabel = with(UILabel()) {
+        $0.font = AppStyle.Font.title
+        $0.textColor = .white
+    }
+
     lazy var scrollView: UIScrollView = UIScrollView()
     private var isSend: Bool {
         return self.account.address == self.viewModel.info.origin
@@ -75,18 +80,7 @@ class BlockInfoViewController: TransparentNavViewController {
     // MARK: - Setup
     
     fileprivate func buildView() {
-        let typeLabel = UILabel()
-        typeLabel.font = AppStyle.Font.title
-        typeLabel.textColor = .white
-
-        let type: String
-        if self.viewModel.isMultiTx {
-            type = self.isSend ? "MultiSend" : "Receive"
-        } else {
-            type = self.isSend ? "Send" : "Receive"
-        }
-
-        typeLabel.text = type
+        typeLabel.text = self.viewModel.model?.typeText
         view.addSubview(typeLabel)
         view.addSubview(dateLabel)
         view.addSubview(scrollView)
@@ -132,28 +126,47 @@ class BlockInfoViewController: TransparentNavViewController {
             let originStack = self.buildSubStack("ORIGIN", value: self.viewModel.model?.origin ?? "")
             self.mainStack.addArrangedSubview(originStack)
         }
-        
+
+        typeLabel.text = self.viewModel.model?.typeText
         dateLabel.text = viewModel.localizedDate
 
         mainStack.addArrangedSubview(buildSubStack("PREVIOUS", value: self.viewModel.model?.previous))
         mainStack.addArrangedSubview(buildSubStack("SIGNATURE", value: self.viewModel.model?.signature))
-        if self.viewModel.isMultiTx {
-            model.transactions?.enumerated().forEach { (index, tx) in
-                let targetStack = self.buildSubStack("RECIPIENT \(index + 1)", value: tx.destination)
-                self.mainStack.addArrangedSubview(targetStack)
-                let amountStack = self.buildSubStack("AMOUNT \(index + 1)", value: tx.amount.decimalNumber.mlgsString.formattedAmount)
-                self.mainStack.addArrangedSubview(amountStack)
-            }
-        } else {
-            let targetStack = buildSubStack("RECIPIENT", value: model.transaction?.destination ?? "")
-            mainStack.addArrangedSubview(targetStack)
 
-            let amount = viewModel.info.amountTotal(for: self.account.address!).mlgsString.formattedAmount
-            let amountStack = buildSubStack("AMOUNT", value: amount + " \(CURRENCY_NAME)")
-            mainStack.addArrangedSubview(amountStack)
+        if let transactions = model.transactions {
+            transactions.enumerated().forEach { (index, tx) in
+                self.buildTransactionStack(model, tx: tx, index: index)
+            }
+        } else if let transaction = model.transaction {
+            self.buildTransactionStack(model, tx: transaction)
         }
     }
-    
+
+    private func buildTransactionStack(_ model: TransactionRequest, tx: Transaction, index: Int? = nil) {
+        let amount: String
+        let currency: String
+        if let tokenID = model.tokenID {
+            amount = tx.amount.formattedTokenAmount(tokenID)
+            currency = LogosTokenManager.shared.tokenAccounts[tokenID]?.symbol ?? ""
+        } else {
+            amount = tx.amount.decimalNumber.mlgsString.formattedAmount
+            currency = CURRENCY_NAME
+        }
+        let recipientHeader: String
+        let amountHeader: String
+        if let index = index {
+            recipientHeader = "RECIPIENT \(index + 1)"
+            amountHeader = "AMOUNT \(index + 1)"
+        } else {
+            amountHeader = "AMOUNT"
+            recipientHeader = "RECIPIENT"
+        }
+        let targetStack = self.buildSubStack(recipientHeader, value: tx.destination)
+        self.mainStack.addArrangedSubview(targetStack)
+        let amountStack = self.buildSubStack(amountHeader, value: "\(amount) \(currency)")
+        self.mainStack.addArrangedSubview(amountStack)
+    }
+
     override func setupNavBar() {
         super.setupNavBar()
         let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back2"), style: .plain, target: self, action: #selector(backTapped))

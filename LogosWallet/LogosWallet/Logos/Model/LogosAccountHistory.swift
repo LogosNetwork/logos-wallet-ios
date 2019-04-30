@@ -22,7 +22,7 @@ struct TransactionRequest: Codable {
     let requestBlockIndex: String
     let numberTransactions: String?
     let transactions: [Transaction]?
-    let timestamp: String
+    let timestamp: String?
     let tokenID: String?
     let tokenFee: String?
     let transaction: Transaction?

@@ -273,7 +273,10 @@ extension TransactionRequest {
 
     var formattedTimestamp: String {
         // timestamp in milliseconds
-        guard let timestampValue = TimeInterval(self.timestamp) else {
+        guard
+            let timestamp = self.timestamp,
+            let timestampValue = TimeInterval(timestamp)
+        else {
             return "--"
         }
 
