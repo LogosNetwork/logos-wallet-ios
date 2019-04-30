@@ -47,14 +47,6 @@ extension LogosService: TargetType {
     var baseURL: URL {
         // TEMP
         return URL(string: "https://pla.bs/rpc")!
-//        let index = LogosDelegateService.loadBalancedIndex()
-//        if !WalletManager.shared.networkDelegates.isEmpty,
-//            let delegateIP = WalletManager.shared.networkDelegates["\(index)"],
-//            let url = URL(string: "http://" + delegateIP + ":55000") {
-//            return url
-//        } else {
-//            return NetworkAdapter.baseNodeUrl
-//        }
     }
     
     var path: String {

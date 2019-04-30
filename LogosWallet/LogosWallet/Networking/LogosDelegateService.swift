@@ -49,9 +49,7 @@ enum LogosDelegateService {
 
 extension LogosDelegateService: TargetType {
     var baseURL: URL {
-        // TEMP
-        return URL(string: "http://73377b8a.ngrok.io/delegates")!
-//        return URL(string: "https://pla.bs/delegates")!
+        return URL(string: "https://pla.bs/delegates")!
     }
     var path: String {
         return ""

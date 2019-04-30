@@ -173,7 +173,7 @@ struct Decoda {
             let decoded = try decoder.decode(type, from: data)
             return decoded
         } catch {
-            Lincoln.log(error.localizedDescription)
+            Lincoln.log("\(error)")
         }
         return nil
     }
