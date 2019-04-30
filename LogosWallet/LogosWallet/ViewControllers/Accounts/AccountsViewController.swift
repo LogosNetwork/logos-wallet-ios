@@ -36,7 +36,6 @@ class AccountsViewController: UIViewController {
         navigationController?.delegate = self
 
         WalletManager.shared.accounts.forEach { account in
-            SocketManager.shared.action(.subscribe(account: account.lgsAddress))
             NetworkAdapter.accountInfo2(for: account.lgsAddress) { [weak self] (info, error) in
                 guard let info = info else {
                     return

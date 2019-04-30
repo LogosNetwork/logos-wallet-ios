@@ -51,7 +51,6 @@
 		A749FCF02089980000AB7D9C /* BlockInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FCEF2089980000AB7D9C /* BlockInfo.swift */; };
 		A749FD16208DBA8C00AB7D9C /* BlockInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */; };
 		A749FD19208EE4AF00AB7D9C /* BlockInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */; };
-		A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */; };
 		A749FD1D2091935E00AB7D9C /* VerifiedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */; };
 		A749FD1E2094E34000AB7D9C /* EnterAmountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A768B995201F037500620B62 /* EnterAmountViewController.xib */; };
 		A753FBD22060F2FB00E88B77 /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */; };
@@ -101,7 +100,6 @@
 		A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FC2017398300890432 /* AddressBookViewModel.swift */; };
 		A79116FF20173C4400890432 /* AddressEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79116FE20173C4400890432 /* AddressEntry.swift */; };
 		A7938276212D10FB0038286C /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7938275212D10FA0038286C /* hint.wav */; };
-		A7938299212FA9F80038286C /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7938298212FA9F80038286C /* SocketManager.swift */; };
 		A79C6D06215C8A49007AEF05 /* AppUrlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79C6D05215C8A49007AEF05 /* AppUrlsViewController.swift */; };
 		A7B1B24520140D0F009E5CB0 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B1B24320140D0F009E5CB0 /* SendViewController.swift */; };
 		A7B1B24620140D0F009E5CB0 /* SendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7B1B24420140D0F009E5CB0 /* SendViewController.xib */; };
@@ -242,7 +240,6 @@
 		A749FCEF2089980000AB7D9C /* BlockInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfo.swift; sourceTree = "<group>"; };
 		A749FD14208DBA8C00AB7D9C /* BlockInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewController.swift; sourceTree = "<group>"; };
 		A749FD18208EE4AF00AB7D9C /* BlockInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockInfoViewModel.swift; sourceTree = "<group>"; };
-		A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NanoNodeNinjaService.swift; sourceTree = "<group>"; };
 		A749FD1C2091935E00AB7D9C /* VerifiedAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifiedAccount.swift; sourceTree = "<group>"; };
 		A74FCD89206CD2D9001C9725 /* PubSubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubSubService.swift; sourceTree = "<group>"; };
 		A753FBD12060F2FB00E88B77 /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -295,7 +292,6 @@
 		A79116FC2017398300890432 /* AddressBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressBookViewModel.swift; sourceTree = "<group>"; };
 		A79116FE20173C4400890432 /* AddressEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntry.swift; sourceTree = "<group>"; };
 		A7938275212D10FA0038286C /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
-		A7938298212FA9F80038286C /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		A7975A8920787D0800B2995D /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8A20787D0E00B2995D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		A7975A8F20787D6100B2995D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -826,8 +822,6 @@
 				A753FBD3206104EC00E88B77 /* LogosService.swift */,
 				A7E2F94921C0D2C8007D369B /* LogosDelegateService.swift */,
 				A74FCD89206CD2D9001C9725 /* PubSubService.swift */,
-				A749FD1A20918D6700AB7D9C /* NanoNodeNinjaService.swift */,
-				A7938298212FA9F80038286C /* SocketManager.swift */,
 				A72699B921BE2F8A00C0B09B /* LogosMQTT.swift */,
 			);
 			path = Networking;
@@ -1175,7 +1169,6 @@
 				A78854DF200F12FA00C9565B /* Networking.swift in Sources */,
 				A7B3280E20049D4B00E0E360 /* PassphraseCollectionViewCell.swift in Sources */,
 				A7EF84311FEE43C300C74035 /* UIKit+Extensions.swift in Sources */,
-				A749FD1B20918D6700AB7D9C /* NanoNodeNinjaService.swift in Sources */,
 				A7B32801200333C500E0E360 /* AppStyle.swift in Sources */,
 				A77CDF5521BA4679004940A0 /* TransactionBlock.swift in Sources */,
 				A7EF84291FEDCC9F00C74035 /* AppCoordinator.swift in Sources */,
@@ -1211,7 +1204,6 @@
 				A731BE5A20183FAB00CA96CD /* AddressBookCoordinator.swift in Sources */,
 				A73AC9E9203FDFE200ED24E9 /* RequestAmountViewController.swift in Sources */,
 				A70E8E062097B7FF00372394 /* DataExporter.swift in Sources */,
-				A7938299212FA9F80038286C /* SocketManager.swift in Sources */,
 				A79116FD2017398300890432 /* AddressBookViewModel.swift in Sources */,
 				A7329828200A078A00B21C8D /* Common.swift in Sources */,
 				A7B858F72033F7D700698FAE /* SecurityViewController.swift in Sources */,

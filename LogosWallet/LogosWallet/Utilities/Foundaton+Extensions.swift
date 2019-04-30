@@ -162,3 +162,20 @@ func with<T>(_ initial: T, update: (inout T) throws -> Void) rethrows -> T {
     try update(&copy)
     return copy
 }
+
+
+struct Decoda {
+
+    static func decode<T: Decodable>(_ type: T.Type, strategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase, from data: Data) -> T? {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = strategy
+        do {
+            let decoded = try decoder.decode(type, from: data)
+            return decoded
+        } catch {
+            Lincoln.log(error.localizedDescription)
+        }
+        return nil
+    }
+
+}

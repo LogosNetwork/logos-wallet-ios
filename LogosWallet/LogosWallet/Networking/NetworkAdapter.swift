@@ -57,7 +57,6 @@ public struct NetworkAdapter {
 
     static let provider = MoyaProvider<LogosService>()
 //    static let provider = MoyaProvider<LogosService>(stubClosure: MoyaProvider<LogosService>.immediatelyStub)
-    static let ninjaProvider = MoyaProvider<NanoNodeNinjaService>()
     static let delegateProvider = MoyaProvider<LogosDelegateService>()
 
     // MARK: - Logos Delegate
@@ -221,28 +220,10 @@ public struct NetworkAdapter {
         })
     }
     
-    // MARK: - Nano Node Ninja
-    
-    static func getVerifiedReps(completion: @escaping ([VerifiedAccount]) -> Void) {
-        request(target: .verified, success: { (response) in
-            do {
-                let accounts = try JSONDecoder().decode([VerifiedAccount].self, from: response.data)
-                completion(accounts)
-            } catch {
-                completion([])
-            }
-        })
-    }
     // MARK: - Helper
 
     static func request(target: LogosDelegateService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
         delegateProvider.request(target) { (result) in
-            handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)
-        }
-    }
-
-    static func request(target: NanoNodeNinjaService, success successCallback: @escaping (Response) -> Void, error errorCallback: ((Swift.Error) -> Void)? = nil, failure failureCallback: ((MoyaError) -> Void)? = nil) {
-        ninjaProvider.request(target) { (result) in
             handleResult(result, success: successCallback, error: errorCallback, failure: failureCallback)
         }
     }
