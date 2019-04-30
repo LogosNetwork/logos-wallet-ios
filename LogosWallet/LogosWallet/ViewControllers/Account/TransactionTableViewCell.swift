@@ -182,10 +182,11 @@ class TransactionTableViewCell: UITableViewCell {
         }
 
         if let transactions = tx.transactions {
-            self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue) \(tokenInfo.symbol)"
+            self.subtitleLabel.text = "\(tx.amountTotal(for: owner).stringValue.formattedTokenAmount(tokenId)) \(tokenInfo.symbol)"
             if transactions.count > 1 {
                 transactions.forEach {
-                    let stack = self.createHorizontalStack(header: $0.amount.formattedAmount + " \(tokenInfo.symbol)", value: "received by \($0.destination)")
+                    let amount = $0.amount.formattedTokenAmount(tokenId)
+                    let stack = self.createHorizontalStack(header: amount + " \(tokenInfo.symbol)", value: "received by \($0.destination)")
                     self.contentStackView.addArrangedSubview(stack)
                 }
             }
@@ -195,11 +196,8 @@ class TransactionTableViewCell: UITableViewCell {
             if tx.type == .withdrawLogos {
                 amount = transaction.amount.decimalNumber.mlgsString.formattedAmount
                 symbol = CURRENCY_NAME
-            } else if let decimals = tokenInfo.decimals {
-                amount = transaction.amount.decimalNumber.formattedValue(decimals).stringValue
-                symbol = tokenInfo.symbol
             } else {
-                amount = transaction.amount
+                amount = transaction.amount.formattedTokenAmount(tokenId)
                 symbol = tokenInfo.symbol
             }
             self.subtitleLabel.text = "\(amount) \(symbol)"

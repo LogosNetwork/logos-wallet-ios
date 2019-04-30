@@ -33,6 +33,9 @@ class EnterAmountViewController: UIViewController {
         if self.tokenID == nil {
             return self.accountInfo.mlgsBalance.decimalNumber
         } else if let tokenID = self.tokenID, let tokenAccount = self.accountInfo.tokens?[tokenID] {
+            if let decimals = LogosTokenManager.shared.tokenAccounts[tokenID]?.decimals {
+                return tokenAccount.balance.decimalNumber.formattedValue(decimals)
+            }
             return tokenAccount.balance.decimalNumber
         } else {
             return 0
@@ -40,7 +43,7 @@ class EnterAmountViewController: UIViewController {
     }
 
     var balanceText: String {
-        return String.localize("available-balance-arg", arg: self.balance.stringValue).uppercased()
+        return String.localize("available-balance-arg", arg: self.balance.stringValue.formattedBalance).uppercased()
     }
 
     var currencyText: String {
@@ -163,7 +166,6 @@ class EnterAmountViewController: UIViewController {
         }
 
         self.dismiss(animated: true)
-        // Return value in LGS
         self.enteredAmount?(amount.stringValue)
     }
 }

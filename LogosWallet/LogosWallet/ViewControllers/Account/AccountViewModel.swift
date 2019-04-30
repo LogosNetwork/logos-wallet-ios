@@ -65,10 +65,7 @@ class AccountViewModel {
             return "0".formattedBalance
         }
         if let currentAccount = self.currentAccount, let tokenID = currentAccount.tokenID {
-            if let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenID], let decimals = tokenInfo.decimals {
-                return currentAccount.accountBalance.decimalNumber.formattedValue(decimals).stringValue.formattedBalance
-            }
-            return currentAccount.accountBalance.formattedBalance
+            return currentAccount.accountBalance.formattedTokenAmount(tokenID)
         }
         return info.formattedBalance
     }
@@ -155,7 +152,12 @@ class AccountViewModel {
         let lgsAccount: AccountCarouselAdapter = self.account.info ?? TokenAccount(accountBalance: "0", name: "Logos", symbol: "LGS", tokenID: nil)
         var result: [AccountCarouselAdapter] = self.account.info?.tokens?.compactMap {
             let tokenInfo = LogosTokenManager.shared.tokenAccounts[$0.key]
-            let balance = $0.value.balance
+            let balance: String
+            if let decimals = tokenInfo?.decimals {
+                balance = $0.value.balance.decimalNumber.formattedValue(decimals).stringValue.formattedBalance
+            } else {
+               balance = $0.value.balance.formattedBalance
+            }
             return TokenAccount(accountBalance: balance, name: tokenInfo?.name ?? "--", symbol: tokenInfo?.symbol ?? "--", tokenID: $0.key)
             } ?? []
         result.insert(lgsAccount, at: 0)

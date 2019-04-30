@@ -112,3 +112,20 @@ extension NSDecimalNumber {
         return hex
     }
 }
+
+extension String {
+
+    func formattedTokenAmount(_ tokenID: String) -> String {
+        return self.formattedTokenAmountValue(tokenID).stringValue.formattedAmount
+    }
+
+    func formattedTokenAmountValue(_ tokenID: String) -> NSDecimalNumber {
+        if let decimals = LogosTokenManager.shared.tokenAccounts[tokenID]?.decimals {
+            return self.decimalNumber.formattedValue(decimals)
+        } else {
+            return self.decimalNumber
+        }
+    }
+
+}
+
