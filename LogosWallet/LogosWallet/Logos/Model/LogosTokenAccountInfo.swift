@@ -39,3 +39,20 @@ struct Controller: Codable {
     let account: String
 //    let privileges: [String]
 }
+
+extension LogosTokenAccountInfo {
+
+    var decimals: Int? {
+        do {
+            if let data = issuerInfo.data(using: .utf8), let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                return json["decimals"] as? Int
+            } else {
+                return nil
+            }
+        } catch {
+            return nil
+        }
+
+    }
+
+}
