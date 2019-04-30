@@ -26,7 +26,7 @@ struct PersistentStore {
                         }
                         // new balance is stored as string
                         let oldBalanceNumber = NSDecimalNumber(decimal: Decimal(oldBalance))
-                        new["balance"] = oldBalanceNumber.mlgsAmount.rawString
+                        new["balance"] = oldBalanceNumber.mlgsAmount.lgsRawString
                     })
                 }
         })

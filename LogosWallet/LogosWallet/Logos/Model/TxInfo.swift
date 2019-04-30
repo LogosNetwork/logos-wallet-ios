@@ -20,7 +20,7 @@ struct TxInfo {
             let feeRate = LogosTokenManager.shared.tokenAccounts[tokenID]?.feeRate.decimalNumber ?? 0
             return tokenInfo.balance.decimalNumber.subtracting(amount.decimalNumber).subtracting(feeRate).stringValue
         } else if let balance = self.account.info?.balance.decimalNumber {
-            let rawAmount = amount.decimalNumber.rawValue
+            let rawAmount = amount.decimalNumber.lgsRawValue
             return balance.subtracting(rawAmount).mlgsString
         } else {
             return "--"

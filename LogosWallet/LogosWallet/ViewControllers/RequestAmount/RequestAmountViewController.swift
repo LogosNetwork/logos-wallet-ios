@@ -138,9 +138,9 @@ class RequestAmountViewController: UIViewController {
         }
         let rawAmount: String
         if isShowingSecondary {
-            rawAmount = self.amount.dividing(by: NSDecimalNumber(decimal: Decimal(Currency.secondaryConversionRate))).rawString
+            rawAmount = self.amount.dividing(by: NSDecimalNumber(decimal: Decimal(Currency.secondaryConversionRate))).lgsRawString
         } else {
-            rawAmount = self.amount.rawString
+            rawAmount = self.amount.lgsRawString
         }
         let xrbStandard = "lgs:\(address)?amount=\(rawAmount)"
         guard let requestData = xrbStandard.data(using: .utf8), let qrImageView = qrImageView else { return }

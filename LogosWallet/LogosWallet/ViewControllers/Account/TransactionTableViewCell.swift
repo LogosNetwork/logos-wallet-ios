@@ -195,6 +195,9 @@ class TransactionTableViewCell: UITableViewCell {
             if tx.type == .withdrawLogos {
                 amount = transaction.amount.decimalNumber.mlgsString.formattedAmount
                 symbol = CURRENCY_NAME
+            } else if let decimals = tokenInfo.decimals {
+                amount = transaction.amount.decimalNumber.formattedValue(decimals).stringValue
+                symbol = tokenInfo.symbol
             } else {
                 amount = transaction.amount
                 symbol = tokenInfo.symbol

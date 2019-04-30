@@ -64,7 +64,10 @@ class AccountViewModel {
         guard let info = self.account.info else {
             return "0".formattedBalance
         }
-        if let currentAccount = self.currentAccount, let _ = currentAccount.tokenID {
+        if let currentAccount = self.currentAccount, let tokenID = currentAccount.tokenID {
+            if let tokenInfo = LogosTokenManager.shared.tokenAccounts[tokenID], let decimals = tokenInfo.decimals {
+                return currentAccount.accountBalance.decimalNumber.formattedValue(decimals).stringValue.formattedBalance
+            }
             return currentAccount.accountBalance.formattedBalance
         }
         return info.formattedBalance

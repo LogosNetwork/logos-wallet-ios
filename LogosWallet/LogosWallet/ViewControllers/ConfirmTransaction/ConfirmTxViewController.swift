@@ -167,7 +167,7 @@ class ConfirmTxViewController: UIViewController {
         let request = SendRequest()
         request.work = "0000000000000000"
         request.transactions = [
-            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.rawValue.stringValue),
+            Transaction(destination: self.txInfo.recipientAddress, amount: self.txInfo.amount.decimalNumber.lgsRawString),
         ]
         return request
     }

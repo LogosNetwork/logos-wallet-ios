@@ -56,9 +56,16 @@ extension String {
 
 extension NSDecimalNumber {
 
+    func formattedValue(_ decimals: Int) -> NSDecimalNumber {
+        return self.dividing(by: NSDecimalNumber(mantissa: 1, exponent: Int16(decimals), isNegative: false))
+    }
+
+    func rawValue(_ decimals: Int) -> NSDecimalNumber {
+        return self.multiplying(byPowerOf10: Int16(decimals))
+    }
+
     var mlgsAmount: NSDecimalNumber {
-        let divider = NSDecimalNumber(mantissa: 1, exponent: POINTS_OF_PRECISION, isNegative: false)
-        return self.dividing(by: divider)
+        return self.formattedValue(Int(POINTS_OF_PRECISION))
     }
 
     var mlgsString: String {
@@ -66,12 +73,12 @@ extension NSDecimalNumber {
         return lgsFormatter(FORMATTED_POINTS_OF_PRECISION).string(from: result) ?? "0"
     }
 
-    var rawValue: NSDecimalNumber {
-        return self.multiplying(byPowerOf10: POINTS_OF_PRECISION)
+    var lgsRawValue: NSDecimalNumber {
+        return self.rawValue(Int(POINTS_OF_PRECISION))
     }
 
-    var rawString: String {
-        return self.rawValue.stringValue
+    var lgsRawString: String {
+        return self.lgsRawValue.stringValue
     }
 
     var hexString: String? {
