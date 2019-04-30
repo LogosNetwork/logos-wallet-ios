@@ -83,6 +83,7 @@ class LogosMQTT: NSObject {
         self.session.subscribe(toTopic: "batchBlock", at: .exactlyOnce)
         self.session.subscribe(toTopic: "microEpoch", at: .exactlyOnce)
         self.session.subscribe(toTopic: "epoch", at: .exactlyOnce)
+        self.session.subscribe(toTopic: "delegateChange", at: .exactlyOnce)
     }
 
     func changeMQTTUrl(to mqttUrl: String, completion: ((Bool) -> Void)? = nil) {
@@ -181,6 +182,15 @@ extension LogosMQTT: MQTTSessionDelegate {
         if topic.contains("account/") {
             let account = topic.replacingOccurrences(of: "account/", with: "")
             RequestHandler.shared.handleIncoming(requestData: data, for: account)
+        } else if topic.contains("delegateChange") {
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+                if let delegates = json {
+                    WalletManager.shared.networkDelegates = delegates
+                }
+            } catch {
+                //
+            }
         }
     }
 }
